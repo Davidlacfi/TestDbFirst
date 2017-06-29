@@ -1,14 +1,14 @@
 ﻿@model TestDbFirst.Ingredient
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Alapanyag törlése";
 }
 
-<h2>Delete</h2>
+<h2>Alapanyag törlése</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Biztosan törlöd a következő alapanyagot?</h3>
 <div>
-    <h4>Ingredient</h4>
+    <h4>Alapanyag adatai</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,55 +18,55 @@
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
+        @*
+    <dt>
+        @Html.DisplayNameFor(model => model.IsActive)
+    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
+    <dd>
+        @Html.DisplayFor(model => model.IsActive)
+    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.CreatedDate)
+    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
+    <dd>
+        @Html.DisplayFor(model => model.CreatedDate)
+    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.ChangedDate)
+    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ChangedDate)
-        </dt>
+    <dd>
+        @Html.DisplayFor(model => model.ChangedDate)
+    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ChangedDate)
-        </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.SystemUser.Email)
+    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SystemUser.Email)
-        </dt>
+    <dd>
+        @Html.DisplayFor(model => model.SystemUser.Email)
+    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.SystemUser.Email)
-        </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.SystemUser1.Email)
+    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SystemUser1.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SystemUser1.Email)
-        </dd>
-
+    <dd>
+        @Html.DisplayFor(model => model.SystemUser1.Email)
+    </dd>
+        *@
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Törlés" class="btn btn-default" /> |
+            @Html.ActionLink("Vissza a listához", "Index")
         </div>
     }
 </div>

@@ -217,6 +217,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomerMetadata.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IngredientMetadata.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Controllers\ProductionsController.cs" />
     <Compile Include="Models\WarehouseMetadata.cs" />
