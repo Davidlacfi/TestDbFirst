@@ -121,7 +121,7 @@ namespace TestDbFirst.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             SystemUser systemUser = db.SystemUsers.Find(id);
-            db.SystemUsers.Remove(systemUser);
+            systemUser.IsActive = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -10,33 +10,33 @@ using TestDbFirst;
 
 namespace TestDbFirst.Controllers
 {
-    public class IngredientsController : Controller
+    public class RecipesController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
 
-        // GET: Ingredients
+        // GET: Recipes
         public ActionResult Index()
         {
-            var ingredients = db.Ingredients.Include(i => i.SystemUser).Include(i => i.SystemUser1);
-            return View(ingredients.ToList());
+            var recipes = db.Recipes.Include(r => r.SystemUser).Include(r => r.SystemUser1);
+            return View(recipes.ToList());
         }
 
-        // GET: Ingredients/Details/5
+        // GET: Recipes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ingredient ingredient = db.Ingredients.Find(id);
-            if (ingredient == null)
+            Recipe recipe = db.Recipes.Find(id);
+            if (recipe == null)
             {
                 return HttpNotFound();
             }
-            return View(ingredient);
+            return View(recipe);
         }
 
-        // GET: Ingredients/Create
+        // GET: Recipes/Create
         public ActionResult Create()
         {
             ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email");
@@ -44,84 +44,84 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
-        // POST: Ingredients/Create
+        // POST: Recipes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Ingredient ingredient)
+        public ActionResult Create([Bind(Include = "Id,Name,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Recipe recipe)
         {
             if (ModelState.IsValid)
             {
-                ingredient.CreatedDate = DateTime.Now;
-                db.Ingredients.Add(ingredient);
+                recipe.CreatedDate = DateTime.Now;   
+                db.Recipes.Add(recipe);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.CreatedBy);
-            ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.ChangedBy);
-            return View(ingredient);
+            ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email", recipe.CreatedBy);
+            ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", recipe.ChangedBy);
+            return View(recipe);
         }
 
-        // GET: Ingredients/Edit/5
+        // GET: Recipes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ingredient ingredient = db.Ingredients.Find(id);
-            if (ingredient == null)
+            Recipe recipe = db.Recipes.Find(id);
+            if (recipe == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.CreatedBy);
-            ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.ChangedBy);
-            return View(ingredient);
+            ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email", recipe.CreatedBy);
+            ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", recipe.ChangedBy);
+            return View(recipe);
         }
 
-        // POST: Ingredients/Edit/5
+        // POST: Recipes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Ingredient ingredient)
+        public ActionResult Edit([Bind(Include = "Id,Name,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Recipe recipe)
         {
             if (ModelState.IsValid)
             {
-                ingredient.ChangedDate = DateTime.Now;
-                db.Entry(ingredient).State = EntityState.Modified;
+                recipe.ChangedDate = DateTime.Now;
+                db.Entry(recipe).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.CreatedBy);
-            ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.ChangedBy);
-            return View(ingredient);
+            ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email", recipe.CreatedBy);
+            ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", recipe.ChangedBy);
+            return View(recipe);
         }
 
-        // GET: Ingredients/Delete/5
+        // GET: Recipes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ingredient ingredient = db.Ingredients.Find(id);
-            if (ingredient == null)
+            Recipe recipe = db.Recipes.Find(id);
+            if (recipe == null)
             {
                 return HttpNotFound();
             }
-            return View(ingredient);
+            return View(recipe);
         }
 
-        // POST: Ingredients/Delete/5
+        // POST: Recipes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Ingredient ingredient = db.Ingredients.Find(id);
-            ingredient.IsActive = false;
+            Recipe recipe = db.Recipes.Find(id);
+            recipe.IsActive = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

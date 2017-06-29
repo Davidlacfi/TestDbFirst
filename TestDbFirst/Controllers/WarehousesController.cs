@@ -121,7 +121,7 @@ namespace TestDbFirst.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Warehouse warehouse = db.Warehouses.Find(id);
-            db.Warehouses.Remove(warehouse);
+            warehouse.IsActive = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
