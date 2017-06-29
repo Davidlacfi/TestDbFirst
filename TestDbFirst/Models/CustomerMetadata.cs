@@ -11,16 +11,22 @@ namespace TestDbFirst
 
 
         [Display(Name = "Név")]
+        [Required(ErrorMessage = "Név megadása kötelező!")]
         public string Name { get; set; }
         [Display(Name = "Irányítószám")]
+        [Required(ErrorMessage = "Irányítószám megadása kötelező!")]
         public string ZipCode { get; set; }
         [Display(Name = "Település")]
+        [Required(ErrorMessage = "Település megadása kötelező!")]
         public string City { get; set; }
         [Display(Name = "Cím")]
+        [Required(ErrorMessage = "Cím megadása kötelező!")]
         public string StreetAddress { get; set; }
         [Display(Name = "Kontakt személy 1")]
+        [Required(ErrorMessage = "Legalább egy kontakt személy megadása kötelező!")]
         public string ContactPerson1 { get; set; }
         [Display(Name = "Telefon 1")]
+        [Required(ErrorMessage = "Legalább egy telefonszám megadása kötelező!")]
         public string Telephone1 { get; set; }
         [Display(Name = "Kontakt személy 2")]
         public string ContactPerson2 { get; set; }

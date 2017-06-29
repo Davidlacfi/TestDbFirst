@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<TestDbFirst.Warehouse>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Raktárak listája";
 }
 
-<h2>Index</h2>
+<h2>Raktárak listája</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Új raktár", "Create")
 </p>
 <table class="table">
     <tr>
@@ -20,18 +20,20 @@
         <th>
             @Html.DisplayNameFor(model => model.IsActive)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ChangedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SystemUser.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SystemUser1.Email)
-        </th>
+    @*
+    <th>
+        @Html.DisplayNameFor(model => model.CreatedDate)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.ChangedDate)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.SystemUser.Email)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.SystemUser1.Email)
+    </th>
+    *@
         <th></th>
     </tr>
 
@@ -46,22 +48,24 @@
         <td>
             @Html.DisplayFor(modelItem => item.IsActive)
         </td>
+    @*
+    <td>
+        @Html.DisplayFor(modelItem => item.CreatedDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ChangedDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SystemUser.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SystemUser1.Email)
+    </td>
+    *@
         <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ChangedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SystemUser.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SystemUser1.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Szerkesztés", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Részletek", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Törlés", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

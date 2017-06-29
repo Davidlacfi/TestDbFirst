@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace TestDbFirst
 {
     using System;
