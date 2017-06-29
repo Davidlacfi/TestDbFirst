@@ -1,10 +1,10 @@
 ﻿@model TestDbFirst.Customer
 
 @{
-    ViewBag.Title = "Vásárló látrehozás";
+    ViewBag.Title = "Partner látrehozás";
 }
 
-<h2>Vásárló létrehozás</h2>
+<h2>Partner létrehozás</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Vásárló</h4>
+        <h4>Partner</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
