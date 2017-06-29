@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5a1803e7b1054a92a459ce544f9e3a86" Name="Diagram1">
+        <EntityTypeShape EntityType="MecsekTransitModel.CurrentIngredientStock" Width="1.5" PointX="5.25" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.CurrentProductStock" Width="1.5" PointX="8.25" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.Customer" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.Ingredient" Width="1.5" PointX="3" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.IngredientMovement" Width="1.5" PointX="10.5" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.MovementType" Width="1.5" PointX="3" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.Production" Width="1.5" PointX="8.25" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.Recipe" Width="1.5" PointX="3" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.RecipeIngredient" Width="1.5" PointX="5.25" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.SystemUser" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MecsekTransitModel.Warehouse" Width="1.5" PointX="3" PointY="33.125" IsExpanded="true" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentIngredientStock_Ingredient" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentIngredientStock_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentIngredientStock_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentIngredientStock_Warehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentProductStock_Recipe" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentProductStock_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentProductStock_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_CurrentProductStock_Warehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Customer_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Customer_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Production_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Ingredient_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Ingredient_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_IngredientMovement_Ingredient" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_RecipeIngredient_Ingredient" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_IngredientMovement_MovementType" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_IngredientMovement_Production" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_IngredientMovement_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_IngredientMovement_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_IngredientMovement_Warehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_MovementType_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_MovementType_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Production_Recipe" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Production_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Production_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Production_Warehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Recipe_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Recipe_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_RecipeIngredient_Recipe" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_RecipeIngredient_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_RecipeIngredient_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_SystemUser_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_SystemUser_SystemUser1" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Warehouse_SystemUser" ManuallyRouted="false" />
+        <AssociationConnector Association="MecsekTransitModel.FK_Warehouse_SystemUser1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,1760 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MecsekTransitModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CurrentIngredientStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Warehouse_Id" Type="int" Nullable="false" />
+          <Property Name="Ingredient_Id" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CurrentProductStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Warehouse_Id" Type="int" Nullable="false" />
+          <Property Name="Recipe_Id" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ZipCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StreetAddress" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="ContactPerson1" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telephone1" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ContactPerson2" Type="nvarchar" MaxLength="100" />
+          <Property Name="Telephone2" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="IngredientMovement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Production_Id" Type="int" />
+          <Property Name="Ingredient_Id" Type="int" Nullable="false" />
+          <Property Name="MovementType_Id" Type="int" Nullable="false" />
+          <Property Name="Warehouse_Id" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MovementType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Production">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Recipe_Id" Type="int" Nullable="false" />
+          <Property Name="Customer_Id" Type="int" Nullable="false" />
+          <Property Name="Destination_Warehouse_Id" Type="int" Nullable="false" />
+          <Property Name="ProductionDate" Type="datetime" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RecipeIngredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Recipe_Id" Type="int" Nullable="false" />
+          <Property Name="Ingredient_Id" Type="int" Nullable="false" />
+          <Property Name="Ammount" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_CurrentIngredientStock_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="Ingredient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentIngredientStock_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentIngredientStock_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentIngredientStock_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="Ingredient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_MovementType">
+          <End Role="MovementType" Type="Self.MovementType" Multiplicity="1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovementType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="MovementType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_Production">
+          <End Role="Production" Type="Self.Production" Multiplicity="0..1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Production">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="Production_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovementType_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="MovementType" Type="Self.MovementType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovementType">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovementType_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="MovementType" Type="Self.MovementType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovementType">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="Destination_Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="Ingredient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemUser_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="SystemUser1" Type="Self.SystemUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemUser1">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemUser_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="SystemUser1" Type="Self.SystemUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemUser1">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Warehouse_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Warehouse">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Warehouse_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Warehouse">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MecsekTransitModelStoreContainer">
+          <EntitySet Name="CurrentIngredientStock" EntityType="Self.CurrentIngredientStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurrentProductStock" EntityType="Self.CurrentProductStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngredientMovement" EntityType="Self.IngredientMovement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovementType" EntityType="Self.MovementType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Production" EntityType="Self.Production" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeIngredient" EntityType="Self.RecipeIngredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warehouse" EntityType="Self.Warehouse" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CurrentIngredientStock_Ingredient" Association="Self.FK_CurrentIngredientStock_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentIngredientStock_SystemUser" Association="Self.FK_CurrentIngredientStock_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentIngredientStock_SystemUser1" Association="Self.FK_CurrentIngredientStock_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentIngredientStock_Warehouse" Association="Self.FK_CurrentIngredientStock_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_Recipe" Association="Self.FK_CurrentProductStock_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_SystemUser" Association="Self.FK_CurrentProductStock_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_SystemUser1" Association="Self.FK_CurrentProductStock_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_Warehouse" Association="Self.FK_CurrentProductStock_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_SystemUser" Association="Self.FK_Customer_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_SystemUser1" Association="Self.FK_Customer_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_SystemUser" Association="Self.FK_Ingredient_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_SystemUser1" Association="Self.FK_Ingredient_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_Ingredient" Association="Self.FK_IngredientMovement_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_MovementType" Association="Self.FK_IngredientMovement_MovementType">
+            <End Role="MovementType" EntitySet="MovementType" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_Production" Association="Self.FK_IngredientMovement_Production">
+            <End Role="Production" EntitySet="Production" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_SystemUser" Association="Self.FK_IngredientMovement_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_SystemUser1" Association="Self.FK_IngredientMovement_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_Warehouse" Association="Self.FK_IngredientMovement_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovementType_SystemUser" Association="Self.FK_MovementType_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="MovementType" EntitySet="MovementType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovementType_SystemUser1" Association="Self.FK_MovementType_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="MovementType" EntitySet="MovementType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_Customer" Association="Self.FK_Production_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_Recipe" Association="Self.FK_Production_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_SystemUser" Association="Self.FK_Production_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_SystemUser1" Association="Self.FK_Production_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_Warehouse" Association="Self.FK_Production_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_SystemUser" Association="Self.FK_Recipe_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Recipe" EntitySet="Recipe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_SystemUser1" Association="Self.FK_Recipe_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Recipe" EntitySet="Recipe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_Ingredient" Association="Self.FK_RecipeIngredient_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_Recipe" Association="Self.FK_RecipeIngredient_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_SystemUser" Association="Self.FK_RecipeIngredient_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_SystemUser1" Association="Self.FK_RecipeIngredient_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemUser_SystemUser" Association="Self.FK_SystemUser_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="SystemUser1" EntitySet="SystemUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemUser_SystemUser1" Association="Self.FK_SystemUser_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="SystemUser1" EntitySet="SystemUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Warehouse_SystemUser" Association="Self.FK_Warehouse_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Warehouse" EntitySet="Warehouse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Warehouse_SystemUser1" Association="Self.FK_Warehouse_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="Warehouse" EntitySet="Warehouse" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MecsekTransitModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CurrentIngredientStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Warehouse_Id" Type="Int32" Nullable="false" />
+          <Property Name="Ingredient_Id" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_CurrentIngredientStock_Ingredient" FromRole="CurrentIngredientStock" ToRole="Ingredient" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_CurrentIngredientStock_SystemUser" FromRole="CurrentIngredientStock" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_CurrentIngredientStock_SystemUser1" FromRole="CurrentIngredientStock" ToRole="SystemUser" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_CurrentIngredientStock_Warehouse" FromRole="CurrentIngredientStock" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="CurrentProductStock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Warehouse_Id" Type="Int32" Nullable="false" />
+          <Property Name="Recipe_Id" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_CurrentProductStock_Recipe" FromRole="CurrentProductStock" ToRole="Recipe" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_CurrentProductStock_SystemUser" FromRole="CurrentProductStock" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_CurrentProductStock_SystemUser1" FromRole="CurrentProductStock" ToRole="SystemUser" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_CurrentProductStock_Warehouse" FromRole="CurrentProductStock" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StreetAddress" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactPerson1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telephone1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactPerson2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_Customer_SystemUser" FromRole="Customer" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Customer_SystemUser1" FromRole="Customer" ToRole="SystemUser" />
+          <NavigationProperty Name="Productions" Relationship="Self.FK_Production_Customer" FromRole="Customer" ToRole="Production" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CurrentIngredientStocks" Relationship="Self.FK_CurrentIngredientStock_Ingredient" FromRole="Ingredient" ToRole="CurrentIngredientStock" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_Ingredient_SystemUser" FromRole="Ingredient" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Ingredient_SystemUser1" FromRole="Ingredient" ToRole="SystemUser" />
+          <NavigationProperty Name="IngredientMovements" Relationship="Self.FK_IngredientMovement_Ingredient" FromRole="Ingredient" ToRole="IngredientMovement" />
+          <NavigationProperty Name="RecipeIngredients" Relationship="Self.FK_RecipeIngredient_Ingredient" FromRole="Ingredient" ToRole="RecipeIngredient" />
+        </EntityType>
+        <EntityType Name="IngredientMovement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Production_Id" Type="Int32" />
+          <Property Name="Ingredient_Id" Type="Int32" Nullable="false" />
+          <Property Name="MovementType_Id" Type="Int32" Nullable="false" />
+          <Property Name="Warehouse_Id" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_IngredientMovement_Ingredient" FromRole="IngredientMovement" ToRole="Ingredient" />
+          <NavigationProperty Name="MovementType" Relationship="Self.FK_IngredientMovement_MovementType" FromRole="IngredientMovement" ToRole="MovementType" />
+          <NavigationProperty Name="Production" Relationship="Self.FK_IngredientMovement_Production" FromRole="IngredientMovement" ToRole="Production" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_IngredientMovement_SystemUser" FromRole="IngredientMovement" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_IngredientMovement_SystemUser1" FromRole="IngredientMovement" ToRole="SystemUser" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_IngredientMovement_Warehouse" FromRole="IngredientMovement" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="MovementType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="IngredientMovements" Relationship="Self.FK_IngredientMovement_MovementType" FromRole="MovementType" ToRole="IngredientMovement" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_MovementType_SystemUser" FromRole="MovementType" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_MovementType_SystemUser1" FromRole="MovementType" ToRole="SystemUser" />
+        </EntityType>
+        <EntityType Name="Production">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Recipe_Id" Type="Int32" Nullable="false" />
+          <Property Name="Customer_Id" Type="Int32" Nullable="false" />
+          <Property Name="Destination_Warehouse_Id" Type="Int32" Nullable="false" />
+          <Property Name="ProductionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Production_Customer" FromRole="Production" ToRole="Customer" />
+          <NavigationProperty Name="IngredientMovements" Relationship="Self.FK_IngredientMovement_Production" FromRole="Production" ToRole="IngredientMovement" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_Production_Recipe" FromRole="Production" ToRole="Recipe" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_Production_SystemUser" FromRole="Production" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Production_SystemUser1" FromRole="Production" ToRole="SystemUser" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_Production_Warehouse" FromRole="Production" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CurrentProductStocks" Relationship="Self.FK_CurrentProductStock_Recipe" FromRole="Recipe" ToRole="CurrentProductStock" />
+          <NavigationProperty Name="Productions" Relationship="Self.FK_Production_Recipe" FromRole="Recipe" ToRole="Production" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_Recipe_SystemUser" FromRole="Recipe" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Recipe_SystemUser1" FromRole="Recipe" ToRole="SystemUser" />
+          <NavigationProperty Name="RecipeIngredients" Relationship="Self.FK_RecipeIngredient_Recipe" FromRole="Recipe" ToRole="RecipeIngredient" />
+        </EntityType>
+        <EntityType Name="RecipeIngredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Recipe_Id" Type="Int32" Nullable="false" />
+          <Property Name="Ingredient_Id" Type="Int32" Nullable="false" />
+          <Property Name="Ammount" Type="Decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK_RecipeIngredient_Ingredient" FromRole="RecipeIngredient" ToRole="Ingredient" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_RecipeIngredient_Recipe" FromRole="RecipeIngredient" ToRole="Recipe" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_RecipeIngredient_SystemUser" FromRole="RecipeIngredient" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_RecipeIngredient_SystemUser1" FromRole="RecipeIngredient" ToRole="SystemUser" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CurrentIngredientStocks" Relationship="Self.FK_CurrentIngredientStock_SystemUser" FromRole="SystemUser" ToRole="CurrentIngredientStock" />
+          <NavigationProperty Name="CurrentIngredientStocks1" Relationship="Self.FK_CurrentIngredientStock_SystemUser1" FromRole="SystemUser" ToRole="CurrentIngredientStock" />
+          <NavigationProperty Name="CurrentProductStocks" Relationship="Self.FK_CurrentProductStock_SystemUser" FromRole="SystemUser" ToRole="CurrentProductStock" />
+          <NavigationProperty Name="CurrentProductStocks1" Relationship="Self.FK_CurrentProductStock_SystemUser1" FromRole="SystemUser" ToRole="CurrentProductStock" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_SystemUser" FromRole="SystemUser" ToRole="Customer" />
+          <NavigationProperty Name="Customers1" Relationship="Self.FK_Customer_SystemUser1" FromRole="SystemUser" ToRole="Customer" />
+          <NavigationProperty Name="Ingredients" Relationship="Self.FK_Ingredient_SystemUser" FromRole="SystemUser" ToRole="Ingredient" />
+          <NavigationProperty Name="Ingredients1" Relationship="Self.FK_Ingredient_SystemUser1" FromRole="SystemUser" ToRole="Ingredient" />
+          <NavigationProperty Name="IngredientMovements" Relationship="Self.FK_IngredientMovement_SystemUser" FromRole="SystemUser" ToRole="IngredientMovement" />
+          <NavigationProperty Name="IngredientMovements1" Relationship="Self.FK_IngredientMovement_SystemUser1" FromRole="SystemUser" ToRole="IngredientMovement" />
+          <NavigationProperty Name="MovementTypes" Relationship="Self.FK_MovementType_SystemUser" FromRole="SystemUser" ToRole="MovementType" />
+          <NavigationProperty Name="MovementTypes1" Relationship="Self.FK_MovementType_SystemUser1" FromRole="SystemUser" ToRole="MovementType" />
+          <NavigationProperty Name="Productions" Relationship="Self.FK_Production_SystemUser" FromRole="SystemUser" ToRole="Production" />
+          <NavigationProperty Name="Productions1" Relationship="Self.FK_Production_SystemUser1" FromRole="SystemUser" ToRole="Production" />
+          <NavigationProperty Name="Recipes" Relationship="Self.FK_Recipe_SystemUser" FromRole="SystemUser" ToRole="Recipe" />
+          <NavigationProperty Name="Recipes1" Relationship="Self.FK_Recipe_SystemUser1" FromRole="SystemUser" ToRole="Recipe" />
+          <NavigationProperty Name="RecipeIngredients" Relationship="Self.FK_RecipeIngredient_SystemUser" FromRole="SystemUser" ToRole="RecipeIngredient" />
+          <NavigationProperty Name="RecipeIngredients1" Relationship="Self.FK_RecipeIngredient_SystemUser1" FromRole="SystemUser" ToRole="RecipeIngredient" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_SystemUser_SystemUser" FromRole="SystemUser" ToRole="SystemUser1" />
+          <NavigationProperty Name="SystemUser2" Relationship="Self.FK_SystemUser_SystemUser" FromRole="SystemUser1" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser11" Relationship="Self.FK_SystemUser_SystemUser1" FromRole="SystemUser" ToRole="SystemUser1" />
+          <NavigationProperty Name="SystemUser3" Relationship="Self.FK_SystemUser_SystemUser1" FromRole="SystemUser1" ToRole="SystemUser" />
+          <NavigationProperty Name="Warehouses" Relationship="Self.FK_Warehouse_SystemUser" FromRole="SystemUser" ToRole="Warehouse" />
+          <NavigationProperty Name="Warehouses1" Relationship="Self.FK_Warehouse_SystemUser1" FromRole="SystemUser" ToRole="Warehouse" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CurrentIngredientStocks" Relationship="Self.FK_CurrentIngredientStock_Warehouse" FromRole="Warehouse" ToRole="CurrentIngredientStock" />
+          <NavigationProperty Name="CurrentProductStocks" Relationship="Self.FK_CurrentProductStock_Warehouse" FromRole="Warehouse" ToRole="CurrentProductStock" />
+          <NavigationProperty Name="IngredientMovements" Relationship="Self.FK_IngredientMovement_Warehouse" FromRole="Warehouse" ToRole="IngredientMovement" />
+          <NavigationProperty Name="Productions" Relationship="Self.FK_Production_Warehouse" FromRole="Warehouse" ToRole="Production" />
+          <NavigationProperty Name="SystemUser" Relationship="Self.FK_Warehouse_SystemUser" FromRole="Warehouse" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Warehouse_SystemUser1" FromRole="Warehouse" ToRole="SystemUser" />
+        </EntityType>
+        <Association Name="FK_CurrentIngredientStock_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="Ingredient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentIngredientStock_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentIngredientStock_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentIngredientStock_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="CurrentIngredientStock" Type="Self.CurrentIngredientStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentIngredientStock">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentProductStock_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="CurrentProductStock" Type="Self.CurrentProductStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurrentProductStock">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ingredient_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="Ingredient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_Ingredient">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="Ingredient_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_MovementType">
+          <End Role="MovementType" Type="Self.MovementType" Multiplicity="1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovementType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="MovementType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_Production">
+          <End Role="Production" Type="Self.Production" Multiplicity="0..1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Production">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="Production_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientMovement_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientMovement">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovementType_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="MovementType" Type="Self.MovementType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovementType">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovementType_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="MovementType" Type="Self.MovementType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MovementType">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Production_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="Destination_Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipe_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeIngredient_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="RecipeIngredient" Type="Self.RecipeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeIngredient">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemUser_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="SystemUser1" Type="Self.SystemUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemUser1">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemUser_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="SystemUser1" Type="Self.SystemUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SystemUser1">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Warehouse_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Warehouse">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Warehouse_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Warehouse">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MecsekTransitEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CurrentIngredientStocks" EntityType="Self.CurrentIngredientStock" />
+          <EntitySet Name="CurrentProductStocks" EntityType="Self.CurrentProductStock" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
+          <EntitySet Name="IngredientMovements" EntityType="Self.IngredientMovement" />
+          <EntitySet Name="MovementTypes" EntityType="Self.MovementType" />
+          <EntitySet Name="Productions" EntityType="Self.Production" />
+          <EntitySet Name="Recipes" EntityType="Self.Recipe" />
+          <EntitySet Name="RecipeIngredients" EntityType="Self.RecipeIngredient" />
+          <EntitySet Name="SystemUsers" EntityType="Self.SystemUser" />
+          <EntitySet Name="Warehouses" EntityType="Self.Warehouse" />
+          <AssociationSet Name="FK_CurrentIngredientStock_Ingredient" Association="Self.FK_CurrentIngredientStock_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentIngredientStock_SystemUser" Association="Self.FK_CurrentIngredientStock_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentIngredientStock_SystemUser1" Association="Self.FK_CurrentIngredientStock_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentIngredientStock_Warehouse" Association="Self.FK_CurrentIngredientStock_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="CurrentIngredientStock" EntitySet="CurrentIngredientStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_Recipe" Association="Self.FK_CurrentProductStock_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_SystemUser" Association="Self.FK_CurrentProductStock_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_SystemUser1" Association="Self.FK_CurrentProductStock_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentProductStock_Warehouse" Association="Self.FK_CurrentProductStock_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="CurrentProductStock" EntitySet="CurrentProductStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_SystemUser" Association="Self.FK_Customer_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_SystemUser1" Association="Self.FK_Customer_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_Customer" Association="Self.FK_Production_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Production" EntitySet="Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_SystemUser" Association="Self.FK_Ingredient_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Ingredient" EntitySet="Ingredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ingredient_SystemUser1" Association="Self.FK_Ingredient_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Ingredient" EntitySet="Ingredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_Ingredient" Association="Self.FK_IngredientMovement_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_Ingredient" Association="Self.FK_RecipeIngredient_Ingredient">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_MovementType" Association="Self.FK_IngredientMovement_MovementType">
+            <End Role="MovementType" EntitySet="MovementTypes" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_Production" Association="Self.FK_IngredientMovement_Production">
+            <End Role="Production" EntitySet="Productions" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_SystemUser" Association="Self.FK_IngredientMovement_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_SystemUser1" Association="Self.FK_IngredientMovement_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientMovement_Warehouse" Association="Self.FK_IngredientMovement_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="IngredientMovement" EntitySet="IngredientMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovementType_SystemUser" Association="Self.FK_MovementType_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="MovementType" EntitySet="MovementTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovementType_SystemUser1" Association="Self.FK_MovementType_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="MovementType" EntitySet="MovementTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_Recipe" Association="Self.FK_Production_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="Production" EntitySet="Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_SystemUser" Association="Self.FK_Production_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Production" EntitySet="Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_SystemUser1" Association="Self.FK_Production_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Production" EntitySet="Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Production_Warehouse" Association="Self.FK_Production_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="Production" EntitySet="Productions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_SystemUser" Association="Self.FK_Recipe_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Recipe" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipe_SystemUser1" Association="Self.FK_Recipe_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Recipe" EntitySet="Recipes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_Recipe" Association="Self.FK_RecipeIngredient_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_SystemUser" Association="Self.FK_RecipeIngredient_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeIngredient_SystemUser1" Association="Self.FK_RecipeIngredient_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="RecipeIngredient" EntitySet="RecipeIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemUser_SystemUser" Association="Self.FK_SystemUser_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="SystemUser1" EntitySet="SystemUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemUser_SystemUser1" Association="Self.FK_SystemUser_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="SystemUser1" EntitySet="SystemUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Warehouse_SystemUser" Association="Self.FK_Warehouse_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Warehouse" EntitySet="Warehouses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Warehouse_SystemUser1" Association="Self.FK_Warehouse_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="Warehouse" EntitySet="Warehouses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MecsekTransitModelStoreContainer" CdmEntityContainer="MecsekTransitEntities">
+          <EntitySetMapping Name="CurrentIngredientStocks">
+            <EntityTypeMapping TypeName="MecsekTransitModel.CurrentIngredientStock">
+              <MappingFragment StoreEntitySet="CurrentIngredientStock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Warehouse_Id" ColumnName="Warehouse_Id" />
+                <ScalarProperty Name="Ingredient_Id" ColumnName="Ingredient_Id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurrentProductStocks">
+            <EntityTypeMapping TypeName="MecsekTransitModel.CurrentProductStock">
+              <MappingFragment StoreEntitySet="CurrentProductStock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Warehouse_Id" ColumnName="Warehouse_Id" />
+                <ScalarProperty Name="Recipe_Id" ColumnName="Recipe_Id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="MecsekTransitModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+                <ScalarProperty Name="ContactPerson1" ColumnName="ContactPerson1" />
+                <ScalarProperty Name="Telephone1" ColumnName="Telephone1" />
+                <ScalarProperty Name="ContactPerson2" ColumnName="ContactPerson2" />
+                <ScalarProperty Name="Telephone2" ColumnName="Telephone2" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingredients">
+            <EntityTypeMapping TypeName="MecsekTransitModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientMovements">
+            <EntityTypeMapping TypeName="MecsekTransitModel.IngredientMovement">
+              <MappingFragment StoreEntitySet="IngredientMovement">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Production_Id" ColumnName="Production_Id" />
+                <ScalarProperty Name="Ingredient_Id" ColumnName="Ingredient_Id" />
+                <ScalarProperty Name="MovementType_Id" ColumnName="MovementType_Id" />
+                <ScalarProperty Name="Warehouse_Id" ColumnName="Warehouse_Id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovementTypes">
+            <EntityTypeMapping TypeName="MecsekTransitModel.MovementType">
+              <MappingFragment StoreEntitySet="MovementType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productions">
+            <EntityTypeMapping TypeName="MecsekTransitModel.Production">
+              <MappingFragment StoreEntitySet="Production">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Recipe_Id" ColumnName="Recipe_Id" />
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="Destination_Warehouse_Id" ColumnName="Destination_Warehouse_Id" />
+                <ScalarProperty Name="ProductionDate" ColumnName="ProductionDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipes">
+            <EntityTypeMapping TypeName="MecsekTransitModel.Recipe">
+              <MappingFragment StoreEntitySet="Recipe">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeIngredients">
+            <EntityTypeMapping TypeName="MecsekTransitModel.RecipeIngredient">
+              <MappingFragment StoreEntitySet="RecipeIngredient">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Recipe_Id" ColumnName="Recipe_Id" />
+                <ScalarProperty Name="Ingredient_Id" ColumnName="Ingredient_Id" />
+                <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemUsers">
+            <EntityTypeMapping TypeName="MecsekTransitModel.SystemUser">
+              <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warehouses">
+            <EntityTypeMapping TypeName="MecsekTransitModel.Warehouse">
+              <MappingFragment StoreEntitySet="Warehouse">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

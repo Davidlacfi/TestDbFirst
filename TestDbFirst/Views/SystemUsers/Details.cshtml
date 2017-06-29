@@ -1,0 +1,82 @@
+﻿@model TestDbFirst.SystemUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SystemUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChangedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChangedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemUser2.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SystemUser2.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemUser3.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SystemUser3.Email)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
