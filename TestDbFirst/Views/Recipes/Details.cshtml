@@ -1,13 +1,13 @@
 ﻿@model TestDbFirst.Recipe
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Részletek";
 }
 
-<h2>Details</h2>
+<h2>Részletek</h2>
 
 <div>
-    <h4>Recipe</h4>
+    <h4>Recept</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -69,6 +69,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Szerkeszt", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Vissza as listához", "Index")
 </p>

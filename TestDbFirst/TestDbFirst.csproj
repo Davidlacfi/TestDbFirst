@@ -221,6 +221,7 @@
     <Compile Include="Models\IngredientMetadata.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Controllers\ProductionsController.cs" />
+    <Compile Include="Models\RecipeMetadata.cs" />
     <Compile Include="Models\WarehouseMetadata.cs" />
     <Compile Include="MovementType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
