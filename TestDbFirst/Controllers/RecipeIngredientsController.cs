@@ -101,6 +101,7 @@ namespace TestDbFirst.Controllers
         {
             if (ModelState.IsValid)
             {
+                recipeIngredient.CreatedDate = DateTime.Now;
                 db.RecipeIngredients.Add(recipeIngredient);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -143,6 +144,7 @@ namespace TestDbFirst.Controllers
         {
             if (ModelState.IsValid)
             {
+                recipeIngredient.ChangedDate = DateTime.Now;
                 db.Entry(recipeIngredient).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -177,7 +179,7 @@ namespace TestDbFirst.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             RecipeIngredient recipeIngredient = db.RecipeIngredients.Find(id);
-            db.RecipeIngredients.Remove(recipeIngredient);
+            recipeIngredient.IsActive = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

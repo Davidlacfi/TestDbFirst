@@ -172,6 +172,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngredientsController.cs" />
+    <Compile Include="Controllers\ProductionsController.cs" />
     <Compile Include="Controllers\RecipeIngredientsController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Controllers\SystemUsersController.cs" />
@@ -223,8 +224,6 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomerMetadata.cs" />
     <Compile Include="Models\IngredientMetadata.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Controllers\ProductionsController.cs" />
     <Compile Include="Models\RecipeIngredientMetadata.cs" />
     <Compile Include="Models\RecipeMetadata.cs" />
     <Compile Include="Models\WarehouseMetadata.cs" />
@@ -317,11 +316,6 @@
     <Content Include="Views\SystemUsers\Details.cshtml" />
     <Content Include="Views\SystemUsers\Edit.cshtml" />
     <Content Include="Views\SystemUsers\Index.cshtml" />
-    <Content Include="Views\Productions\Create.cshtml" />
-    <Content Include="Views\Productions\Delete.cshtml" />
-    <Content Include="Views\Productions\Details.cshtml" />
-    <Content Include="Views\Productions\Edit.cshtml" />
-    <Content Include="Views\Productions\Index.cshtml" />
     <Content Include="Views\Warehouses\Create.cshtml" />
     <Content Include="Views\Warehouses\Delete.cshtml" />
     <Content Include="Views\Warehouses\Details.cshtml" />
@@ -348,9 +342,16 @@
     <Content Include="Views\RecipeIngredients\Edit.cshtml" />
     <Content Include="Views\RecipeIngredients\Index.cshtml" />
     <Content Include="Views\RecipeIngredients\List.cshtml" />
+    <Content Include="Views\Productions\Create.cshtml" />
+    <Content Include="Views\Productions\Delete.cshtml" />
+    <Content Include="Views\Productions\Details.cshtml" />
+    <Content Include="Views\Productions\Edit.cshtml" />
+    <Content Include="Views\Productions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\Production\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

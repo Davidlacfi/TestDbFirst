@@ -8,13 +8,12 @@ using System.Web;
 using System.Web.Mvc;
 using TestDbFirst;
 
-namespace TestDbFirst.Models
+namespace TestDbFirst.Controllers
 {
     public class ProductionsController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
 
-        [Authorize]
         // GET: Productions
         public ActionResult Index()
         {
@@ -22,7 +21,6 @@ namespace TestDbFirst.Models
             return View(productions.ToList());
         }
 
-        [Authorize]
         // GET: Productions/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,7 +36,6 @@ namespace TestDbFirst.Models
             return View(production);
         }
 
-        [Authorize]
         // GET: Productions/Create
         public ActionResult Create()
         {
@@ -50,7 +47,6 @@ namespace TestDbFirst.Models
             return View();
         }
 
-        [Authorize]
         // POST: Productions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -73,7 +69,6 @@ namespace TestDbFirst.Models
             return View(production);
         }
 
-        [Authorize]
         // GET: Productions/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -94,7 +89,6 @@ namespace TestDbFirst.Models
             return View(production);
         }
 
-        [Authorize]
         // POST: Productions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -116,7 +110,6 @@ namespace TestDbFirst.Models
             return View(production);
         }
 
-        [Authorize]
         // GET: Productions/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -132,7 +125,6 @@ namespace TestDbFirst.Models
             return View(production);
         }
 
-        [Authorize]
         // POST: Productions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
