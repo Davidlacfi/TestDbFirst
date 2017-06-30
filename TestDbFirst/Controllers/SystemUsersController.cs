@@ -14,6 +14,7 @@ namespace TestDbFirst.Controllers
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
 
+        [Authorize]
         // GET: SystemUsers
         public ActionResult Index()
         {
@@ -21,6 +22,7 @@ namespace TestDbFirst.Controllers
             return View(systemUsers.ToList());
         }
 
+        [Authorize]
         // GET: SystemUsers/Details/5
         public ActionResult Details(int? id)
         {
@@ -36,6 +38,7 @@ namespace TestDbFirst.Controllers
             return View(systemUser);
         }
 
+        [Authorize]
         // GET: SystemUsers/Create
         public ActionResult Create()
         {
@@ -44,6 +47,7 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
+        [Authorize]
         // POST: SystemUsers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -64,6 +68,7 @@ namespace TestDbFirst.Controllers
             return View(systemUser);
         }
 
+        [Authorize]
         // GET: SystemUsers/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -81,6 +86,7 @@ namespace TestDbFirst.Controllers
             return View(systemUser);
         }
 
+        [Authorize]
         // POST: SystemUsers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -100,6 +106,7 @@ namespace TestDbFirst.Controllers
             return View(systemUser);
         }
 
+        [Authorize]
         // GET: SystemUsers/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -115,6 +122,7 @@ namespace TestDbFirst.Controllers
             return View(systemUser);
         }
 
+        [Authorize]
         // POST: SystemUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

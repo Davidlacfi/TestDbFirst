@@ -9,11 +9,13 @@ using System.Web.Mvc;
 using TestDbFirst;
 
 namespace TestDbFirst.Controllers
+
 {
     public class IngredientsController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
 
+        [Authorize]
         // GET: Ingredients
         public ActionResult Index()
         {
@@ -21,6 +23,7 @@ namespace TestDbFirst.Controllers
             return View(ingredients.ToList());
         }
 
+        [Authorize]
         // GET: Ingredients/Details/5
         public ActionResult Details(int? id)
         {
@@ -36,6 +39,7 @@ namespace TestDbFirst.Controllers
             return View(ingredient);
         }
 
+        [Authorize]
         // GET: Ingredients/Create
         public ActionResult Create()
         {
@@ -44,6 +48,7 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
+        [Authorize]
         // POST: Ingredients/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -64,6 +69,7 @@ namespace TestDbFirst.Controllers
             return View(ingredient);
         }
 
+        [Authorize]
         // GET: Ingredients/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -80,7 +86,7 @@ namespace TestDbFirst.Controllers
             ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.ChangedBy);
             return View(ingredient);
         }
-
+        [Authorize]
         // POST: Ingredients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -99,7 +105,7 @@ namespace TestDbFirst.Controllers
             ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", ingredient.ChangedBy);
             return View(ingredient);
         }
-
+        [Authorize]
         // GET: Ingredients/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -114,7 +120,7 @@ namespace TestDbFirst.Controllers
             }
             return View(ingredient);
         }
-
+        [Authorize]
         // POST: Ingredients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

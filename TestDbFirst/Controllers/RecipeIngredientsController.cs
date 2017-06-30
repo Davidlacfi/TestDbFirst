@@ -13,7 +13,7 @@ namespace TestDbFirst.Controllers
     public class RecipeIngredientsController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
-
+        [Authorize]
         //GET Index
         public ActionResult Index()
         {
@@ -23,7 +23,7 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
-
+        [Authorize]
         //POST Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -38,7 +38,7 @@ namespace TestDbFirst.Controllers
         }
 
 
-
+        [Authorize]
         // GET: RecipeIngredients
         public ActionResult List(int? id)
         {
@@ -63,6 +63,7 @@ namespace TestDbFirst.Controllers
             return View(recipeIngredients.ToList());
         }
 
+        [Authorize]
         // GET: RecipeIngredients/Details/5
         public ActionResult Details(int? id)
         {
@@ -78,6 +79,7 @@ namespace TestDbFirst.Controllers
             return View(recipeIngredient);
         }
 
+        [Authorize]
         // GET: RecipeIngredients/Create
         public ActionResult Create(int? id)
         {
@@ -89,6 +91,7 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
+        [Authorize]
         // POST: RecipeIngredients/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -110,6 +113,7 @@ namespace TestDbFirst.Controllers
             return View(recipeIngredient);
         }
 
+        [Authorize]
         // GET: RecipeIngredients/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -129,6 +133,7 @@ namespace TestDbFirst.Controllers
             return View(recipeIngredient);
         }
 
+        [Authorize]
         // POST: RecipeIngredients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -149,6 +154,7 @@ namespace TestDbFirst.Controllers
             return View(recipeIngredient);
         }
 
+        [Authorize]
         // GET: RecipeIngredients/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -164,6 +170,7 @@ namespace TestDbFirst.Controllers
             return View(recipeIngredient);
         }
 
+        [Authorize]
         // POST: RecipeIngredients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

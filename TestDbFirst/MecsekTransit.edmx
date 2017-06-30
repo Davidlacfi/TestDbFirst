@@ -84,6 +84,14 @@
           <Property Name="ChangedBy" Type="int" />
           <Property Name="ChangedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="MovementType">
           <Key>
             <PropertyRef Name="Id" />
@@ -148,7 +156,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Role" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
@@ -589,12 +597,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="LoginByUsernamePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="MecsekTransitModelStoreContainer">
           <EntitySet Name="CurrentIngredientStock" EntityType="Self.CurrentIngredientStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrentProductStock" EntityType="Self.CurrentProductStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngredientMovement" EntityType="Self.IngredientMovement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovementType" EntityType="Self.MovementType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Production" EntityType="Self.Production" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
@@ -928,7 +941,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Role" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" />
@@ -960,6 +972,7 @@
           <NavigationProperty Name="Warehouses" Relationship="Self.FK_Warehouse_SystemUser" FromRole="SystemUser" ToRole="Warehouse" />
           <NavigationProperty Name="Warehouses1" Relationship="Self.FK_Warehouse_SystemUser1" FromRole="SystemUser" ToRole="Warehouse" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Warehouse">
           <Key>
@@ -1552,7 +1565,25 @@
             <End Role="SystemUser" EntitySet="SystemUsers" />
             <End Role="Warehouse" EntitySet="Warehouses" />
           </AssociationSet>
+          <EntitySet Name="Logins" EntityType="MecsekTransitModel.Login" />
+          <FunctionImport Name="LoginByUsernamePassword" ReturnType="Collection(MecsekTransitModel.LoginByUsernamePassword_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="LoginByUsernamePassword_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="password" Nullable="false" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1707,10 +1738,10 @@
           <EntitySetMapping Name="SystemUsers">
             <EntityTypeMapping TypeName="MecsekTransitModel.SystemUser">
               <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -1734,6 +1765,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Logins">
+            <EntityTypeMapping TypeName="MecsekTransitModel.Login">
+              <MappingFragment StoreEntitySet="Login">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LoginByUsernamePassword" FunctionName="MecsekTransitModel.Store.LoginByUsernamePassword">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MecsekTransitModel.LoginByUsernamePassword_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -12,6 +12,8 @@ namespace TestDbFirst
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class MecsekTransitEntities : DbContext
     {
@@ -36,5 +38,19 @@ namespace TestDbFirst
         public virtual DbSet<RecipeIngredient> RecipeIngredients { get; set; }
         public virtual DbSet<SystemUser> SystemUsers { get; set; }
         public virtual DbSet<Warehouse> Warehouses { get; set; }
+        public virtual DbSet<Login> Logins { get; set; }
+    
+        public virtual ObjectResult<LoginByUsernamePassword_Result> LoginByUsernamePassword(string email, string password)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginByUsernamePassword_Result>("LoginByUsernamePassword", emailParameter, passwordParameter);
+        }
     }
 }

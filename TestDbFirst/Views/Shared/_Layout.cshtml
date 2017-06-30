@@ -20,6 +20,8 @@
                 @Html.ActionLink("Mecsek Transit", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+                @if (Request.IsAuthenticated)
+                {
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Raktárak", "Index", "Warehouses")</li>
                     <li class="dropdown">
@@ -35,7 +37,7 @@
                     <li>@Html.ActionLink("Partnerek", "Index", "Customers")</li>
                     <li>@Html.ActionLink("UC-Gyártás", "Index", "Productions")</li>
                 </ul>
-
+                }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -44,7 +46,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - ...</p>
+            <p>&copy; @DateTime.Now.Year - <a href="http://www.techtree.eu">TechTree Solutions</a>
         </footer>
     </div>
 

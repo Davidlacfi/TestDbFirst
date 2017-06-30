@@ -14,7 +14,7 @@ namespace TestDbFirst.Controllers
     public class CustomersController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
-
+        [Authorize]
         // GET: Customers
         public ActionResult Index()
         {
@@ -23,6 +23,7 @@ namespace TestDbFirst.Controllers
             return View(customers.ToList());
         }
 
+        [Authorize]
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,6 +39,7 @@ namespace TestDbFirst.Controllers
             return View(customer);
         }
 
+        [Authorize]
         // GET: Customers/Create
         public ActionResult Create()
         {
@@ -46,6 +48,7 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
+        [Authorize]
         // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -65,7 +68,7 @@ namespace TestDbFirst.Controllers
             ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", customer.ChangedBy);
             return View(customer);
         }
-
+        [Authorize]
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -82,7 +85,7 @@ namespace TestDbFirst.Controllers
             ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", customer.ChangedBy);
             return View(customer);
         }
-
+        [Authorize]
         // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -101,7 +104,7 @@ namespace TestDbFirst.Controllers
             ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email", customer.ChangedBy);
             return View(customer);
         }
-
+        [Authorize]
         // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -116,7 +119,7 @@ namespace TestDbFirst.Controllers
             }
             return View(customer);
         }
-
+        [Authorize]
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

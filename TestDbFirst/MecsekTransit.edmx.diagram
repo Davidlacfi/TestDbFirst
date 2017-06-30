@@ -51,6 +51,7 @@
         <AssociationConnector Association="MecsekTransitModel.FK_SystemUser_SystemUser1" ManuallyRouted="false" />
         <AssociationConnector Association="MecsekTransitModel.FK_Warehouse_SystemUser" ManuallyRouted="false" />
         <AssociationConnector Association="MecsekTransitModel.FK_Warehouse_SystemUser1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MecsekTransitModel.Login" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
