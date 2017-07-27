@@ -4,10 +4,16 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using Microsoft.AspNet.Identity;
 using TestDbFirst;
 using TestDbFirst.Models;
+using System.Web.Security;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace TestDbFirst.Controllers
 {
@@ -58,7 +64,11 @@ namespace TestDbFirst.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 customer.CreatedDate = DateTime.Now;
+                var identity = (ClaimsIdentity)User.Identity;
+                var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+                customer.CreatedBy = Convert.ToInt32(sid);
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -96,6 +106,9 @@ namespace TestDbFirst.Controllers
             if (ModelState.IsValid)
             {
                 customer.ChangedDate = DateTime.Now;
+                var identity = (ClaimsIdentity)User.Identity;
+                var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+                customer.ChangedBy = Convert.ToInt32(sid);
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -127,6 +140,10 @@ namespace TestDbFirst.Controllers
         {
             Customer customer = db.Customers.Find(id);
             customer.IsActive= false;
+            customer.ChangedDate = DateTime.Now;
+            var identity = (ClaimsIdentity)User.Identity;
+            var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+            customer.ChangedBy = Convert.ToInt32(sid);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

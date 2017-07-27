@@ -25,5 +25,10 @@ namespace TestDbFirst.Models
             get;
             set;
         }
+        public int Id
+        {
+            get;
+            set;
+        }
     }
 }

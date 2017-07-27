@@ -1,4 +1,5 @@
-﻿using TestDbFirst.Models;
+﻿using Microsoft.Owin.Security.OAuth;
+using TestDbFirst.Models;
 
 namespace TestDbFirst.Controllers
 {
@@ -10,6 +11,8 @@ namespace TestDbFirst.Controllers
     using System.Web.Mvc;
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
+    using System.Security.Principal;
+
     /// <summary>  
     /// Account controller class.    
     /// </summary>  
@@ -79,7 +82,7 @@ namespace TestDbFirst.Controllers
                         // Initialization.    
                         var logindetails = loginInfo.First();
                         // Login In.    
-                        this.SignInUser(logindetails.username, false);
+                        SignInUser(logindetails.username, logindetails.id.ToString() ,false);
                         // Info.    
                         return this.RedirectToLocal(returnUrl);
                     }
@@ -132,7 +135,7 @@ namespace TestDbFirst.Controllers
         /// </summary>  
         /// <param name="email">Email parameter.</param>  
         /// <param name="isPersistent">Is persistent parameter.</param>  
-        private void SignInUser(string email, bool isPersistent)
+        private void SignInUser(string email, string userId ,bool isPersistent)
         {
             // Initialization.    
             var claims = new List<Claim>();
@@ -140,6 +143,7 @@ namespace TestDbFirst.Controllers
             {
                 // Setting    
                 claims.Add(new Claim(ClaimTypes.Name, email));
+                claims.Add(new Claim(ClaimTypes.Sid, userId));
                 var claimIdenties = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
                 var ctx = Request.GetOwinContext();
                 var authenticationManager = ctx.Authentication;

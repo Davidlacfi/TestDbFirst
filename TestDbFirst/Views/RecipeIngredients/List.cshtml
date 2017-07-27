@@ -6,6 +6,11 @@
 
 <h2>Recept alapanyagok listája</h2>
 
+<p>
+    @Html.ActionLink("Összetevő hozzáadása", "Create", new { id = Url.RequestContext.RouteData.Values["id"].ToString() }  )
+    @*Url.RequestContext.RouteData.Values["id"]*@
+</p>
+
 
 <table class="table">
     <tr>
