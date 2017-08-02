@@ -30,7 +30,14 @@ namespace TestDbFirst
 
     }
     [MetadataType(typeof(RecipeIngredientMetadata))]
-    public partial class RecipeIngredient
+    public partial class RecipeIngredient:IModifiableObject
     {
+    }
+    public interface IModifiableObject
+    {
+        Nullable<int> CreatedBy { get; set; }
+        Nullable<System.DateTime> CreatedDate { get; set; }
+        Nullable<int> ChangedBy { get; set; }
+        Nullable<System.DateTime> ChangedDate { get; set; }
     }
 }

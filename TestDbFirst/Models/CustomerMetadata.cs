@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace TestDbFirst
 {
@@ -10,8 +7,8 @@ namespace TestDbFirst
     {
 
 
-        [Display(Name = "Név")]
-        [Required(ErrorMessage = "Név megadása kötelező!")]
+        [Display(Name = "Partner Név")]
+        [Required(ErrorMessage = "Partner név megadása kötelező!")]
         public string Name { get; set; }
         [Display(Name = "Irányítószám")]
         [Required(ErrorMessage = "Irányítószám megadása kötelező!")]

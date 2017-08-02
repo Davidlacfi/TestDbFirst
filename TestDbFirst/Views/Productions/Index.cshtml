@@ -1,16 +1,25 @@
 ﻿@model IEnumerable<TestDbFirst.Production>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Gyártások listája";
 }
 
-<h2>Index</h2>
+<h2>Gyártások listája</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Új gyártás", "Create")
 </p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recipe.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.ProductionDate)
         </th>
@@ -20,35 +29,30 @@
         <th>
             @Html.DisplayNameFor(model => model.Remark)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.CreatedDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ChangedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Customer.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Recipe.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SystemUser.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SystemUser1.Email)
+            @Html.DisplayNameFor(model => model.SystemUser.Username)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Warehouse.Name)
         </th>
-        <th></th>
+        <th>@Html.Raw("Műveletek")</th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Recipe.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.Name)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.ProductionDate)
         </td>
@@ -58,36 +62,23 @@
         <td>
             @Html.DisplayFor(modelItem => item.Remark)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.CreatedDate)
         </td>
+
         <td>
-            @Html.DisplayFor(modelItem => item.ChangedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Recipe.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SystemUser.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SystemUser1.Email)
+            @Html.DisplayFor(modelItem => item.SystemUser.Username)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Warehouse.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @*@Html.ActionLink("Szerkeszt", "Edit", new {id = item.Id}) |*@
+            @Html.ActionLink("Részletek", "Details", new {id = item.Id}) @*|
+            @Html.ActionLink("Törlés", "Delete", new {id = item.Id})*@
         </td>
     </tr>
-}
+    }
 
-</table>
+    </table>

@@ -11,6 +11,33 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Recipe.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Recipe.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Warehouse.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Warehouse.Name)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.ProductionDate)
         </dt>
 
@@ -21,7 +48,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Quantity)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Quantity)
         </dd>
@@ -37,70 +63,37 @@
         <dt>
             @Html.DisplayNameFor(model => model.IsActive)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.IsActive)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemUser.Username)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.SystemUser.Username)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.CreatedDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.CreatedDate)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemUser1.Username)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SystemUser1.Username)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ChangedDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.ChangedDate)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Customer.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Customer.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Recipe.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Recipe.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SystemUser.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SystemUser.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SystemUser1.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SystemUser1.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Warehouse.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Warehouse.Name)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    @Html.ActionLink("Vissza a listához", "Index")
 </p>

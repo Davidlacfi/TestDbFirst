@@ -8,8 +8,8 @@ namespace TestDbFirst
 {
     public class WarehouseMetadata
     {
-        [Display(Name = "Név")]
-        [Required(ErrorMessage = "Név megadása kötelező!")]
+        [Display(Name = "Raktár Név")]
+        [Required(ErrorMessage = "Raktár név megadása kötelező!")]
         public string Name { get; set; }
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }

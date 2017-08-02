@@ -16,6 +16,7 @@ namespace TestDbFirst.Controllers
     /// <summary>  
     /// Account controller class.    
     /// </summary>  
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         #region Private Properties    
@@ -28,6 +29,7 @@ namespace TestDbFirst.Controllers
         /// <summary>  
         /// Initializes a new instance of the <see cref="AccountController" /> class.    
         /// </summary>  
+ 
         public AccountController()
         {
         }
@@ -38,9 +40,11 @@ namespace TestDbFirst.Controllers
         /// </summary>  
         /// <param name="returnUrl">Return URL parameter</param>  
         /// <returns>Return login view</returns>  
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            
             try
             {
                 // Verification.    
@@ -55,7 +59,7 @@ namespace TestDbFirst.Controllers
                 // Info    
                 Console.Write(ex);
             }
-            // Info.    
+                // Info.    
             return this.View();
         }
         /// <summary>  
@@ -108,6 +112,7 @@ namespace TestDbFirst.Controllers
         /// </summary>  
         /// <returns>Return log off action</returns>  
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
@@ -135,6 +140,7 @@ namespace TestDbFirst.Controllers
         /// </summary>  
         /// <param name="email">Email parameter.</param>  
         /// <param name="isPersistent">Is persistent parameter.</param>  
+        [AllowAnonymous]
         private void SignInUser(string email, string userId ,bool isPersistent)
         {
             // Initialization.    
@@ -163,6 +169,7 @@ namespace TestDbFirst.Controllers
         /// </summary>  
         /// <param name="returnUrl">Return URL parameter.</param>  
         /// <returns>Return redirection action</returns>  
+        [AllowAnonymous]
         private ActionResult RedirectToLocal(string returnUrl)
         {
             try

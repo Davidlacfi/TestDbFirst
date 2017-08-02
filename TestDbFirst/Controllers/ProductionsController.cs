@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
+using System.Web.Management;
 using System.Web.Mvc;
 using TestDbFirst;
 
@@ -56,8 +59,81 @@ namespace TestDbFirst.Controllers
         {
             if (ModelState.IsValid)
             {
+                // PRODUCTION HOZZÁADÁSA
+                // INGREDIENTMOVEMENT
+                var identity = (ClaimsIdentity)User.Identity;
+                var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+                production.CreatedDate = DateTime.Now;
+                production.CreatedBy = Convert.ToInt32(sid);
                 db.Productions.Add(production);
-                db.SaveChanges();
+
+                var m = db.MovementTypes.FirstOrDefault(i => i.Id == 1); // 1 = GYÁRTÁS!!!
+                foreach (var ri in db.RecipeIngredients.Where(i => i.Recipe_Id == production.Recipe_Id))
+                {
+                    db.IngredientMovements.Add(new IngredientMovement()
+                    {
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = Convert.ToInt32(sid),
+                        Ingredient = ri.Ingredient,
+                        Production = production,
+                        MovementType =m,
+                        Warehouse_Id = production.Destination_Warehouse_Id,
+                        Quantity = production.Quantity*(-1*ri.Ammount),
+                        IsActive = true
+                    });
+                }
+
+                // CURRENTPRODUCTSTOCK TÖLTÉSE
+                var finalproductexists = db.CurrentProductStocks.Where(i => i.Recipe_Id == production.Recipe_Id);
+
+                if (!finalproductexists.Any())
+                {
+                    //HA NINCS RAKTÁRBAN ILYEN TERMÉK, AKKOR ÚJAT HOZ LÉTRE
+                    db.CurrentProductStocks.Add(new CurrentProductStock()
+                    {
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = Convert.ToInt32(sid),
+                        IsActive = true,
+                        Warehouse_Id = production.Destination_Warehouse_Id,
+                        Recipe_Id = production.Recipe_Id,
+                        Quantity = production.Quantity
+
+                    });
+                }
+
+                else
+                {
+                    //HA VAN RAKTÁRBAN ILYEN TERMÉK, AKKOR UPDATEEL
+                    var finalproduct = db.CurrentProductStocks.First(i => i.Recipe_Id == production.Recipe_Id);
+                    var originalquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == production.Recipe_Id).Quantity;
+                    finalproduct.Quantity = originalquantity + production.Quantity;
+                    finalproduct.CreatedDate = DateTime.Now;
+                    finalproduct.CreatedBy = Convert.ToInt32(sid);
+                    db.Entry(finalproduct).State = EntityState.Modified;
+
+                }
+
+                // CURRENTINGREDIENTSTOCK TÖLTÉSE
+                foreach (var ri in db.RecipeIngredients.Where(i => i.Recipe_Id == production.Recipe_Id))
+                {
+                    var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == ri.Ingredient_Id);
+                    var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == ri.Ingredient_Id).Quantity;
+                    ingredienttoupdate.Quantity = originalingredientquantity - (production.Quantity*ri.Ammount);
+                    ingredienttoupdate.CreatedDate = DateTime.Now;
+                    ingredienttoupdate.CreatedBy = Convert.ToInt32(sid);
+                    db.Entry(ingredienttoupdate).State = EntityState.Modified;
+
+                }
+
+
+                if (db.SaveChanges()>0)
+                {
+                    TempData["Operation"] = "success";
+                }
+                else
+                {
+                    TempData["Operation"] = "danger";
+                }
                 return RedirectToAction("Index");
             }
 

@@ -8,8 +8,8 @@ namespace TestDbFirst
 {
     public class IngredientMetadata
     {
-        [Display(Name = "Név")]
-        [Required(ErrorMessage = "Név megadása kötelező!")]
+        [Display(Name = "Alapanyag Név")]
+        [Required(ErrorMessage = "Alapanyag név megadása kötelező!")]
         public string Name { get; set; }
         [Display(Name = "Aktív")]
         public bool IsActive { get; set; }

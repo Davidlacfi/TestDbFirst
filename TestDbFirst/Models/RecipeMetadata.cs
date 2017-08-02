@@ -8,8 +8,8 @@ namespace TestDbFirst
 {
     public class RecipeMetadata
     {
-        [Display(Name = "Név")]
-        [Required(ErrorMessage = "Név megadása kötelező!")]
+        [Display(Name = "Recept Név")]
+        [Required(ErrorMessage = "Recept név megadása kötelező!")]
         public string Name { get; set; }
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
