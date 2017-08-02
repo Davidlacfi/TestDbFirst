@@ -1,5 +1,4 @@
-﻿using Microsoft.Owin.Security.OAuth;
-using TestDbFirst.Models;
+﻿using TestDbFirst.Models;
 
 namespace TestDbFirst.Controllers
 {
@@ -11,7 +10,6 @@ namespace TestDbFirst.Controllers
     using System.Web.Mvc;
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
-    using System.Security.Principal;
 
     /// <summary>  
     /// Account controller class.    

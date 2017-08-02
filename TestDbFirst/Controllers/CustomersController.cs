@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
-using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-using Microsoft.AspNet.Identity;
-using TestDbFirst;
-using TestDbFirst.Models;
-using System.Web.Security;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace TestDbFirst.Controllers
 {

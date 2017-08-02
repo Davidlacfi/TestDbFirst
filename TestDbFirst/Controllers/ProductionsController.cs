@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
-using System.Web;
-using System.Web.Management;
 using System.Web.Mvc;
-using TestDbFirst;
 
 namespace TestDbFirst.Controllers
 {
@@ -60,14 +54,16 @@ namespace TestDbFirst.Controllers
             if (ModelState.IsValid)
             {
                 // PRODUCTION HOZZÁADÁSA
-                // INGREDIENTMOVEMENT
+                // INGREDIENTMOVEMENT - CSAK GYÁRTÁS
                 var identity = (ClaimsIdentity)User.Identity;
                 var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
                 production.CreatedDate = DateTime.Now;
                 production.CreatedBy = Convert.ToInt32(sid);
                 db.Productions.Add(production);
 
-                var m = db.MovementTypes.FirstOrDefault(i => i.Id == 1); // 1 = GYÁRTÁS!!!
+                //INGREDIENTMOVEMENT TÖLTÉSE
+                var movement = db.MovementTypes.FirstOrDefault(i => i.Id == 1); // 1 = GYÁRTÁS!!!
+                var loss = db.MovementTypes.FirstOrDefault(i => i.Id == 1); // 2 = VESZTESÉG!!!
                 foreach (var ri in db.RecipeIngredients.Where(i => i.Recipe_Id == production.Recipe_Id))
                 {
                     db.IngredientMovements.Add(new IngredientMovement()
@@ -76,9 +72,20 @@ namespace TestDbFirst.Controllers
                         CreatedBy = Convert.ToInt32(sid),
                         Ingredient = ri.Ingredient,
                         Production = production,
-                        MovementType =m,
+                        MovementType =movement,
                         Warehouse_Id = production.Destination_Warehouse_Id,
                         Quantity = production.Quantity*(-1*ri.Ammount),
+                        IsActive = true
+                    });
+                    db.IngredientMovements.Add(new IngredientMovement()
+                    {
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = Convert.ToInt32(sid),
+                        Ingredient = ri.Ingredient,
+                        Production = production,
+                        MovementType = loss,
+                        Warehouse_Id = production.Destination_Warehouse_Id,
+                        Quantity = production.Quantity * (-1 * ri.Ammount) * (decimal)0.006,
                         IsActive = true
                     });
                 }
@@ -113,12 +120,12 @@ namespace TestDbFirst.Controllers
 
                 }
 
-                // CURRENTINGREDIENTSTOCK TÖLTÉSE
+                // CURRENTINGREDIENTSTOCK TÖLTÉSE - GYÁRTÁS + VESZTESÉG EGYBEN
                 foreach (var ri in db.RecipeIngredients.Where(i => i.Recipe_Id == production.Recipe_Id))
                 {
                     var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == ri.Ingredient_Id);
                     var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == ri.Ingredient_Id).Quantity;
-                    ingredienttoupdate.Quantity = originalingredientquantity - (production.Quantity*ri.Ammount);
+                    ingredienttoupdate.Quantity = originalingredientquantity - (production.Quantity * ri.Ammount) - (production.Quantity * ri.Ammount * (decimal)0.006);
                     ingredienttoupdate.CreatedDate = DateTime.Now;
                     ingredienttoupdate.CreatedBy = Convert.ToInt32(sid);
                     db.Entry(ingredienttoupdate).State = EntityState.Modified;
