@@ -1,0 +1,112 @@
+﻿@model TestDbFirst.IngredientMovement
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>IngredientMovement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChangedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChangedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ingredient.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ingredient.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Production.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Production.Remark)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SystemUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemUser1.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SystemUser1.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Warehouse.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Warehouse.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

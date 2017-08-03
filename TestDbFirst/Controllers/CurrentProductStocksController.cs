@@ -5,6 +5,7 @@ using System.Web.Mvc;
 
 namespace TestDbFirst.Controllers
 {
+    [Authorize]
     public class CurrentProductStocksController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();

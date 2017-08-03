@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace TestDbFirst.Controllers
 {
+    [Authorize]
     public class ProductionsController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
@@ -63,7 +64,7 @@ namespace TestDbFirst.Controllers
 
                 //INGREDIENTMOVEMENT TÖLTÉSE
                 var movement = db.MovementTypes.FirstOrDefault(i => i.Id == 1); // 1 = GYÁRTÁS!!!
-                var loss = db.MovementTypes.FirstOrDefault(i => i.Id == 1); // 2 = VESZTESÉG!!!
+                var loss = db.MovementTypes.FirstOrDefault(i => i.Id == 2); // 2 = VESZTESÉG!!!
                 foreach (var ri in db.RecipeIngredients.Where(i => i.Recipe_Id == production.Recipe_Id))
                 {
                     db.IngredientMovements.Add(new IngredientMovement()

@@ -6,6 +6,7 @@
     <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
     <title>@ViewBag.Title - Mecsek Transit</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/DataTables/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -29,7 +30,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Alapadatok
-                            <b class="caret"></b>
+                            <span class="caret"></span>
                         </a>
                     <ul class="dropdown-menu">
                         <li>@Html.ActionLink("Raktárak", "Index", "Warehouses")</li>
@@ -42,11 +43,12 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Készletkezelés
-                            <b class="caret"></b>
+                            <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Alapanyag készlet", "Index", "CurrentIngredientStocks")</li>
                             <li>@Html.ActionLink("Késztermék készlet", "Index", "CurrentProductStocks")</li>
+                            <li>@Html.ActionLink("Alapanyag mozgások listája", "Index", "IngredientMovements")</li>
                         </ul>
 </ul>
                 }
@@ -79,6 +81,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/datatables")
+    @RenderSection("scripts", false)
 </body>
 </html>
