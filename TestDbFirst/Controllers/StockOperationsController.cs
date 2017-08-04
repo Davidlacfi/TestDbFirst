@@ -105,10 +105,10 @@ namespace TestDbFirst.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.MovementType_Id = new SelectList(db.MovementTypes, "Id", "Name", ingredientMovement.MovementType_Id);
-            ViewBag.Ingredient_Id = new SelectList(db.Ingredients, "Id", "Name", ingredientMovement.Ingredient_Id);
-            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name", ingredientMovement.Warehouse_Id);
-            return View(ingredientMovement);
+            ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "correction"), "Id", "Name");
+            ViewBag.Recipe_Id = new SelectList(db.Recipes, "Id", "Name");
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            return View(productchange);
         }
     }
 }
