@@ -63,8 +63,8 @@ namespace TestDbFirst.Controllers
                 db.Productions.Add(production);
 
                 //INGREDIENTMOVEMENT TÖLTÉSE
-                var movement = db.MovementTypes.FirstOrDefault(i => i.Id == 1); // 1 = GYÁRTÁS!!!
-                var loss = db.MovementTypes.FirstOrDefault(i => i.Id == 2); // 2 = VESZTESÉG!!!
+                var movement = db.MovementTypes.FirstOrDefault(i => i.MovementKey == "production");
+                var loss = db.MovementTypes.FirstOrDefault(i => i.MovementKey == "loss");
                 foreach (var ri in db.RecipeIngredients.Where(i => i.Recipe_Id == production.Recipe_Id))
                 {
                     db.IngredientMovements.Add(new IngredientMovement()
@@ -115,8 +115,8 @@ namespace TestDbFirst.Controllers
                     var finalproduct = db.CurrentProductStocks.First(i => i.Recipe_Id == production.Recipe_Id);
                     var originalquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == production.Recipe_Id).Quantity;
                     finalproduct.Quantity = originalquantity + production.Quantity;
-                    finalproduct.CreatedDate = DateTime.Now;
-                    finalproduct.CreatedBy = Convert.ToInt32(sid);
+                    finalproduct.ChangedDate = DateTime.Now;
+                    finalproduct.ChangedBy = Convert.ToInt32(sid);
                     db.Entry(finalproduct).State = EntityState.Modified;
 
                 }
@@ -127,8 +127,8 @@ namespace TestDbFirst.Controllers
                     var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == ri.Ingredient_Id);
                     var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == ri.Ingredient_Id).Quantity;
                     ingredienttoupdate.Quantity = originalingredientquantity - (production.Quantity * ri.Ammount) - (production.Quantity * ri.Ammount * (decimal)0.006);
-                    ingredienttoupdate.CreatedDate = DateTime.Now;
-                    ingredienttoupdate.CreatedBy = Convert.ToInt32(sid);
+                    ingredienttoupdate.ChangedDate = DateTime.Now;
+                    ingredienttoupdate.ChangedBy = Convert.ToInt32(sid);
                     db.Entry(ingredienttoupdate).State = EntityState.Modified;
 
                 }

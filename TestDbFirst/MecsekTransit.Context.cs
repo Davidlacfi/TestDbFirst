@@ -25,14 +25,8 @@ namespace TestDbFirst
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
-
         }
-
-        public override int SaveChanges()
-        {
-            return base.SaveChanges();
-        }
-
+    
         public virtual DbSet<CurrentIngredientStock> CurrentIngredientStocks { get; set; }
         public virtual DbSet<CurrentProductStock> CurrentProductStocks { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }

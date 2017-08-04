@@ -184,6 +184,7 @@
     <Compile Include="Controllers\ProductionsController.cs" />
     <Compile Include="Controllers\RecipeIngredientsController.cs" />
     <Compile Include="Controllers\RecipesController.cs" />
+    <Compile Include="Controllers\StockOperationsController.cs" />
     <Compile Include="Controllers\SystemUsersController.cs" />
     <Compile Include="Controllers\WarehousesController.cs" />
     <Compile Include="CurrentIngredientStock.cs">
@@ -606,7 +607,11 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jszip.js" />
+    <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\pdfmake\pdfmake.min.js" />
+    <Content Include="Scripts\pdfmake\vfs_fonts.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -681,6 +686,7 @@
     <Content Include="Views\IngredientMovements\Index.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\StockOperations\AddIngredientCorrection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

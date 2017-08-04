@@ -27,6 +27,7 @@ namespace TestDbFirst
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ChangedBy { get; set; }
         public Nullable<System.DateTime> ChangedDate { get; set; }
+        public string MovementKey { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngredientMovement> IngredientMovements { get; set; }

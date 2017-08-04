@@ -31,19 +31,21 @@ namespace TestDbFirst
                 "~/Scripts/DataTables/jquery.dataTables.js",
                 "~/Scripts/DataTables/jquerydataTables.min.js",
                 "~/Scripts/DataTables/jquery.dataTables.yadcf.js",
-                //"~/Scripts/DataTables/dataTables.jqueryui.js",
-                //"~/Scripts/DataTables/dataTables.jqueryui.min.js",
                 "~/Scripts/DataTables/dataTables.buttons.js",
                 "~/Scripts/DataTables/dataTables.buttons.min.js",
                 "~/Scripts/DataTables/dataTables.bootstrap.js",
                 "~/Scripts/DataTables/dataTables.bootstrap.min.js",
+                "~/Scripts/jszip.js",
+                "~/Scripts/jszip.min.js",
+                "~/Scripts/pdfmake/pdfmake.min.js",
+                "~/Scripts/pdfmake/vfs_fonts.js",
                 "~/Scripts/DataTables/buttons*"
                      ));
 
             bundles.Add(new StyleBundle("~/Content/DataTables/css").Include(
                       "~/Content/DataTables/css/dataTables.bootstrap.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.min.css",
-
+                      "~/Content/DataTables/css/buttons.dataTables.min.css",
                       "~/Content/DataTables/css/jquery.dataTables.yadcf.css",
                       "~/Content/DataTables/css/jquery.dataTables_themeroller.css"
 

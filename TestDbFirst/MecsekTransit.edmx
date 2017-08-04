@@ -97,6 +97,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovementKey" Type="nchar" MaxLength="10" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
@@ -874,6 +875,7 @@
           <NavigationProperty Name="IngredientMovements" Relationship="Self.FK_IngredientMovement_MovementType" FromRole="MovementType" ToRole="IngredientMovement" />
           <NavigationProperty Name="SystemUser" Relationship="Self.FK_MovementType_SystemUser" FromRole="MovementType" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="Self.FK_MovementType_SystemUser1" FromRole="MovementType" ToRole="SystemUser" />
+          <Property Name="MovementKey" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Production">
           <Key>
@@ -1677,6 +1679,7 @@
           <EntitySetMapping Name="MovementTypes">
             <EntityTypeMapping TypeName="MecsekTransitModel.MovementType">
               <MappingFragment StoreEntitySet="MovementType">
+                <ScalarProperty Name="MovementKey" ColumnName="MovementKey" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />

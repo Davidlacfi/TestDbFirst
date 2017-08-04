@@ -10,7 +10,7 @@ namespace TestDbFirst
     {
         [Display(Name = "Gyártás azonosító")]
         public Nullable<int> Production_Id { get; set; }
-        [Display(Name = "Mennyiség")]
+        [Display(Name = "Mennyiség (kg)")]
         public decimal Quantity { get; set; }
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
