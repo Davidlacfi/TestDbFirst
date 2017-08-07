@@ -23,10 +23,12 @@ namespace TestDbFirst.Controllers
             {
                 if (db.CurrentIngredientStocks.Any(x=>x.Ingredient_Id == ai.Id))
                 {
+                    ai.Name = string.Format("{0} - {1} kg", ai.Name, string.Format("{0:0.##}", db.CurrentIngredientStocks.First(x => x.Ingredient_Id == ai.Id).Quantity)) ;
                     existingIngredient.Add(ai);
                 };
             }
             ViewBag.Ingredient_Id = new SelectList(existingIngredient, "Id", "Name");
+
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
             return View();
         }
@@ -69,9 +71,19 @@ namespace TestDbFirst.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.MovementType_Id = new SelectList(db.MovementTypes, "Id", "Name", ingredientMovement.MovementType_Id);
-            ViewBag.Ingredient_Id = new SelectList(db.Ingredients, "Id", "Name", ingredientMovement.Ingredient_Id);
-            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name", ingredientMovement.Warehouse_Id);
+            ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "correction"), "Id", "Name");
+            var existingIngredient = new List<Ingredient>();
+            foreach (var ai in db.Ingredients)
+            {
+                if (db.CurrentIngredientStocks.Any(x => x.Ingredient_Id == ai.Id))
+                {
+                    ai.Name = string.Format("{0} - {1} kg", ai.Name, string.Format("{0:0.##}", db.CurrentIngredientStocks.First(x => x.Ingredient_Id == ai.Id).Quantity));
+                    existingIngredient.Add(ai);
+                };
+            }
+            ViewBag.Ingredient_Id = new SelectList(existingIngredient, "Id", "Name");
+
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
             return View(ingredientMovement);
         }
 
@@ -84,6 +96,7 @@ namespace TestDbFirst.Controllers
             {
                 if (db.CurrentProductStocks.Any(x => x.Recipe_Id == ai.Id))
                 {
+                    ai.Name = string.Format("{0} - {1} kg", ai.Name, string.Format("{0:0.##}", db.CurrentProductStocks.First(x => x.Recipe_Id == ai.Id).Quantity));
                     existingProduct.Add(ai);
                 };
             }
@@ -139,7 +152,16 @@ namespace TestDbFirst.Controllers
             }
 
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "correction"), "Id", "Name");
-            ViewBag.Recipe_Id = new SelectList(db.Recipes, "Id", "Name");
+            var existingProduct = new List<Recipe>();
+            foreach (var ai in db.Recipes)
+            {
+                if (db.CurrentProductStocks.Any(x => x.Recipe_Id == ai.Id))
+                {
+                    ai.Name = string.Format("{0} - {1} t", ai.Name, string.Format("{0:0.##}", db.CurrentProductStocks.First(x => x.Recipe_Id == ai.Id).Quantity));
+                    existingProduct.Add(ai);
+                };
+            }
+            ViewBag.Recipe_Id = new SelectList(existingProduct, "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
             return View(productchange);
         }
