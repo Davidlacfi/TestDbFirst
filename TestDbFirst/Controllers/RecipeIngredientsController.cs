@@ -14,7 +14,7 @@ namespace TestDbFirst.Controllers
         //GET Index
         public ActionResult Index()
         {
-            ViewBag.Recipe_Id = new SelectList(db.Recipes, "Id", "Name");
+            ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(c=>c.Name), "Id", "Name");
             //var recipeIngredients = db.RecipeIngredients.Include(r => r.Recipe);
             //return View(recipeIngredients.ToList());
             return View();
@@ -101,7 +101,7 @@ namespace TestDbFirst.Controllers
                 recipeIngredient.CreatedDate = DateTime.Now;
                 db.RecipeIngredients.Add(recipeIngredient);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("List", new { id = recipeIngredient.Recipe_Id });
             }
 
             ViewBag.Ingredient_Id = new SelectList(db.Ingredients, "Id", "Name", recipeIngredient.Ingredient_Id);

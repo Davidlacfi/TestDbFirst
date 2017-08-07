@@ -17,7 +17,7 @@ namespace TestDbFirst.Controllers
         public ActionResult Index()
         {
             var productions = db.Productions.Include(p => p.Customer).Include(p => p.Recipe).Include(p => p.SystemUser).Include(p => p.SystemUser1).Include(p => p.Warehouse);
-            return View(productions.ToList());
+            return View(productions.ToList().OrderByDescending(c=>c.CreatedDate));
         }
 
         // GET: Productions/Details/5

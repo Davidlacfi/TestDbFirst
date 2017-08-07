@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace TestDbFirst.Controllers
 {
@@ -14,7 +15,7 @@ namespace TestDbFirst.Controllers
         public ActionResult Index()
         {
             var currentIngredientStocks = db.CurrentIngredientStocks.Include(c => c.Ingredient).Include(c => c.SystemUser).Include(c => c.SystemUser1).Include(c => c.Warehouse);
-            return View(currentIngredientStocks.ToList());
+            return View(currentIngredientStocks.ToList().OrderBy(c=>c.Ingredient));
         }
 
         // GET: CurrentIngredientStocks/Details/5

@@ -16,7 +16,7 @@ namespace TestDbFirst.Controllers
         public ActionResult Index()
         {
             var recipes = db.Recipes.Include(r => r.SystemUser).Include(r => r.SystemUser1);
-            return View(recipes.ToList());
+            return View(recipes.ToList().OrderBy(c=>c.Name));
         }
 
         [Authorize]
