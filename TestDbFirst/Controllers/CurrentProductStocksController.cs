@@ -14,7 +14,7 @@ namespace TestDbFirst.Controllers
         public ActionResult Index()
         {
             var currentProductStocks = db.CurrentProductStocks.Include(c => c.Recipe).Include(c => c.SystemUser).Include(c => c.SystemUser1).Include(c => c.Warehouse);
-            return View(currentProductStocks.ToList().OrderBy(c=>c.Recipe));
+            return View(currentProductStocks.ToList().OrderBy(c=>c.Recipe.Name));
         }
 
         // GET: CurrentProductStocks/Details/5

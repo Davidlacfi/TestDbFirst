@@ -25,64 +25,68 @@
             <div class="navbar-collapse collapse">
                 @if (Request.IsAuthenticated)
                 {
-                <ul class="nav navbar-nav">
-                    
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Alapadatok
-                            <span class="caret"></span>
-                        </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Raktárak", "Index", "Warehouses")</li>
-                        <li>@Html.ActionLink("Partnerek", "Index", "Customers")</li>
-                        <li>@Html.ActionLink("Alapanyagok", "Index", "Ingredients")</li>
-                        <li>@Html.ActionLink("Receptek", "Index", "Recipes")</li>
-                        <li>@Html.ActionLink("Recept összetevők", "Index", "RecipeIngredients")</li>
-                    </ul>
-                    <li>@Html.ActionLink("Gyártás", "Index", "Productions")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Készletinformáció
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Alapanyag készlet", "Index", "CurrentIngredientStocks")</li>
-                            <li>@Html.ActionLink("Késztermék készlet", "Index", "CurrentProductStocks")</li>
-                            <li role="separator" class="divider"></li>
-                            <li>@Html.ActionLink("Alapanyag mozgások listája", "Index", "IngredientMovements")</li>
-                        </ul>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Készletkezelés
-                            <span class="caret"></span>
-                        </a>
-                    <ul class="dropdown-menu">
-                        <li role="separator" class="divider"></li>
-                        <li>@Html.ActionLink("Készletkorrekció - Alapanyag", "AddIngredientCorrection", "StockOperations")</li>
-                        <li>@Html.ActionLink("Készletkorrekció - Késztermék", "AddProductCorrection", "StockOperations")</li>
-                    </ul>
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Alapadatok
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Raktárak", "Index", "Warehouses")</li>
+                                <li>@Html.ActionLink("Partnerek", "Index", "Customers")</li>
+                                <li>@Html.ActionLink("Alapanyagok", "Index", "Ingredients")</li>
+                                <li>@Html.ActionLink("Receptek", "Index", "Recipes")</li>
+                                <li>@Html.ActionLink("Recept összetevők", "Index", "RecipeIngredients")</li>
+                            </ul>
+                        <li>@Html.ActionLink("Gyártás", "Index", "Productions")</li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Készletinformáció
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Alapanyag készlet", "Index", "CurrentIngredientStocks")</li>
+                                <li>@Html.ActionLink("Késztermék készlet", "Index", "CurrentProductStocks")</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Alapanyag mozgások listája", "Index", "IngredientMovements")</li>
+                            </ul>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Készletkezelés
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Készletkorrekció - Alapanyag", "AddIngredientCorrection", "StockOperations")</li>
+                                <li>@Html.ActionLink("Készletkorrekció - Késztermék", "AddProductCorrection", "StockOperations")</li>
+                            </ul>
                     </ul>
                 }
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-<div class="container body-content">
-    
-    @if (TempData.ContainsKey("Operation"))
-    {
-        var alertclass = string.Format("alert-{0}", TempData["Operation"]);
+    <div class="container body-content">
 
-        var texthead = TempData["Operation"].Equals("success") ? "Sikeres művelet" : "Sikertelen művelet";
-        var text = TempData["Operation"].Equals("success") ? "Sikeres művelet" : "Sikertelen művelet";
-        <div class="alert alert-dismissible @alertclass">
-            <button type="button" class="close" data-dismiss="alert">X</button>
-            <h4>@Html.Raw(texthead)</h4>
-        </div>
-    }
-    
+        @if (TempData.ContainsKey("Operation"))
+        {
+            var alertclass = string.Format("alert-{0}", TempData["Operation"]);
 
-    @RenderBody()
+            var texthead = TempData["Operation"].Equals("success") ? "Sikeres művelet" : "Sikertelen művelet";
+            var text = "";
+            if (TempData.ContainsKey("OperationMessage"))
+            { text = TempData["OperationMessage"].ToString(); }
+
+            <div class="alert alert-dismissible @alertclass">
+                <button type="button" class="close" data-dismiss="alert">X</button>
+                <h4>@Html.Raw(texthead)</h4>
+                <p>@Html.Raw(text)</p>
+            </div>
+        }
+
+
+        @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - <a href="http://www.techtree.eu">TechTree Solutions</a>

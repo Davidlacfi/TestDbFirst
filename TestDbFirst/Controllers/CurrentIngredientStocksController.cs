@@ -15,7 +15,7 @@ namespace TestDbFirst.Controllers
         public ActionResult Index()
         {
             var currentIngredientStocks = db.CurrentIngredientStocks.Include(c => c.Ingredient).Include(c => c.SystemUser).Include(c => c.SystemUser1).Include(c => c.Warehouse);
-            return View(currentIngredientStocks.ToList().OrderBy(c=>c.Ingredient));
+            return View(currentIngredientStocks.ToList().OrderBy(d=>d.Ingredient.Name));
         }
 
         // GET: CurrentIngredientStocks/Details/5
@@ -124,7 +124,7 @@ namespace TestDbFirst.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CurrentIngredientStock currentIngredientStock = db.CurrentIngredientStocks.Find(id);
-            db.CurrentIngredientStocks.Remove(currentIngredientStock);
+            currentIngredientStock.IsActive=false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

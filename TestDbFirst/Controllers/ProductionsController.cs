@@ -65,6 +65,21 @@ namespace TestDbFirst.Controllers
         {
             if (ModelState.IsValid)
             {
+
+
+                // ELLENŐRIZZÜK, HOGY MINDEN ALAPANYAGBÓL VAN-E ELEGENDŐ
+
+                foreach (var ri in db.RecipeIngredients.Where(i => i.Recipe_Id == production.Recipe_Id))
+                {
+                    if ( db.CurrentIngredientStocks.Any(e => e.Ingredient_Id == ri.Ingredient_Id) && production.Quantity*ri.Ammount <=
+                        db.CurrentIngredientStocks.First(e => e.Ingredient_Id == ri.Ingredient_Id).Quantity) continue;
+                    TempData["Operation"] = "danger";
+                    TempData["OperationMessage"] = string.Format("Nem áll rendelkezésre elegendő a szükséges mennyiség ({0} kg) a következő alapanyagból: {1}",  (production.Quantity * ri.Ammount),  ri.Ingredient.Name);
+                    return RedirectToAction("Index");
+                }
+                    
+
+
                 // PRODUCTION HOZZÁADÁSA
                 // INGREDIENTMOVEMENT - CSAK GYÁRTÁS
                 var identity = (ClaimsIdentity)User.Identity;
