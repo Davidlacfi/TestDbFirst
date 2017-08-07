@@ -247,6 +247,9 @@
     <Compile Include="Models\ProductionMetadata.cs" />
     <Compile Include="Models\RecipeIngredientMetadata.cs" />
     <Compile Include="Models\RecipeMetadata.cs" />
+    <Compile Include="ProductMovement.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\StockOperationViewModel.cs" />
     <Compile Include="Models\WarehouseMetadata.cs" />
     <Compile Include="MovementType.cs">
@@ -700,7 +703,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Production\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

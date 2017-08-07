@@ -122,6 +122,23 @@
           <Property Name="ChangedBy" Type="int" />
           <Property Name="ChangedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="ProductMovement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Production_Id" Type="int" />
+          <Property Name="Recipe_Id" Type="int" Nullable="false" />
+          <Property Name="MovementType_Id" Type="int" Nullable="false" />
+          <Property Name="Warehouse_Id" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="5" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Recipe">
           <Key>
             <PropertyRef Name="Id" />
@@ -478,6 +495,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductMovement_MovementType">
+          <End Role="MovementType" Type="Self.MovementType" Multiplicity="1" />
+          <End Role="ProductMovement" Type="Self.ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovementType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="MovementType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_Production">
+          <End Role="Production" Type="Self.Production" Multiplicity="0..1" />
+          <End Role="ProductMovement" Type="Self.ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Production">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="Production_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="ProductMovement" Type="Self.ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="ProductMovement" Type="Self.ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="ProductMovement" Type="Self.ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_Warehouse">
+          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+          <End Role="ProductMovement" Type="Self.ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Recipe_SystemUser">
           <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
           <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
@@ -611,6 +700,7 @@
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovementType" EntityType="Self.MovementType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Production" EntityType="Self.Production" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductMovement" EntityType="Self.ProductMovement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeIngredient" EntityType="Self.RecipeIngredient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
@@ -714,6 +804,30 @@
           <AssociationSet Name="FK_Production_Warehouse" Association="Self.FK_Production_Warehouse">
             <End Role="Warehouse" EntitySet="Warehouse" />
             <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_MovementType" Association="Self.FK_ProductMovement_MovementType">
+            <End Role="MovementType" EntitySet="MovementType" />
+            <End Role="ProductMovement" EntitySet="ProductMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_Production" Association="Self.FK_ProductMovement_Production">
+            <End Role="Production" EntitySet="Production" />
+            <End Role="ProductMovement" EntitySet="ProductMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_Recipe" Association="Self.FK_ProductMovement_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="ProductMovement" EntitySet="ProductMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_SystemUser" Association="Self.FK_ProductMovement_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="ProductMovement" EntitySet="ProductMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_SystemUser1" Association="Self.FK_ProductMovement_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="ProductMovement" EntitySet="ProductMovement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_Warehouse" Association="Self.FK_ProductMovement_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouse" />
+            <End Role="ProductMovement" EntitySet="ProductMovement" />
           </AssociationSet>
           <AssociationSet Name="FK_Recipe_SystemUser" Association="Self.FK_Recipe_SystemUser">
             <End Role="SystemUser" EntitySet="SystemUser" />
@@ -876,6 +990,7 @@
           <NavigationProperty Name="SystemUser" Relationship="Self.FK_MovementType_SystemUser" FromRole="MovementType" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="Self.FK_MovementType_SystemUser1" FromRole="MovementType" ToRole="SystemUser" />
           <Property Name="MovementKey" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ProductMovements" Relationship="MecsekTransitModel.FK_ProductMovement_MovementType" FromRole="MovementType" ToRole="ProductMovement" />
         </EntityType>
         <EntityType Name="Production">
           <Key>
@@ -899,6 +1014,7 @@
           <NavigationProperty Name="SystemUser" Relationship="Self.FK_Production_SystemUser" FromRole="Production" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Production_SystemUser1" FromRole="Production" ToRole="SystemUser" />
           <NavigationProperty Name="Warehouse" Relationship="Self.FK_Production_Warehouse" FromRole="Production" ToRole="Warehouse" />
+          <NavigationProperty Name="ProductMovements" Relationship="MecsekTransitModel.FK_ProductMovement_Production" FromRole="Production" ToRole="ProductMovement" />
         </EntityType>
         <EntityType Name="Recipe">
           <Key>
@@ -917,6 +1033,7 @@
           <NavigationProperty Name="SystemUser" Relationship="Self.FK_Recipe_SystemUser" FromRole="Recipe" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Recipe_SystemUser1" FromRole="Recipe" ToRole="SystemUser" />
           <NavigationProperty Name="RecipeIngredients" Relationship="Self.FK_RecipeIngredient_Recipe" FromRole="Recipe" ToRole="RecipeIngredient" />
+          <NavigationProperty Name="ProductMovements" Relationship="MecsekTransitModel.FK_ProductMovement_Recipe" FromRole="Recipe" ToRole="ProductMovement" />
         </EntityType>
         <EntityType Name="RecipeIngredient">
           <Key>
@@ -975,6 +1092,8 @@
           <NavigationProperty Name="Warehouses1" Relationship="Self.FK_Warehouse_SystemUser1" FromRole="SystemUser" ToRole="Warehouse" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProductMovements" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser" FromRole="SystemUser" ToRole="ProductMovement" />
+          <NavigationProperty Name="ProductMovements1" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser1" FromRole="SystemUser" ToRole="ProductMovement" />
         </EntityType>
         <EntityType Name="Warehouse">
           <Key>
@@ -994,6 +1113,7 @@
           <NavigationProperty Name="Productions" Relationship="Self.FK_Production_Warehouse" FromRole="Warehouse" ToRole="Production" />
           <NavigationProperty Name="SystemUser" Relationship="Self.FK_Warehouse_SystemUser" FromRole="Warehouse" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Warehouse_SystemUser1" FromRole="Warehouse" ToRole="SystemUser" />
+          <NavigationProperty Name="ProductMovements" Relationship="MecsekTransitModel.FK_ProductMovement_Warehouse" FromRole="Warehouse" ToRole="ProductMovement" />
         </EntityType>
         <Association Name="FK_CurrentIngredientStock_Ingredient">
           <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
@@ -1572,6 +1692,31 @@
             <Parameter Name="email" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="ProductMovements" EntityType="MecsekTransitModel.ProductMovement" />
+          <AssociationSet Name="FK_ProductMovement_MovementType" Association="MecsekTransitModel.FK_ProductMovement_MovementType">
+            <End Role="MovementType" EntitySet="MovementTypes" />
+            <End Role="ProductMovement" EntitySet="ProductMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_Production" Association="MecsekTransitModel.FK_ProductMovement_Production">
+            <End Role="Production" EntitySet="Productions" />
+            <End Role="ProductMovement" EntitySet="ProductMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_Recipe" Association="MecsekTransitModel.FK_ProductMovement_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="ProductMovement" EntitySet="ProductMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_SystemUser" Association="MecsekTransitModel.FK_ProductMovement_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="ProductMovement" EntitySet="ProductMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_SystemUser1" Association="MecsekTransitModel.FK_ProductMovement_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="ProductMovement" EntitySet="ProductMovements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMovement_Warehouse" Association="MecsekTransitModel.FK_ProductMovement_Warehouse">
+            <End Role="Warehouse" EntitySet="Warehouses" />
+            <End Role="ProductMovement" EntitySet="ProductMovements" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Login">
           <Key>
@@ -1586,6 +1731,101 @@
           <Property Type="String" Name="username" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="password" Nullable="false" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="ProductMovement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Production_Id" Type="Int32" />
+          <Property Name="Recipe_Id" Type="Int32" Nullable="false" />
+          <Property Name="MovementType_Id" Type="Int32" Nullable="false" />
+          <Property Name="Warehouse_Id" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="5" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MovementType" Relationship="MecsekTransitModel.FK_ProductMovement_MovementType" FromRole="ProductMovement" ToRole="MovementType" />
+          <NavigationProperty Name="Production" Relationship="MecsekTransitModel.FK_ProductMovement_Production" FromRole="ProductMovement" ToRole="Production" />
+          <NavigationProperty Name="Recipe" Relationship="MecsekTransitModel.FK_ProductMovement_Recipe" FromRole="ProductMovement" ToRole="Recipe" />
+          <NavigationProperty Name="SystemUser" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser" FromRole="ProductMovement" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser1" FromRole="ProductMovement" ToRole="SystemUser" />
+          <NavigationProperty Name="Warehouse" Relationship="MecsekTransitModel.FK_ProductMovement_Warehouse" FromRole="ProductMovement" ToRole="Warehouse" />
+        </EntityType>
+        <Association Name="FK_ProductMovement_MovementType">
+          <End Type="MecsekTransitModel.MovementType" Role="MovementType" Multiplicity="1" />
+          <End Type="MecsekTransitModel.ProductMovement" Role="ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovementType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="MovementType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_Production">
+          <End Type="MecsekTransitModel.Production" Role="Production" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.ProductMovement" Role="ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Production">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="Production_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_Recipe">
+          <End Type="MecsekTransitModel.Recipe" Role="Recipe" Multiplicity="1" />
+          <End Type="MecsekTransitModel.ProductMovement" Role="ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="Recipe_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_SystemUser">
+          <End Type="MecsekTransitModel.SystemUser" Role="SystemUser" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.ProductMovement" Role="ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_SystemUser1">
+          <End Type="MecsekTransitModel.SystemUser" Role="SystemUser" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.ProductMovement" Role="ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMovement_Warehouse">
+          <End Type="MecsekTransitModel.Warehouse" Role="Warehouse" Multiplicity="1" />
+          <End Type="MecsekTransitModel.ProductMovement" Role="ProductMovement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warehouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMovement">
+              <PropertyRef Name="Warehouse_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1786,6 +2026,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ProductMovements">
+            <EntityTypeMapping TypeName="MecsekTransitModel.ProductMovement">
+              <MappingFragment StoreEntitySet="ProductMovement">
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Warehouse_Id" ColumnName="Warehouse_Id" />
+                <ScalarProperty Name="MovementType_Id" ColumnName="MovementType_Id" />
+                <ScalarProperty Name="Recipe_Id" ColumnName="Recipe_Id" />
+                <ScalarProperty Name="Production_Id" ColumnName="Production_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

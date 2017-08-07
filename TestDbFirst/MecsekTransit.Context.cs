@@ -39,6 +39,7 @@ namespace TestDbFirst
         public virtual DbSet<SystemUser> SystemUsers { get; set; }
         public virtual DbSet<Warehouse> Warehouses { get; set; }
         public virtual DbSet<Login> Logins { get; set; }
+        public virtual DbSet<ProductMovement> ProductMovements { get; set; }
     
         public virtual ObjectResult<LoginByUsernamePassword_Result> LoginByUsernamePassword(string email, string password)
         {

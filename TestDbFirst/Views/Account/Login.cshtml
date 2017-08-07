@@ -1,7 +1,7 @@
 ﻿@using TestDbFirst.Models
 @model TestDbFirst.Models.LoginViewModel
 @{
-    ViewBag.Title = "Mecsek Transit - Bejelentkezés";
+    ViewBag.Title = "Bejelentkezés";
 }
 <h2>@ViewBag.Title</h2>
 <div class="row">
@@ -10,7 +10,7 @@
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>...</h4>
+                <h4>Az oldal megtekintéséhez be kell jelentkezni!</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Bejelentkezés" class="btn btn-success" />
                     </div>
                 </div>
             }

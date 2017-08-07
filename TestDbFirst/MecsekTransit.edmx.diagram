@@ -52,6 +52,13 @@
         <AssociationConnector Association="MecsekTransitModel.FK_Warehouse_SystemUser" ManuallyRouted="false" />
         <AssociationConnector Association="MecsekTransitModel.FK_Warehouse_SystemUser1" ManuallyRouted="false" />
         <EntityTypeShape EntityType="MecsekTransitModel.Login" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MecsekTransitModel.ProductMovement" Width="1.5" PointX="13.5" PointY="23.125" />
+        <AssociationConnector Association="MecsekTransitModel.FK_ProductMovement_MovementType" />
+        <AssociationConnector Association="MecsekTransitModel.FK_ProductMovement_Production" />
+        <AssociationConnector Association="MecsekTransitModel.FK_ProductMovement_Recipe" />
+        <AssociationConnector Association="MecsekTransitModel.FK_ProductMovement_SystemUser" />
+        <AssociationConnector Association="MecsekTransitModel.FK_ProductMovement_SystemUser1" />
+        <AssociationConnector Association="MecsekTransitModel.FK_ProductMovement_Warehouse" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

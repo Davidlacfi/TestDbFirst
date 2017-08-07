@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using TestDbFirst.Models;
 
 namespace TestDbFirst.Controllers
@@ -100,9 +101,24 @@ namespace TestDbFirst.Controllers
         {
             if (ModelState.IsValid)
             {
-                //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
+
+                //PRODUCTMOVEMENT ELKÉSZÍTÉSE
                 var identity = (ClaimsIdentity)User.Identity;
                 var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+                var productMovement = new ProductMovement
+                {
+                    Recipe_Id = productchange.Recipe_Id,
+                    MovementType_Id = productchange.MovementType_Id,
+                    Warehouse_Id = productchange.Warehouse_Id,
+                    Quantity = productchange.Quantity,
+                    Remark = productchange.Remark,
+                    IsActive = productchange.IsActive,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = Convert.ToInt32(sid)
+                };
+                db.ProductMovements.Add(productMovement);
+
+                //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
                 var producttoupdate = db.CurrentProductStocks.First(i => i.Recipe_Id == productchange.Recipe_Id);
                 var originalingredientquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == productchange.Recipe_Id).Quantity;
                 producttoupdate.Quantity = originalingredientquantity + productchange.Quantity;

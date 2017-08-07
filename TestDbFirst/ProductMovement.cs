@@ -12,20 +12,13 @@ namespace TestDbFirst
     using System;
     using System.Collections.Generic;
     
-    public partial class Production
+    public partial class ProductMovement
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Production()
-        {
-            this.IngredientMovements = new HashSet<IngredientMovement>();
-            this.ProductMovements = new HashSet<ProductMovement>();
-        }
-    
         public int Id { get; set; }
+        public Nullable<int> Production_Id { get; set; }
         public int Recipe_Id { get; set; }
-        public int Customer_Id { get; set; }
-        public int Destination_Warehouse_Id { get; set; }
-        public System.DateTime ProductionDate { get; set; }
+        public int MovementType_Id { get; set; }
+        public int Warehouse_Id { get; set; }
         public decimal Quantity { get; set; }
         public string Remark { get; set; }
         public bool IsActive { get; set; }
@@ -34,14 +27,11 @@ namespace TestDbFirst
         public Nullable<int> ChangedBy { get; set; }
         public Nullable<System.DateTime> ChangedDate { get; set; }
     
-        public virtual Customer Customer { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IngredientMovement> IngredientMovements { get; set; }
+        public virtual MovementType MovementType { get; set; }
+        public virtual Production Production { get; set; }
         public virtual Recipe Recipe { get; set; }
         public virtual SystemUser SystemUser { get; set; }
         public virtual SystemUser SystemUser1 { get; set; }
         public virtual Warehouse Warehouse { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductMovement> ProductMovements { get; set; }
     }
 }

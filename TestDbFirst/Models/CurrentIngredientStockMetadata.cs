@@ -10,7 +10,6 @@ namespace TestDbFirst
     {
         [Display(Name = "Mennyiség (kg)")]
         public decimal Quantity { get; set; }
-        [Required(ErrorMessage = "Alapanyag korrekció esetén megjegyzés megadása kötelező!")]
         [DataType(DataType.MultilineText)]
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }

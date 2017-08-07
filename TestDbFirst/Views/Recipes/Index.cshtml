@@ -7,7 +7,9 @@
 <h2>Receptek listája</h2>
 
 <p>
-    @Html.ActionLink("Új recept", "Create")
+    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create", "Recipes")'">
+        Új recept
+    </button>
 </p>
 <table class="table">
     <tr>
@@ -17,24 +19,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Remark)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-    @*
-    <th>
-        @Html.DisplayNameFor(model => model.CreatedDate)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.ChangedDate)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.SystemUser.Email)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.SystemUser1.Email)
-    </th>
-    *@
-        <th></th>
+        <th>Műveletek</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -46,25 +31,7 @@
             @Html.DisplayFor(modelItem => item.Remark)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-    @*
-    <td>
-        @Html.DisplayFor(modelItem => item.CreatedDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.ChangedDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.SystemUser.Email)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.SystemUser1.Email)
-    </td>
-    *@
-        <td>
             @Html.ActionLink("Szerkeszt", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Részletek", "Details", new { id = item.Id }) |
             @Html.ActionLink("Törlés", "Delete", new { id = item.Id })
         </td>
     </tr>

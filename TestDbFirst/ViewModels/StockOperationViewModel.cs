@@ -16,7 +16,7 @@ namespace TestDbFirst.Models
         [Required(ErrorMessage = "Mennyiség megadása kötelező!")]
         [Display(Name = "Mennyiség (t)")]
         public decimal Quantity { get; set; }
-        [Required(ErrorMessage = "Alapanyag korrekció esetén megjegyzés megadása kötelező!")]
+        [Required(ErrorMessage = "Korrekció esetén megjegyzés megadása kötelező!")]
         [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
         [Display(Name = "Aktív")]

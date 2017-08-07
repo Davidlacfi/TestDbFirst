@@ -7,7 +7,9 @@
 <h2>Gyártások listája</h2>
 
 <p>
-    @Html.ActionLink("Új gyártás", "Create")
+    <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Create", "Productions")'">
+        Új gyártás
+    </button>
 </p>
 <table class="table">
     <tr>
@@ -74,9 +76,7 @@
             @Html.DisplayFor(modelItem => item.Warehouse.Name)
         </td>
         <td>
-            @*@Html.ActionLink("Szerkeszt", "Edit", new {id = item.Id}) |*@
-            @Html.ActionLink("Részletek", "Details", new {id = item.Id}) @*|
-            @Html.ActionLink("Törlés", "Delete", new {id = item.Id})*@
+            @Html.ActionLink("Részletek", "Details", new {id = item.Id}) 
         </td>
     </tr>
     }

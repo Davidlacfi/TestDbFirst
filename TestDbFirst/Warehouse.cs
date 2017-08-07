@@ -21,6 +21,7 @@ namespace TestDbFirst
             this.CurrentProductStocks = new HashSet<CurrentProductStock>();
             this.IngredientMovements = new HashSet<IngredientMovement>();
             this.Productions = new HashSet<Production>();
+            this.ProductMovements = new HashSet<ProductMovement>();
         }
     
         public int Id { get; set; }
@@ -42,5 +43,7 @@ namespace TestDbFirst
         public virtual ICollection<Production> Productions { get; set; }
         public virtual SystemUser SystemUser { get; set; }
         public virtual SystemUser SystemUser1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductMovement> ProductMovements { get; set; }
     }
 }

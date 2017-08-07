@@ -48,6 +48,7 @@
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Alapanyag készlet", "Index", "CurrentIngredientStocks")</li>
                             <li>@Html.ActionLink("Késztermék készlet", "Index", "CurrentProductStocks")</li>
+                            <li role="separator" class="divider"></li>
                             <li>@Html.ActionLink("Alapanyag mozgások listája", "Index", "IngredientMovements")</li>
                         </ul>
                     <li class="dropdown">
@@ -55,10 +56,11 @@
                             Készletkezelés
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Készletkorrekció - Alapanyag", "AddIngredientCorrection", "StockOperations")</li>
-                            <li>@Html.ActionLink("Készletkorrekció - Késztermék", "AddProductCorrection", "StockOperations")</li>
-                        </ul>
+                    <ul class="dropdown-menu">
+                        <li role="separator" class="divider"></li>
+                        <li>@Html.ActionLink("Készletkorrekció - Alapanyag", "AddIngredientCorrection", "StockOperations")</li>
+                        <li>@Html.ActionLink("Készletkorrekció - Késztermék", "AddProductCorrection", "StockOperations")</li>
+                    </ul>
                     </ul>
                 }
                 @Html.Partial("_LoginPartial")
