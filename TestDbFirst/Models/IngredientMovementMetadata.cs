@@ -8,10 +8,17 @@ namespace TestDbFirst
 {
     public class IngredientMovementMetadata
     {
+        [Display(Name = "Mozgás típusa")]
+        public int MovementType_Id { get; set; }
         [Display(Name = "Gyártás azonosító")]
         public Nullable<int> Production_Id { get; set; }
+        [Display(Name = "Alapanyag")]
+        public int Ingredient_Id { get; set; }
+        [Display(Name = "Raktár")]
+        public int Warehouse_Id { get; set; }
         [Display(Name = "Mennyiség (kg)")]
         public decimal Quantity { get; set; }
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
         [Display(Name = "Létrehozta")]

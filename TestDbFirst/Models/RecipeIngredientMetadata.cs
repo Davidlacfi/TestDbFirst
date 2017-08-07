@@ -15,6 +15,7 @@ namespace TestDbFirst
         [Display(Name = "Mennyiség (kg)")]
         [Required(ErrorMessage = "Mennyiség megadása kötelező!")]
         public decimal Ammount { get; set; }
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
         [Display(Name = "Aktív")]

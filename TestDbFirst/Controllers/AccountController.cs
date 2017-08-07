@@ -38,25 +38,24 @@ namespace TestDbFirst.Controllers
         /// </summary>  
         /// <param name="returnUrl">Return URL parameter</param>  
         /// <returns>Return login view</returns>  
-        [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             
-            try
-            {
-                // Verification.    
-                if (this.Request.IsAuthenticated)
-                {
-                    // Info.    
-                    return this.RedirectToLocal(returnUrl);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Info    
-                Console.Write(ex);
-            }
+            //try
+            //{
+            //    // Verification.    
+            //    if (this.Request.IsAuthenticated)
+            //    {
+            //        // Info.    
+            //        return this.RedirectToLocal(returnUrl);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Info    
+            //    Console.Write(ex);
+            //}
                 // Info.    
             return this.View();
         }
@@ -110,7 +109,6 @@ namespace TestDbFirst.Controllers
         /// </summary>  
         /// <returns>Return log off action</returns>  
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {

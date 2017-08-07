@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using TestDbFirst.Models;
 
 namespace TestDbFirst.Controllers
 {
@@ -16,7 +17,15 @@ namespace TestDbFirst.Controllers
         public ActionResult AddIngredientCorrection()
         {
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i=>i.MovementKey =="correction"), "Id", "Name");
-            ViewBag.Ingredient_Id = new SelectList(db.Ingredients, "Id", "Name");
+            var existingIngredient = new List<Ingredient>();
+            foreach (var ai in db.Ingredients)
+            {
+                if (db.CurrentIngredientStocks.Any(x=>x.Ingredient_Id == ai.Id))
+                {
+                    existingIngredient.Add(ai);
+                };
+            }
+            ViewBag.Ingredient_Id = new SelectList(existingIngredient, "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
             return View();
         }
@@ -69,7 +78,15 @@ namespace TestDbFirst.Controllers
         public ActionResult AddProductCorrection()
         {
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "correction"), "Id", "Name");
-            ViewBag.Recipe_Id = new SelectList(db.Recipes, "Id", "Name");
+            var existingProduct = new List<Recipe>();
+            foreach (var ai in db.Recipes)
+            {
+                if (db.CurrentProductStocks.Any(x => x.Recipe_Id == ai.Id))
+                {
+                    existingProduct.Add(ai);
+                };
+            }
+            ViewBag.Recipe_Id = new SelectList(existingProduct, "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
             return View();
         }
@@ -79,7 +96,7 @@ namespace TestDbFirst.Controllers
         // POST AddProductCorrections
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddProductCorrection([Bind(Include = "Id,Recipe_Id,MovementType_Id,Warehouse_Id,Quantity,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] CurrentProductStock productchange)
+        public ActionResult AddProductCorrection([Bind(Include = "Id,Recipe_Id,MovementType_Id,Warehouse_Id,Quantity,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] StockOperationViewModel productchange)
         {
             if (ModelState.IsValid)
             {

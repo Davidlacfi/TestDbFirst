@@ -29,6 +29,7 @@ namespace TestDbFirst
         public string ContactPerson2 { get; set; }
         [Display(Name = "Telefon2")]
         public string Telephone2 { get; set; }
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
         [Display(Name = "Aktív")]

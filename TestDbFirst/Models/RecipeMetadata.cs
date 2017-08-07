@@ -11,6 +11,7 @@ namespace TestDbFirst
         [Display(Name = "Recept Név")]
         [Required(ErrorMessage = "Recept név megadása kötelező!")]
         public string Name { get; set; }
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
         [Display(Name = "Aktív")]

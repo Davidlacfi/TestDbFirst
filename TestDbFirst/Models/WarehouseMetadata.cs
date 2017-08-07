@@ -11,6 +11,7 @@ namespace TestDbFirst
         [Display(Name = "Raktár Név")]
         [Required(ErrorMessage = "Raktár név megadása kötelező!")]
         public string Name { get; set; }
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
         [Display(Name = "Aktív")]

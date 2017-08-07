@@ -10,6 +10,7 @@ namespace TestDbFirst
     {
         [Display(Name = "Mennyiség (t)")]
         public decimal Quantity { get; set; }
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Megjegyzés")]
         public string Remark { get; set; }
     }
