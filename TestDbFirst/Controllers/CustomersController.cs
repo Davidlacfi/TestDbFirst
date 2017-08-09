@@ -51,7 +51,7 @@ namespace TestDbFirst.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,ZipCode,City,StreetAddress,ContactPerson1,Telephone1,ContactPerson2,Telephone2,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Customer customer)
+        public ActionResult Create([Bind(Include = "Id,Name,IsSupplier,ZipCode,City,StreetAddress,ContactPerson1,Telephone1,ContactPerson2,Telephone2,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace TestDbFirst.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,ZipCode,City,StreetAddress,ContactPerson1,Telephone1,ContactPerson2,Telephone2,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Customer customer)
+        public ActionResult Edit([Bind(Include = "Id,Name,IsSupplier,ZipCode,City,StreetAddress,ContactPerson1,Telephone1,ContactPerson2,Telephone2,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] Customer customer)
         {
             if (ModelState.IsValid)
             {

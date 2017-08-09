@@ -14,6 +14,12 @@ namespace TestDbFirst
     
     public partial class ProductMovement
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductMovement()
+        {
+            this.DeliveryNotes = new HashSet<DeliveryNote>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> Production_Id { get; set; }
         public int Recipe_Id { get; set; }
@@ -33,5 +39,7 @@ namespace TestDbFirst
         public virtual SystemUser SystemUser { get; set; }
         public virtual SystemUser SystemUser1 { get; set; }
         public virtual Warehouse Warehouse { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
     }
 }

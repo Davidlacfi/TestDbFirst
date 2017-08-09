@@ -10,6 +10,8 @@ namespace TestDbFirst
         [Display(Name = "Partner Név")]
         [Required(ErrorMessage = "Partner név megadása kötelező!")]
         public string Name { get; set; }
+        [Display(Name = "Szállító")]
+        public bool IsSupplier { get; set; }
         [Display(Name = "Irányítószám")]
         [Required(ErrorMessage = "Irányítószám megadása kötelező!")]
         public string ZipCode { get; set; }

@@ -18,6 +18,7 @@ namespace TestDbFirst
         public Customer()
         {
             this.Productions = new HashSet<Production>();
+            this.DeliveryNotes = new HashSet<DeliveryNote>();
         }
     
         public int Id { get; set; }
@@ -35,10 +36,13 @@ namespace TestDbFirst
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ChangedBy { get; set; }
         public Nullable<System.DateTime> ChangedDate { get; set; }
+        public bool IsSupplier { get; set; }
     
         public virtual SystemUser SystemUser { get; set; }
         public virtual SystemUser SystemUser1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Production> Productions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
     }
 }

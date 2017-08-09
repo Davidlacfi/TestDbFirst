@@ -12,20 +12,14 @@ namespace TestDbFirst
     using System;
     using System.Collections.Generic;
     
-    public partial class IngredientMovement
+    public partial class DeliveryNote
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public IngredientMovement()
-        {
-            this.DeliveryNotes = new HashSet<DeliveryNote>();
-        }
-    
         public int Id { get; set; }
-        public Nullable<int> Production_Id { get; set; }
-        public int Ingredient_Id { get; set; }
-        public int MovementType_Id { get; set; }
-        public int Warehouse_Id { get; set; }
-        public decimal Quantity { get; set; }
+        public Nullable<int> IngredientMovement_Id { get; set; }
+        public Nullable<int> ProductMovement_Id { get; set; }
+        public Nullable<int> Customer_Id { get; set; }
+        public string Type { get; set; }
+        public string Number { get; set; }
         public string Remark { get; set; }
         public bool IsActive { get; set; }
         public Nullable<int> CreatedBy { get; set; }
@@ -33,13 +27,10 @@ namespace TestDbFirst
         public Nullable<int> ChangedBy { get; set; }
         public Nullable<System.DateTime> ChangedDate { get; set; }
     
-        public virtual Ingredient Ingredient { get; set; }
-        public virtual MovementType MovementType { get; set; }
-        public virtual Production Production { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual IngredientMovement IngredientMovement { get; set; }
+        public virtual ProductMovement ProductMovement { get; set; }
         public virtual SystemUser SystemUser { get; set; }
         public virtual SystemUser SystemUser1 { get; set; }
-        public virtual Warehouse Warehouse { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
     }
 }

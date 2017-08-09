@@ -41,6 +41,8 @@ namespace TestDbFirst
             this.Warehouses1 = new HashSet<Warehouse>();
             this.ProductMovements = new HashSet<ProductMovement>();
             this.ProductMovements1 = new HashSet<ProductMovement>();
+            this.DeliveryNotes = new HashSet<DeliveryNote>();
+            this.DeliveryNotes1 = new HashSet<DeliveryNote>();
         }
     
         public int Id { get; set; }
@@ -104,5 +106,9 @@ namespace TestDbFirst
         public virtual ICollection<ProductMovement> ProductMovements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductMovement> ProductMovements1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeliveryNote> DeliveryNotes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeliveryNote> DeliveryNotes1 { get; set; }
     }
 }

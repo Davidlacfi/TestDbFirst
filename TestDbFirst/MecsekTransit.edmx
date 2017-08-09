@@ -40,6 +40,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsSupplier" Type="bit" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ZipCode" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="City" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -48,6 +49,23 @@
           <Property Name="Telephone1" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ContactPerson2" Type="nvarchar" MaxLength="100" />
           <Property Name="Telephone2" Type="nvarchar" MaxLength="50" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="300" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ChangedBy" Type="int" />
+          <Property Name="ChangedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DeliveryNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IngredientMovement_Id" Type="int" />
+          <Property Name="ProductMovement_Id" Type="int" />
+          <Property Name="Customer_Id" Type="int" />
+          <Property Name="Type" Type="nchar" MaxLength="10" />
+          <Property Name="Number" Type="nchar" MaxLength="20" />
           <Property Name="Remark" Type="nvarchar" MaxLength="300" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedBy" Type="int" />
@@ -311,6 +329,66 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Customer">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_IngredientMovement">
+          <End Role="IngredientMovement" Type="Self.IngredientMovement" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMovement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="IngredientMovement_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_ProductMovement">
+          <End Role="ProductMovement" Type="Self.ProductMovement" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMovement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="ProductMovement_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_SystemUser">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_SystemUser1">
+          <End Role="SystemUser" Type="Self.SystemUser" Multiplicity="0..1" />
+          <End Role="DeliveryNote" Type="Self.DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
               <PropertyRef Name="ChangedBy" />
             </Dependent>
           </ReferentialConstraint>
@@ -695,6 +773,7 @@
           <EntitySet Name="CurrentIngredientStock" EntityType="Self.CurrentIngredientStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrentProductStock" EntityType="Self.CurrentProductStock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryNote" EntityType="Self.DeliveryNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngredientMovement" EntityType="Self.IngredientMovement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
@@ -744,6 +823,26 @@
           <AssociationSet Name="FK_Customer_SystemUser1" Association="Self.FK_Customer_SystemUser1">
             <End Role="SystemUser" EntitySet="SystemUser" />
             <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_Customer" Association="Self.FK_DeliveryNote_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_IngredientMovement" Association="Self.FK_DeliveryNote_IngredientMovement">
+            <End Role="IngredientMovement" EntitySet="IngredientMovement" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_ProductMovement" Association="Self.FK_DeliveryNote_ProductMovement">
+            <End Role="ProductMovement" EntitySet="ProductMovement" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SystemUser" Association="Self.FK_DeliveryNote_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SystemUser1" Association="Self.FK_DeliveryNote_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUser" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNote" />
           </AssociationSet>
           <AssociationSet Name="FK_Ingredient_SystemUser" Association="Self.FK_Ingredient_SystemUser">
             <End Role="SystemUser" EntitySet="SystemUser" />
@@ -934,6 +1033,8 @@
           <NavigationProperty Name="SystemUser" Relationship="Self.FK_Customer_SystemUser" FromRole="Customer" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="Self.FK_Customer_SystemUser1" FromRole="Customer" ToRole="SystemUser" />
           <NavigationProperty Name="Productions" Relationship="Self.FK_Production_Customer" FromRole="Customer" ToRole="Production" />
+          <Property Name="IsSupplier" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="MecsekTransitModel.FK_DeliveryNote_Customer" FromRole="Customer" ToRole="DeliveryNote" />
         </EntityType>
         <EntityType Name="Ingredient">
           <Key>
@@ -974,6 +1075,7 @@
           <NavigationProperty Name="SystemUser" Relationship="Self.FK_IngredientMovement_SystemUser" FromRole="IngredientMovement" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="Self.FK_IngredientMovement_SystemUser1" FromRole="IngredientMovement" ToRole="SystemUser" />
           <NavigationProperty Name="Warehouse" Relationship="Self.FK_IngredientMovement_Warehouse" FromRole="IngredientMovement" ToRole="Warehouse" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="MecsekTransitModel.FK_DeliveryNote_IngredientMovement" FromRole="IngredientMovement" ToRole="DeliveryNote" />
         </EntityType>
         <EntityType Name="MovementType">
           <Key>
@@ -1094,6 +1196,8 @@
           <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ProductMovements" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser" FromRole="SystemUser" ToRole="ProductMovement" />
           <NavigationProperty Name="ProductMovements1" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser1" FromRole="SystemUser" ToRole="ProductMovement" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="MecsekTransitModel.FK_DeliveryNote_SystemUser" FromRole="SystemUser" ToRole="DeliveryNote" />
+          <NavigationProperty Name="DeliveryNotes1" Relationship="MecsekTransitModel.FK_DeliveryNote_SystemUser1" FromRole="SystemUser" ToRole="DeliveryNote" />
         </EntityType>
         <EntityType Name="Warehouse">
           <Key>
@@ -1717,6 +1821,27 @@
             <End Role="Warehouse" EntitySet="Warehouses" />
             <End Role="ProductMovement" EntitySet="ProductMovements" />
           </AssociationSet>
+          <EntitySet Name="DeliveryNotes" EntityType="MecsekTransitModel.DeliveryNote" />
+          <AssociationSet Name="FK_DeliveryNote_Customer" Association="MecsekTransitModel.FK_DeliveryNote_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_IngredientMovement" Association="MecsekTransitModel.FK_DeliveryNote_IngredientMovement">
+            <End Role="IngredientMovement" EntitySet="IngredientMovements" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_ProductMovement" Association="MecsekTransitModel.FK_DeliveryNote_ProductMovement">
+            <End Role="ProductMovement" EntitySet="ProductMovements" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SystemUser" Association="MecsekTransitModel.FK_DeliveryNote_SystemUser">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeliveryNote_SystemUser1" Association="MecsekTransitModel.FK_DeliveryNote_SystemUser1">
+            <End Role="SystemUser" EntitySet="SystemUsers" />
+            <End Role="DeliveryNote" EntitySet="DeliveryNotes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Login">
           <Key>
@@ -1753,6 +1878,7 @@
           <NavigationProperty Name="SystemUser" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser" FromRole="ProductMovement" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="MecsekTransitModel.FK_ProductMovement_SystemUser1" FromRole="ProductMovement" ToRole="SystemUser" />
           <NavigationProperty Name="Warehouse" Relationship="MecsekTransitModel.FK_ProductMovement_Warehouse" FromRole="ProductMovement" ToRole="Warehouse" />
+          <NavigationProperty Name="DeliveryNotes" Relationship="MecsekTransitModel.FK_DeliveryNote_ProductMovement" FromRole="ProductMovement" ToRole="DeliveryNote" />
         </EntityType>
         <Association Name="FK_ProductMovement_MovementType">
           <End Type="MecsekTransitModel.MovementType" Role="MovementType" Multiplicity="1" />
@@ -1826,6 +1952,88 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DeliveryNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IngredientMovement_Id" Type="Int32" />
+          <Property Name="ProductMovement_Id" Type="Int32" />
+          <Property Name="Customer_Id" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChangedBy" Type="Int32" />
+          <Property Name="ChangedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Customer" Relationship="MecsekTransitModel.FK_DeliveryNote_Customer" FromRole="DeliveryNote" ToRole="Customer" />
+          <NavigationProperty Name="IngredientMovement" Relationship="MecsekTransitModel.FK_DeliveryNote_IngredientMovement" FromRole="DeliveryNote" ToRole="IngredientMovement" />
+          <NavigationProperty Name="ProductMovement" Relationship="MecsekTransitModel.FK_DeliveryNote_ProductMovement" FromRole="DeliveryNote" ToRole="ProductMovement" />
+          <NavigationProperty Name="SystemUser" Relationship="MecsekTransitModel.FK_DeliveryNote_SystemUser" FromRole="DeliveryNote" ToRole="SystemUser" />
+          <NavigationProperty Name="SystemUser1" Relationship="MecsekTransitModel.FK_DeliveryNote_SystemUser1" FromRole="DeliveryNote" ToRole="SystemUser" />
+        </EntityType>
+        <Association Name="FK_DeliveryNote_Customer">
+          <End Type="MecsekTransitModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_IngredientMovement">
+          <End Type="MecsekTransitModel.IngredientMovement" Role="IngredientMovement" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientMovement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="IngredientMovement_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_ProductMovement">
+          <End Type="MecsekTransitModel.ProductMovement" Role="ProductMovement" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMovement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="ProductMovement_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_SystemUser">
+          <End Type="MecsekTransitModel.SystemUser" Role="SystemUser" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeliveryNote_SystemUser1">
+          <End Type="MecsekTransitModel.SystemUser" Role="SystemUser" Multiplicity="0..1" />
+          <End Type="MecsekTransitModel.DeliveryNote" Role="DeliveryNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SystemUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeliveryNote">
+              <PropertyRef Name="ChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1867,6 +2075,7 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="MecsekTransitModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="IsSupplier" ColumnName="IsSupplier" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
@@ -2040,6 +2249,24 @@
                 <ScalarProperty Name="MovementType_Id" ColumnName="MovementType_Id" />
                 <ScalarProperty Name="Recipe_Id" ColumnName="Recipe_Id" />
                 <ScalarProperty Name="Production_Id" ColumnName="Production_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeliveryNotes">
+            <EntityTypeMapping TypeName="MecsekTransitModel.DeliveryNote">
+              <MappingFragment StoreEntitySet="DeliveryNote">
+                <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
+                <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="ProductMovement_Id" ColumnName="ProductMovement_Id" />
+                <ScalarProperty Name="IngredientMovement_Id" ColumnName="IngredientMovement_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
