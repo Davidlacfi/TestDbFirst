@@ -3,18 +3,29 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TestDbFirst.Models
 {
-    public class StockOperationViewModel
+    public class InventoryOperationViewModel
     {
         public int Id { get; set; }
         [Display(Name = "Raktár")]
         public int Warehouse_Id { get; set; }
         [Display(Name = "Recept/Termék")]
         public int Recipe_Id { get; set; }
-        [Required(ErrorMessage = "Mennyiség megadása kötelező!")]
-        [Display(Name = "Mennyiség (t)")]
-        public decimal Quantity { get; set; }
-        [Required(ErrorMessage = "Korrekció esetén megjegyzés megadása kötelező!")]
+        [Display(Name = "Alapanyag")]
+        public int Ingredient_Id { get; set; }
+        [Display(Name = "Partner")]
+        public int Customer_Id { get; set; }
+        [Display(Name = "Szállítólevél")]
+        public int DeliveryNote_Id { get; set; }
+        [Display(Name = "Szállítólevél száma")]
+        public string DeliveryNote_Number { get; set; }
+        [Display(Name = "Szállítólevél megjegyzés")]
         [DataType(DataType.MultilineText)]
+        public string DeliveryNote_Remark { get; set; }
+        [Required(ErrorMessage = "Mennyiség megadása kötelező!")]
+        [Display(Name = "Mennyiség (kg)")]
+        public decimal Quantity { get; set; }
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Bevételezés megjegyzése")]
         public string Remark { get; set; }
         [Display(Name = "Aktív")]
         public bool IsActive { get; set; }
@@ -30,6 +41,8 @@ namespace TestDbFirst.Models
         public virtual SystemUser SystemUser1 { get; set; }
         public virtual Warehouse Warehouse { get; set; }
         public virtual MovementType MovementType { get; set; }
-
+        public virtual Ingredient Ingredient { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual DeliveryNote DeliveryNote { get; set; }
     }
 }

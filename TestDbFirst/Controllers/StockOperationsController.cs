@@ -68,7 +68,7 @@ namespace TestDbFirst.Controllers
                 {
                     TempData["Operation"] = "danger";
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("AddIngredientCorrection", "StockOperations");
             }
 
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "correction"), "Id", "Name");
@@ -96,7 +96,7 @@ namespace TestDbFirst.Controllers
             {
                 if (db.CurrentProductStocks.Any(x => x.Recipe_Id == ai.Id))
                 {
-                    ai.Name = string.Format("{0} - {1} kg", ai.Name, string.Format("{0:0.##}", db.CurrentProductStocks.First(x => x.Recipe_Id == ai.Id).Quantity));
+                    ai.Name = string.Format("{0} - {1} t", ai.Name, string.Format("{0:0.##}", db.CurrentProductStocks.First(x => x.Recipe_Id == ai.Id).Quantity));
                     existingProduct.Add(ai);
                 };
             }
@@ -148,7 +148,7 @@ namespace TestDbFirst.Controllers
                 {
                     TempData["Operation"] = "danger";
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("AddProductCorrection", "StockOperations");
             }
 
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "correction"), "Id", "Name");

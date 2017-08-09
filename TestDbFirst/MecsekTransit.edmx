@@ -60,7 +60,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IngredientMovement_Id" Type="int" />
           <Property Name="ProductMovement_Id" Type="int" />
           <Property Name="Customer_Id" Type="int" />
