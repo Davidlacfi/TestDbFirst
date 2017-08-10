@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -15,8 +16,6 @@ namespace TestDbFirst.Controllers
         public ActionResult Index()
         {
             ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(c=>c.Name), "Id", "Name");
-            //var recipeIngredients = db.RecipeIngredients.Include(r => r.Recipe);
-            //return View(recipeIngredients.ToList());
             return View();
         }
 
@@ -45,15 +44,15 @@ namespace TestDbFirst.Controllers
             }
             var recipeIngredient = db.RecipeIngredients.Where(i=>i.Recipe_Id==id);
 
-            if (!recipeIngredient.Any())
-            {
-                return RedirectToRoute(new
-                {
-                    controller = "RecipeIngredients",
-                    action = "Create",
-                    id = id
-                });
-            }
+            //if (!recipeIngredient.Any())
+            //{
+            //    return RedirectToRoute(new
+            //    {
+            //        controller = "RecipeIngredients",
+            //        action = "Create",
+            //        id = id
+            //    });
+            //}
 
             var recipeIngredients = db.RecipeIngredients.Include(r => r.Ingredient).Include(r => r.Recipe).Include(r => r.SystemUser).Include(r => r.SystemUser1)
                 .Where(i => i.Recipe_Id==id);
@@ -80,8 +79,15 @@ namespace TestDbFirst.Controllers
         // GET: RecipeIngredients/Create
         public ActionResult Create(int? id)
         {
-
-            ViewBag.Ingredient_Id = new SelectList(db.Ingredients, "Id", "Name");
+            var notexistingIngredients = new List<Ingredient>();
+            foreach (var ai in db.Ingredients)
+            {
+                if (!db.RecipeIngredients.Where(x=>x.Recipe_Id==id).Any(x => x.Ingredient_Id == ai.Id))
+                {
+                    notexistingIngredients.Add(ai);
+                };
+            }
+            ViewBag.Ingredient_Id = new SelectList(notexistingIngredients, "Id", "Name");
             ViewBag.Recipe_Id = new SelectList(db.Recipes.Where(i =>i.Id==id), "Id", "Name");
             ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email");
             ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email");

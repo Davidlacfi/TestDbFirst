@@ -14,7 +14,31 @@
 
 @{
     var totalAmmount = Model.Sum(a => a.Ammount);
-    var rowClass = totalAmmount == 1000 ? "success" : "danger";
+    var missingAmmount = 1000 - totalAmmount;
+    int currentProgress;
+    if (missingAmmount == 0)
+    {
+        currentProgress = 100;
+    }
+    else
+    {
+        if (totalAmmount == 0)
+        {
+            currentProgress = 100;
+        }
+        else
+        {
+            currentProgress = (int)((totalAmmount/1000) * 100);
+            if (currentProgress < 50)
+            {
+                currentProgress = 50;
+            }
+        }
+    }
+
+    var progressBarLabel = totalAmmount == 1000 ? "A recept összetevőinek összege 1000 kg" : String.Format("A recept nincs kész, mivel a receptből hiányzik {0} kg összetevő", missingAmmount);
+    var rowClass = totalAmmount == 1000 ? "success" : "danger active";
+    var currentProgressWidth = string.Format("{0}%", currentProgress);
 }
 
 <table class="table">
@@ -55,19 +79,28 @@
             </td>
         </tr>
     }
-    <tr class =@rowClass>
-        <th>
-            Recept összetevők összesen:
+    <tr class=@rowClass>
+        @*<th>
+                Recept összetevők összesen:
+            </th>
+            <th>
+            </th>
+            <th>
+                @totalAmmount
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>*@
+
+        <th colspan="5">
+            <div class="progress">
+                <div class="progress-bar progress-bar-@rowClass progress-bar-striped " role="progressbar" aria-valuenow=@totalAmmount.ToString() aria-valuemin="0" aria-valuemax="1000" style="width: @currentProgressWidth " >
+                    @progressBarLabel 
+                </div>
+            </div>
         </th>
-        <th>
-        </th>
-        <th>
-            @totalAmmount
-        </th>
-        <th>
-        </th>
-        <th>
-        </th>
+    
     </tr>
 
 </table>

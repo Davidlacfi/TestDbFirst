@@ -44,7 +44,7 @@ namespace TestDbFirst.Controllers
             var existingRecipe = new List<Recipe>();
             foreach (var ai in db.Recipes)
             {
-                if (db.RecipeIngredients.Any(x => x.Recipe_Id == ai.Id))
+                if (db.RecipeIngredients.Any(x => x.Recipe_Id == ai.Id) && db.RecipeIngredients.Where(x => x.Recipe_Id == ai.Id).Sum(x=>x.Ammount)==1000)
                 {
                     existingRecipe.Add(ai);
                 };
