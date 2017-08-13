@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5a1803e7b1054a92a459ce544f9e3a86" Name="Diagram1">
+      <Diagram DiagramId="5a1803e7b1054a92a459ce544f9e3a86" Name="Diagram1" ZoomLevel="76">
         <EntityTypeShape EntityType="MecsekTransitModel.CurrentIngredientStock" Width="1.5" PointX="5.25" PointY="23.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MecsekTransitModel.CurrentProductStock" Width="1.5" PointX="8.25" PointY="25.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MecsekTransitModel.Customer" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
@@ -61,10 +61,11 @@
         <AssociationConnector Association="MecsekTransitModel.FK_ProductMovement_Warehouse" />
         <EntityTypeShape EntityType="MecsekTransitModel.DeliveryNote" Width="1.5" PointX="16" PointY="18.625" />
         <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNote_Customer" />
-        <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNote_IngredientMovement" />
-        <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNote_ProductMovement" />
         <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNote_SystemUser" />
+        <EntityTypeShape EntityType="MecsekTransitModel.DeliveryNoteItem" Width="2.375" PointX="16.5" PointY="24.625" />
+        <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNoteItem_ProductMovement" />
         <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNote_SystemUser1" />
+        <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNoteItem_IngredientMovement" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -79,6 +79,10 @@ namespace TestDbFirst.Controllers
         // GET: RecipeIngredients/Create
         public ActionResult Create(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var notexistingIngredients = new List<Ingredient>();
             foreach (var ai in db.Ingredients)
             {

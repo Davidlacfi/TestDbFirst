@@ -15,8 +15,6 @@ namespace TestDbFirst
     public partial class DeliveryNote
     {
         public int Id { get; set; }
-        public Nullable<int> IngredientMovement_Id { get; set; }
-        public Nullable<int> ProductMovement_Id { get; set; }
         public Nullable<int> Customer_Id { get; set; }
         public string Type { get; set; }
         public string Number { get; set; }
@@ -28,8 +26,6 @@ namespace TestDbFirst
         public Nullable<System.DateTime> ChangedDate { get; set; }
     
         public virtual Customer Customer { get; set; }
-        public virtual IngredientMovement IngredientMovement { get; set; }
-        public virtual ProductMovement ProductMovement { get; set; }
         public virtual SystemUser SystemUser { get; set; }
         public virtual SystemUser SystemUser1 { get; set; }
     }
