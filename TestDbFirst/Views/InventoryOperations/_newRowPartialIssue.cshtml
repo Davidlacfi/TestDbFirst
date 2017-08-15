@@ -1,0 +1,21 @@
+﻿@model TestDbFirst.Models.InventoryOperationViewModel
+<tr>
+    <td class="col-sm-4">
+        @Html.DropDownList("Warehouse_Id", null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Warehouse_Id, "", new { @class = "text-danger" })
+    </td>
+    <td class="col-sm-4">
+        @Html.DropDownList("Recipe_Id", null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Recipe_Id, "", new { @class = "text-danger" })
+    </td>
+    <td class="col-sm-3">
+
+        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+
+
+    </td>
+    <td class="col-sm-2">
+        <input type="button" class="ibtnDel btn btn-md btn-danger " value="Törlés">
+    </td>
+</tr>

@@ -17,8 +17,10 @@ namespace TestDbFirst
         public int Id { get; set; }
         public Nullable<int> IngredientMovement_Id { get; set; }
         public Nullable<int> ProductMovement_Id { get; set; }
+        public int DeliveryNote_Id { get; set; }
     
         public virtual ProductMovement ProductMovement { get; set; }
         public virtual IngredientMovement IngredientMovement { get; set; }
+        public virtual DeliveryNote DeliveryNote { get; set; }
     }
 }

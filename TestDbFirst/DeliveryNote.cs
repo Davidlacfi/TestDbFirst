@@ -14,6 +14,12 @@ namespace TestDbFirst
     
     public partial class DeliveryNote
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DeliveryNote()
+        {
+            this.DeliveryNoteItems = new HashSet<DeliveryNoteItem>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> Customer_Id { get; set; }
         public string Type { get; set; }
@@ -28,5 +34,7 @@ namespace TestDbFirst
         public virtual Customer Customer { get; set; }
         public virtual SystemUser SystemUser { get; set; }
         public virtual SystemUser SystemUser1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeliveryNoteItem> DeliveryNoteItems { get; set; }
     }
 }

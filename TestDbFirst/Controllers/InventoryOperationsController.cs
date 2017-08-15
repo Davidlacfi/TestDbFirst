@@ -26,67 +26,93 @@ namespace TestDbFirst.Controllers
         // POST: Receipts
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReceipt([Bind(Include = "Id,Ingredient_Id,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Warehouse_Id,Quantity,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryReceipt)
+        public ActionResult AddReceipt([Bind(Include = "Id,deliveryNoteItem,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryReceipt)
         {
             if (ModelState.IsValid)
             {
                 //INGREDIENTMOVEMENT ELKÉSZÍTÉSE
-                var identity = (ClaimsIdentity)User.Identity;
+                var identity = (ClaimsIdentity) User.Identity;
                 var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
-                var ingredientMovement = new IngredientMovement
+                var deliveryNoteCreted = false;
+                for (int x=0; x< inventoryReceipt.deliveryNoteItem.Count; x++)
                 {
-                    Ingredient_Id = inventoryReceipt.Ingredient_Id,
-                    MovementType_Id = inventoryReceipt.MovementType_Id,
-                    Warehouse_Id = inventoryReceipt.Warehouse_Id,
-                    Quantity = inventoryReceipt.Quantity,
-                    Remark = inventoryReceipt.Remark,
-                    IsActive = inventoryReceipt.IsActive,
-                    CreatedDate = DateTime.Now,
-                    CreatedBy = Convert.ToInt32(sid)
-                };
-                db.IngredientMovements.Add(ingredientMovement);
-
-
-                //CURRENTINGREDIENTSTOCK MÓDOSÍTÁSA
-                var ingredientexists = db.CurrentIngredientStocks.Where(i => i.Ingredient_Id == inventoryReceipt.Ingredient_Id);
-                //HA NINCS AZ ALAPANYAGBÓL, HOZZÁADJUK
-                if (!ingredientexists.Any())
-                {
-                    db.CurrentIngredientStocks.Add(new CurrentIngredientStock
+                    var ingredientMovement = new IngredientMovement
                     {
+                        Ingredient_Id = inventoryReceipt.deliveryNoteItem[x].Ingredient_Id,
+                        MovementType_Id = inventoryReceipt.MovementType_Id,
+                        Warehouse_Id = inventoryReceipt.deliveryNoteItem[x].Warehouse_Id,
+                        Quantity = inventoryReceipt.deliveryNoteItem[x].Quantity,
+                        Remark = inventoryReceipt.Remark,
+                        IsActive = inventoryReceipt.IsActive,
                         CreatedDate = DateTime.Now,
-                        CreatedBy = Convert.ToInt32(sid),
-                        IsActive = true,
-                        Warehouse_Id = inventoryReceipt.Warehouse_Id,
-                        Ingredient_Id = inventoryReceipt.Ingredient_Id,
-                        Quantity = inventoryReceipt.Quantity
+                        CreatedBy = Convert.ToInt32(sid)
+                    };
+                    db.IngredientMovements.Add(ingredientMovement);
 
-                    });
-                }
-                //HA VAN AZ ALAPANYAGBÓL, UPDATE
-                else
-                {
-                    var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == inventoryReceipt.Ingredient_Id);
-                    var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == inventoryReceipt.Ingredient_Id).Quantity;
-                    ingredienttoupdate.Quantity = originalingredientquantity + inventoryReceipt.Quantity;
-                    ingredienttoupdate.ChangedDate = DateTime.Now;
-                    ingredienttoupdate.ChangedBy = Convert.ToInt32(sid);
-                    db.Entry(ingredienttoupdate).State = EntityState.Modified;
-                }
 
-                //SZÁLLÍTÓLEVÉL HOZZÁADÁSA
-                var deliveryNote = new DeliveryNote
-                {
-                    //IngredientMovement_Id = ingredientMovement.Id,
-                    Customer_Id = inventoryReceipt.Customer_Id,
-                    Type = "receipt",
-                    Number = inventoryReceipt.DeliveryNote_Number,
-                    Remark = inventoryReceipt.DeliveryNote_Remark,
-                    IsActive = true,
-                    CreatedDate = DateTime.Now,
-                    CreatedBy = Convert.ToInt32(sid),
-                };
-                db.DeliveryNotes.Add(deliveryNote);
+                    //CURRENTINGREDIENTSTOCK MÓDOSÍTÁSA
+                    var ingredientexists = db.CurrentIngredientStocks.Where(i => i.Ingredient_Id == inventoryReceipt.deliveryNoteItem[x].Ingredient_Id);
+                    //HA NINCS AZ ALAPANYAGBÓL, HOZZÁADJUK
+                    if (!ingredientexists.Any())
+                    {
+                        db.CurrentIngredientStocks.Add(new CurrentIngredientStock
+                        {
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = Convert.ToInt32(sid),
+                            IsActive = true,
+                            Warehouse_Id = inventoryReceipt.deliveryNoteItem[x].Warehouse_Id,
+                            Ingredient_Id = inventoryReceipt.deliveryNoteItem[x].Ingredient_Id,
+                            Quantity = inventoryReceipt.deliveryNoteItem[x].Quantity
+
+                        });
+                    }
+                    //HA VAN AZ ALAPANYAGBÓL, UPDATE
+                    else
+                    {
+                        var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == inventoryReceipt.deliveryNoteItem[x].Ingredient_Id);
+                        var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == inventoryReceipt.deliveryNoteItem[x].Ingredient_Id).Quantity;
+                        ingredienttoupdate.Quantity = originalingredientquantity + inventoryReceipt.deliveryNoteItem[x].Quantity;
+                        ingredienttoupdate.ChangedDate = DateTime.Now;
+                        ingredienttoupdate.ChangedBy = Convert.ToInt32(sid);
+                        db.Entry(ingredienttoupdate).State = EntityState.Modified;
+                    }
+
+                    //SZÁLLÍTÓLEVÉL HOZZÁADÁSA
+                    var existingDeliveryNoteId = 0;
+                    if (deliveryNoteCreted == false)
+                    {
+                        var deliveryNote = new DeliveryNote
+                        {
+                            Customer_Id = inventoryReceipt.Customer_Id,
+                            Type = "receipt",
+                            Number = inventoryReceipt.DeliveryNote_Number,
+                            Remark = inventoryReceipt.DeliveryNote_Remark,
+                            IsActive = true,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = Convert.ToInt32(sid),
+                        };
+                        db.DeliveryNotes.Add(deliveryNote);
+                        deliveryNoteCreted = true;
+                        existingDeliveryNoteId = deliveryNote.Id;
+                        //SZÁLLÍTÓLEVÉL TÉTELEK HOZZÁADÁSA
+                        var deliveryNoteItem = new DeliveryNoteItem
+                        {
+                            DeliveryNote = deliveryNote,
+                            IngredientMovement = ingredientMovement
+                        };
+                        db.DeliveryNoteItems.Add(deliveryNoteItem);
+                    }
+                    else
+                    {
+                        //SZÁLLÍTÓLEVÉL TÉTELEK HOZZÁADÁSA
+                        var deliveryNoteItem = new DeliveryNoteItem
+                        {
+                            DeliveryNote_Id = existingDeliveryNoteId,
+                            IngredientMovement = ingredientMovement
+                        };
+                        db.DeliveryNoteItems.Add(deliveryNoteItem);
+                    }
+                }
 
                 if (db.SaveChanges() > 0)
                 {
@@ -105,190 +131,236 @@ namespace TestDbFirst.Controllers
             ViewBag.Customer_Id = new SelectList(db.Customers.Where(i => i.IsSupplier == true), "Id", "Name");
             return View(inventoryReceipt);
         }
-        // GET: Issues
-        public ActionResult AddIssue()
-        {
-            ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
-            ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
-            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
-            return View();
-        }
+        //// GET: Issues
+        //public ActionResult AddIssue()
+        //{
+        //    ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
+        //    ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
+        //    ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+        //    ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
+        //    return View();
+        //}
 
-        // POST: Issues
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddIssue([Bind(Include = "Id,Recipe_Id,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Warehouse_Id,Quantity,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryIssue)
-        {
-            if (ModelState.IsValid)
-            {
-                //ELLENŐRIZZÜK, VAN-E ELEGENDŐ KÉSZTERMÉK
-                if (db.CurrentProductStocks.Any(e => e.Recipe_Id == inventoryIssue.Recipe_Id) && inventoryIssue.Quantity  <=
-                    db.CurrentProductStocks.First(e => e.Recipe_Id == inventoryIssue.Recipe_Id).Quantity)
-                    
-                {
-                    //PRODUCTMOVEMENT ELKÉSZÍTÉSE
-                    var identity = (ClaimsIdentity)User.Identity;
-                    var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
-                    var productMovement = new ProductMovement
-                    {
-                        Recipe_Id = inventoryIssue.Recipe_Id,
-                        MovementType_Id = inventoryIssue.MovementType_Id,
-                        Warehouse_Id = inventoryIssue.Warehouse_Id,
-                        Quantity = inventoryIssue.Quantity,
-                        Remark = inventoryIssue.Remark,
-                        IsActive = inventoryIssue.IsActive,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = Convert.ToInt32(sid)
-                    };
-                    db.ProductMovements.Add(productMovement);
+        //// POST: Issues
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AddIssue([Bind(Include = "Id,Recipe_Id,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Warehouse_Id,Quantity,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryIssue)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var identity = (ClaimsIdentity) User.Identity;
+        //        var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+        //        var deliveryNoteCreted = false;
+
+        //        for (int b = 0; b < inventoryIssue.Recipe_Id.Length; b++)
+        //        {
+        //            var actId = inventoryIssue.Recipe_Id[b];
+        //            var actQ = inventoryIssue.Quantity[b];
+        //            if (db.CurrentProductStocks.Any(e => e.Recipe_Id == actId) &&
+        //                actQ <= db.CurrentProductStocks.First(e => e.Recipe_Id == actId).Quantity)
+        //            {
+        //                //PRODUCTMOVEMENT ELKÉSZÍTÉSE
+
+        //                var productMovement = new ProductMovement
+        //                {
+        //                    Recipe_Id = actId,
+        //                    MovementType_Id = inventoryIssue.MovementType_Id,
+        //                    Warehouse_Id = inventoryIssue.Warehouse_Id,
+        //                    Quantity = actQ,
+        //                    Remark = inventoryIssue.Remark,
+        //                    IsActive = inventoryIssue.IsActive,
+        //                    CreatedDate = DateTime.Now,
+        //                    CreatedBy = Convert.ToInt32(sid)
+        //                };
+        //                db.ProductMovements.Add(productMovement);
+                        
+        //                //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
+        //                var producttoupdate = db.CurrentProductStocks.First(i => i.Recipe_Id == actId);
+        //                var originalproductquantity =
+        //                    db.CurrentProductStocks.First(i => i.Recipe_Id == actId).Quantity;
+        //                producttoupdate.Quantity = originalproductquantity - actQ;
+        //                producttoupdate.ChangedDate = DateTime.Now;
+        //                producttoupdate.ChangedBy = Convert.ToInt32(sid);
+        //                db.Entry(producttoupdate).State = EntityState.Modified;
+                        
+        //                //SZÁLLÍTÓLEVÉL HOZZÁADÁSA
+        //                var existingDeliveryNoteId=0;
+        //                if(deliveryNoteCreted==false)
+        //                { 
+        //                    var deliveryNote = new DeliveryNote
+        //                    {
+        //                        Customer_Id = inventoryIssue.Customer_Id,
+        //                        Type = "issue",
+        //                        Number = inventoryIssue.DeliveryNote_Number,
+        //                        Remark = inventoryIssue.DeliveryNote_Remark,
+        //                        IsActive = true,
+        //                        CreatedDate = DateTime.Now,
+        //                        CreatedBy = Convert.ToInt32(sid),
+        //                    };
+        //                    db.DeliveryNotes.Add(deliveryNote);
+        //                    deliveryNoteCreted = true;
+        //                    existingDeliveryNoteId = deliveryNote.Id;                      
+        //                    //SZÁLLÍTÓLEVÉL TÉTELEK HOZZÁADÁSA
+        //                    var deliveryNoteItem = new DeliveryNoteItem
+        //                     {
+        //                         DeliveryNote = deliveryNote,
+        //                         ProductMovement = productMovement,
+        //                     };
+        //                     db.DeliveryNoteItems.Add(deliveryNoteItem);
+        //                }
+        //                else
+        //                {
+        //                    //SZÁLLÍTÓLEVÉL TÉTELEK HOZZÁADÁSA
+        //                    var deliveryNoteItem = new DeliveryNoteItem
+        //                    {
+        //                        DeliveryNote_Id = existingDeliveryNoteId,
+        //                        ProductMovement = productMovement,
+        //                    };
+        //                    db.DeliveryNoteItems.Add(deliveryNoteItem);
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                TempData["Operation"] = "danger";
+        //                TempData["OperationMessage"] = string.Format("Nem áll rendelkezésre a szükséges mennyiség ({0} t)",
+        //                inventoryIssue.Quantity);
+        //                return RedirectToAction("Index", "CurrentProductStocks");
+        //            }   
+        //        }
 
 
-                    //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
-                    var producttoupdate = db.CurrentProductStocks.First(i => i.Recipe_Id == inventoryIssue.Recipe_Id);
-                    var originalproductquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == inventoryIssue.Recipe_Id).Quantity;
-                    producttoupdate.Quantity = originalproductquantity - inventoryIssue.Quantity;
-                    producttoupdate.ChangedDate = DateTime.Now;
-                    producttoupdate.ChangedBy = Convert.ToInt32(sid);
-                    db.Entry(producttoupdate).State = EntityState.Modified;
 
-
-                    //SZÁLLÍTÓLEVÉL HOZZÁADÁSA
-                    var deliveryNote = new DeliveryNote
-                    {
-                        //ProductMovement_Id = productMovement.Id,
-                        Customer_Id = inventoryIssue.Customer_Id,
-                        Type = "issue",
-                        Number = inventoryIssue.DeliveryNote_Number,
-                        Remark = inventoryIssue.DeliveryNote_Remark,
-                        IsActive = true,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = Convert.ToInt32(sid),
-                    };
-                    db.DeliveryNotes.Add(deliveryNote);
-
-                    if (db.SaveChanges() > 0)
-                    {
-                        TempData["Operation"] = "success";
-                    }
-                    else
-                    {
-                        TempData["Operation"] = "danger";
-                    }
-                    return RedirectToAction("Index", "CurrentProductStocks");
-                }
-                else
-                {
-                    TempData["Operation"] = "danger";
-                    TempData["OperationMessage"] = string.Format("Nem áll rendelkezésre a szükséges mennyiség ({0} t)", inventoryIssue.Quantity);
-                    return RedirectToAction("Index", "CurrentProductStocks");
-                }
-            }
-            ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
-            ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
-            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
-            return View(inventoryIssue);
-        }
+        //        if (db.SaveChanges() > 0)
+        //        {
+        //            TempData["Operation"] = "success";
+        //        }
+        //        else
+        //        {
+        //            TempData["Operation"] = "danger";
+        //        }
+        //        return RedirectToAction("Index", "CurrentProductStocks");
+        //    }
+            
+        //    ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
+        //    ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
+        //    ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+        //    ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
+        //    return View(inventoryIssue);
+        //}
 
         //GET GetIssueForGoodsReturned
-        public ActionResult GetIssueForGoodsReturned()
+        //public ActionResult GetIssueForGoodsReturned()
+        //{
+        //    return View();
+        //}
+
+        ////POST GetIssueForGoodsReturned
+        //[HttpPost]
+        //public ActionResult GetIssueForGoodsReturned([Bind(Include="DeliveryNote_Number")]GetIssueForGoodsReturnedViewModel getIssueForGoodsReturned)
+        //{
+        //    return RedirectToAction("AddGoodsReturned", "InventoryOperations", getIssueForGoodsReturned.DeliveryNote_Number);
+        //}
+
+
+        ////GET
+        //public ActionResult AddGoodsReturned(string deliveryNote_Number_to_Find)
+        //{
+        //    var deliverynote = db.DeliveryNotes.First(x => x.Number == deliveryNote_Number_to_Find&&x.Type=="issue");
+        //    var productmovement = db.ProductMovements.Find(deliverynote);
+
+        //    var inventory = new InventoryOperationViewModel();
+
+        //    ViewBag.MovementType_Id = productmovement.MovementType_Id;
+        //    ViewBag.Recipe_Id = productmovement.Recipe_Id;
+        //    ViewBag.Warehouse_Id = productmovement.Warehouse_Id;
+        //    ViewBag.Customer_Id = deliverynote.Customer_Id;
+        //    ViewBag.Quantity = productmovement.Quantity;
+        //    ViewBag.Remark = productmovement.Remark;
+        //    ViewBag.DeliveryNote_Number = deliverynote.Number;
+        //    ViewBag.DeliveryNote_Remark = deliverynote.Remark;
+        //    return View(inventory);
+        //}
+
+        //// POST: Issues
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AddGoodsReturned([Bind(Include = "Id,Recipe_Id,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Warehouse_Id,Quantity,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryIssue)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var identity = (ClaimsIdentity)User.Identity;
+        //        var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+        //        for (int b = 0; b < inventoryIssue.Recipe_Id.Length; b++)
+        //        {
+        //            //PRODUCTMOVEMENT ELKÉSZÍTÉSE
+                    
+        //            var productMovement = new ProductMovement
+        //            {
+        //                Recipe_Id = inventoryIssue.Recipe_Id[b],
+        //                MovementType_Id = db.MovementTypes.First(x=>x.MovementKey=="return").Id,
+        //                Warehouse_Id = inventoryIssue.Warehouse_Id,
+        //                Quantity = -1*inventoryIssue.Quantity[b],
+        //                Remark = inventoryIssue.Remark,
+        //                IsActive = inventoryIssue.IsActive,
+        //                CreatedDate = DateTime.Now,
+        //                CreatedBy = Convert.ToInt32(sid)
+        //            };
+        //            db.ProductMovements.Add(productMovement);
+
+
+        //            //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
+        //            var producttoupdate = db.CurrentProductStocks.First(i => i.Recipe_Id == inventoryIssue.Recipe_Id[b]);
+        //            var originalproductquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == inventoryIssue.Recipe_Id[b]).Quantity;
+        //            producttoupdate.Quantity = originalproductquantity + inventoryIssue.Quantity[b];
+        //            producttoupdate.ChangedDate = DateTime.Now;
+        //            producttoupdate.ChangedBy = Convert.ToInt32(sid);
+        //            db.Entry(producttoupdate).State = EntityState.Modified;
+        //        }                   
+        //        //SZÁLLÍTÓLEVÉL HOZZÁADÁSA
+        //            var deliveryNote = new DeliveryNote
+        //            {
+        //                //ProductMovement_Id = productMovement.Id,
+        //                Customer_Id = inventoryIssue.Customer_Id,
+        //                Type = "return",
+        //                Number = inventoryIssue.DeliveryNote_Number,
+        //                Remark = inventoryIssue.DeliveryNote_Remark,
+        //                IsActive = true,
+        //                CreatedDate = DateTime.Now,
+        //                CreatedBy = Convert.ToInt32(sid),
+        //            };
+
+        //            db.DeliveryNotes.Add(deliveryNote);
+
+        //            if (db.SaveChanges() > 0)
+        //            {
+        //                TempData["Operation"] = "success";
+        //            }
+        //            else
+        //            {
+        //                TempData["Operation"] = "danger";
+        //            }
+        //            return RedirectToAction("Index", "CurrentProductStocks");
+        //    }
+        //    ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
+        //    ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
+        //    ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+        //    ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
+        //    return View(inventoryIssue);
+        //}
+        [HttpGet]
+        public ActionResult AddNewIssueRow()
         {
-            return View();
-        }
-
-        //POST GetIssueForGoodsReturned
-        [HttpPost]
-        public ActionResult GetIssueForGoodsReturned([Bind(Include="DeliveryNote_Number")]GetIssueForGoodsReturnedViewModel getIssueForGoodsReturned)
-        {
-            return RedirectToAction("AddGoodsReturned", "InventoryOperations", getIssueForGoodsReturned.DeliveryNote_Number);
-        }
-
-
-        //GET
-        public ActionResult AddGoodsReturned(string deliveryNote_Number_to_Find)
-        {
-            var deliverynote = db.DeliveryNotes.First(x => x.Number == deliveryNote_Number_to_Find&&x.Type=="issue");
-            var productmovement = db.ProductMovements.Find(deliverynote);
-
-            var inventory = new InventoryOperationViewModel();
-
-            ViewBag.MovementType_Id = productmovement.MovementType_Id;
-            ViewBag.Recipe_Id = productmovement.Recipe_Id;
-            ViewBag.Warehouse_Id = productmovement.Warehouse_Id;
-            ViewBag.Customer_Id = deliverynote.Customer_Id;
-            ViewBag.Quantity = productmovement.Quantity;
-            ViewBag.Remark = productmovement.Remark;
-            ViewBag.DeliveryNote_Number = deliverynote.Number;
-            ViewBag.DeliveryNote_Remark = deliverynote.Remark;
-            return View(inventory);
-        }
-
-        // POST: Issues
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddGoodsReturned([Bind(Include = "Id,Recipe_Id,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Warehouse_Id,Quantity,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryIssue)
-        {
-            if (ModelState.IsValid)
-            {
-                {
-                    //PRODUCTMOVEMENT ELKÉSZÍTÉSE
-                    var identity = (ClaimsIdentity)User.Identity;
-                    var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
-                    var productMovement = new ProductMovement
-                    {
-                        Recipe_Id = inventoryIssue.Recipe_Id,
-                        MovementType_Id = db.MovementTypes.First(x=>x.MovementKey=="return").Id,
-                        Warehouse_Id = inventoryIssue.Warehouse_Id,
-                        Quantity = -1*inventoryIssue.Quantity,
-                        Remark = inventoryIssue.Remark,
-                        IsActive = inventoryIssue.IsActive,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = Convert.ToInt32(sid)
-                    };
-                    db.ProductMovements.Add(productMovement);
-
-
-                    //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
-                    var producttoupdate = db.CurrentProductStocks.First(i => i.Recipe_Id == inventoryIssue.Recipe_Id);
-                    var originalproductquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == inventoryIssue.Recipe_Id).Quantity;
-                    producttoupdate.Quantity = originalproductquantity + inventoryIssue.Quantity;
-                    producttoupdate.ChangedDate = DateTime.Now;
-                    producttoupdate.ChangedBy = Convert.ToInt32(sid);
-                    db.Entry(producttoupdate).State = EntityState.Modified;
-
-
-                    //SZÁLLÍTÓLEVÉL HOZZÁADÁSA
-                    var deliveryNote = new DeliveryNote
-                    {
-                        //ProductMovement_Id = productMovement.Id,
-                        Customer_Id = inventoryIssue.Customer_Id,
-                        Type = "return",
-                        Number = inventoryIssue.DeliveryNote_Number,
-                        Remark = inventoryIssue.DeliveryNote_Remark,
-                        IsActive = true,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = Convert.ToInt32(sid),
-                    };
-
-                    db.DeliveryNotes.Add(deliveryNote);
-
-                    if (db.SaveChanges() > 0)
-                    {
-                        TempData["Operation"] = "success";
-                    }
-                    else
-                    {
-                        TempData["Operation"] = "danger";
-                    }
-                    return RedirectToAction("Index", "CurrentProductStocks");
-                }
-            }
-            ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
             ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
-            return View(inventoryIssue);
+            return PartialView("_newRowPartialIssue");
+        }
+        [HttpGet]
+        public ActionResult AddNewReceiptRow()
+        {
+            ViewBag.Ingredient_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            return PartialView("_newRowPartialReceipt");
         }
     }
 }

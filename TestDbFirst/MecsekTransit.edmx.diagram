@@ -66,6 +66,7 @@
         <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNoteItem_ProductMovement" />
         <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNote_SystemUser1" />
         <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNoteItem_IngredientMovement" />
+        <AssociationConnector Association="MecsekTransitModel.FK_DeliveryNoteItem_DeliveryNote" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

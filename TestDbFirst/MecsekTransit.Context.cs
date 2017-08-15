@@ -55,5 +55,7 @@ namespace TestDbFirst
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginByUsernamePassword_Result>("LoginByUsernamePassword", emailParameter, passwordParameter);
         }
+
+        public System.Data.Entity.DbSet<TestDbFirst.Models.DeliveryNoteItemViewModel> DeliveryNoteItemViewModels { get; set; }
     }
 }
