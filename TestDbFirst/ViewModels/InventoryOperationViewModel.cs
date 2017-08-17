@@ -8,7 +8,6 @@ namespace TestDbFirst.Models
     {
         public int Id { get; set; }
 
-
         [Display(Name = "Partner")]
         public int Customer_Id { get; set; }
         [Display(Name = "Szállítólevél")]
@@ -24,6 +23,7 @@ namespace TestDbFirst.Models
         public string Remark { get; set; }
         [Display(Name = "Aktív")]
         public bool IsActive { get; set; }
+        [Required]
         public List<DeliveryNoteItemViewModel> deliveryNoteItem { get; set; }
 
         public Nullable<int> CreatedBy { get; set; }

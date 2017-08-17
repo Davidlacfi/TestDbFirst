@@ -15,7 +15,7 @@ namespace TestDbFirst.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = db.Customers.Include(c => c.SystemUser).Include(c => c.SystemUser1);
+            var customers = db.Customers.Include(c => c.SystemUser).Include(c => c.SystemUser1).OrderBy(e=>e.Name);
             //return View(customers.Where(c => c.IsActive).ToList());
             return View(customers.ToList());
         }

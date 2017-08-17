@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Diagnostics
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -109,8 +110,10 @@
     @RenderSection("scripts", false)
     <script type="text/javascript">
         $(document)
-            .ready(function() {
+            .ready(function () {
+
                 var counter = 0;
+
 
                 $("#addissuerow")
                     .on("click",
@@ -124,10 +127,13 @@
 
                 $("#addreceiptrow").on("click",
                         function () {
-                            $.get('@Url.Action("AddNewReceiptRow", "InventoryOperations")', function (data) {
+                            var url = '@Html.Raw(@Url.Action("AddNewReceiptRow", "InventoryOperations"))' +'/' + counter;
+                            $.get( url,
+                                function (data) {
                                 $("table.order-list").append(data);
                             });
                             counter++;
+
                         });
 
                 $("table.order-list").on("click",

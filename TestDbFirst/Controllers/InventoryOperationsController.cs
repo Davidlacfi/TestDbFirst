@@ -27,21 +27,26 @@ namespace TestDbFirst.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddReceipt([Bind(Include = "Id,deliveryNoteItem,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryReceipt)
-        {
+        {   
             if (ModelState.IsValid)
             {
-                //INGREDIENTMOVEMENT ELKÉSZÍTÉSE
+                
                 var identity = (ClaimsIdentity) User.Identity;
                 var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
                 var deliveryNoteCreted = false;
+
                 for (int x=0; x< inventoryReceipt.deliveryNoteItem.Count; x++)
                 {
+                    //INGREDIENTMOVEMENT ELKÉSZÍTÉSE
+                    var currentIndex = x;
+                    var currentIngredientId = inventoryReceipt.deliveryNoteItem[x].Ingredient_Id;
+                    var currentIngredientQuantity = inventoryReceipt.deliveryNoteItem[currentIndex].Quantity;
                     var ingredientMovement = new IngredientMovement
                     {
-                        Ingredient_Id = inventoryReceipt.deliveryNoteItem[x].Ingredient_Id,
+                        Ingredient_Id = inventoryReceipt.deliveryNoteItem[currentIndex].Ingredient_Id,
                         MovementType_Id = inventoryReceipt.MovementType_Id,
-                        Warehouse_Id = inventoryReceipt.deliveryNoteItem[x].Warehouse_Id,
-                        Quantity = inventoryReceipt.deliveryNoteItem[x].Quantity,
+                        Warehouse_Id = inventoryReceipt.deliveryNoteItem[currentIndex].Warehouse_Id,
+                        Quantity = inventoryReceipt.deliveryNoteItem[currentIndex].Quantity,
                         Remark = inventoryReceipt.Remark,
                         IsActive = inventoryReceipt.IsActive,
                         CreatedDate = DateTime.Now,
@@ -51,7 +56,7 @@ namespace TestDbFirst.Controllers
 
 
                     //CURRENTINGREDIENTSTOCK MÓDOSÍTÁSA
-                    var ingredientexists = db.CurrentIngredientStocks.Where(i => i.Ingredient_Id == inventoryReceipt.deliveryNoteItem[x].Ingredient_Id);
+                    var ingredientexists = db.CurrentIngredientStocks.Where(i => i.Ingredient_Id == currentIngredientId);
                     //HA NINCS AZ ALAPANYAGBÓL, HOZZÁADJUK
                     if (!ingredientexists.Any())
                     {
@@ -60,18 +65,18 @@ namespace TestDbFirst.Controllers
                             CreatedDate = DateTime.Now,
                             CreatedBy = Convert.ToInt32(sid),
                             IsActive = true,
-                            Warehouse_Id = inventoryReceipt.deliveryNoteItem[x].Warehouse_Id,
-                            Ingredient_Id = inventoryReceipt.deliveryNoteItem[x].Ingredient_Id,
-                            Quantity = inventoryReceipt.deliveryNoteItem[x].Quantity
+                            Warehouse_Id = inventoryReceipt.deliveryNoteItem[currentIndex].Warehouse_Id,
+                            Ingredient_Id = inventoryReceipt.deliveryNoteItem[currentIndex].Ingredient_Id,
+                            Quantity = inventoryReceipt.deliveryNoteItem[currentIndex].Quantity
 
                         });
                     }
                     //HA VAN AZ ALAPANYAGBÓL, UPDATE
                     else
                     {
-                        var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == inventoryReceipt.deliveryNoteItem[x].Ingredient_Id);
-                        var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == inventoryReceipt.deliveryNoteItem[x].Ingredient_Id).Quantity;
-                        ingredienttoupdate.Quantity = originalingredientquantity + inventoryReceipt.deliveryNoteItem[x].Quantity;
+                        var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == currentIngredientId);
+                        var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == currentIngredientId).Quantity;
+                        ingredienttoupdate.Quantity = originalingredientquantity + currentIngredientQuantity;
                         ingredienttoupdate.ChangedDate = DateTime.Now;
                         ingredienttoupdate.ChangedBy = Convert.ToInt32(sid);
                         db.Entry(ingredienttoupdate).State = EntityState.Modified;
@@ -356,10 +361,11 @@ namespace TestDbFirst.Controllers
             return PartialView("_newRowPartialIssue");
         }
         [HttpGet]
-        public ActionResult AddNewReceiptRow()
+        public ActionResult AddNewReceiptRow(int id)
         {
             ViewBag.Ingredient_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            ViewBag.rowIndex = id;
             return PartialView("_newRowPartialReceipt");
         }
     }

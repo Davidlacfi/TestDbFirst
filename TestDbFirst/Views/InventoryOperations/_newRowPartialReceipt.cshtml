@@ -1,4 +1,7 @@
 ﻿@model TestDbFirst.Models.InventoryOperationViewModel
+@{
+    int a = @ViewBag.rowIndex;
 <tr>
-    @Html.EditorFor(model => model.deliveryNoteItem, "DeliveryNoteItemViewModel")
+    @Html.EditorFor(model => model.deliveryNoteItem[a], "ReceiptDeliveryNoteItemViewModel")
 </tr>
+}
