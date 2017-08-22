@@ -26,7 +26,7 @@ namespace TestDbFirst.Controllers
         // POST: Receipts
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReceipt([Bind(Include = "Id,deliveryNoteItem,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,MovementType_Id,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryReceipt)
+        public ActionResult AddReceipt([Bind(Include = "Id,deliveryNoteItem,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,DeliveryNote_Date,MovementType_Id,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryReceipt)
         {   
             if (ModelState.IsValid)
             {
@@ -95,6 +95,7 @@ namespace TestDbFirst.Controllers
                             IsActive = true,
                             CreatedDate = DateTime.Now,
                             CreatedBy = Convert.ToInt32(sid),
+                            DeliveryNoteDate = inventoryReceipt.DeliveryNote_Date
                         };
                         db.DeliveryNotes.Add(deliveryNote);
                         deliveryNoteCreted = true;

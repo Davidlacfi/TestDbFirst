@@ -61,6 +61,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryNoteDate" Type="date" Nullable="false" />
           <Property Name="Customer_Id" Type="int" />
           <Property Name="Type" Type="nchar" MaxLength="10" />
           <Property Name="Number" Type="nchar" MaxLength="20" />
@@ -1999,6 +2000,7 @@
           <NavigationProperty Name="SystemUser" Relationship="MecsekTransitModel.FK_DeliveryNote_SystemUser" FromRole="DeliveryNote" ToRole="SystemUser" />
           <NavigationProperty Name="SystemUser1" Relationship="MecsekTransitModel.FK_DeliveryNote_SystemUser1" FromRole="DeliveryNote" ToRole="SystemUser" />
           <NavigationProperty Name="DeliveryNoteItems" Relationship="MecsekTransitModel.FK_DeliveryNoteItem_DeliveryNote" FromRole="DeliveryNote" ToRole="DeliveryNoteItem" />
+          <Property Name="DeliveryNoteDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <Association Name="FK_DeliveryNote_Customer">
           <End Type="MecsekTransitModel.Customer" Role="Customer" Multiplicity="0..1" />
@@ -2306,6 +2308,7 @@
           <EntitySetMapping Name="DeliveryNotes">
             <EntityTypeMapping TypeName="MecsekTransitModel.DeliveryNote">
               <MappingFragment StoreEntitySet="DeliveryNote">
+                <ScalarProperty Name="DeliveryNoteDate" ColumnName="DeliveryNoteDate" />
                 <ScalarProperty Name="ChangedDate" ColumnName="ChangedDate" />
                 <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

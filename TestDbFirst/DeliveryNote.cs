@@ -30,6 +30,7 @@ namespace TestDbFirst
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> ChangedBy { get; set; }
         public Nullable<System.DateTime> ChangedDate { get; set; }
+        public System.DateTime DeliveryNoteDate { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual SystemUser SystemUser { get; set; }

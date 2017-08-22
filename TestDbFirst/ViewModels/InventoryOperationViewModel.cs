@@ -14,6 +14,9 @@ namespace TestDbFirst.Models
         public int DeliveryNote_Id { get; set; }
         [Display(Name = "Szállítólevél száma")]
         public string DeliveryNote_Number { get; set; }
+        [Required(ErrorMessage = "Bevételezés/Kiadás dátumának megadása kötelező!")]
+        [Display(Name = "Szállítólevél dátuma")]
+        public DateTime DeliveryNote_Date { get; set; }
         [Display(Name = "Szállítólevél megjegyzés")]
         [DataType(DataType.MultilineText)]
         public string DeliveryNote_Remark { get; set; }
