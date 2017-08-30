@@ -134,7 +134,7 @@ namespace TestDbFirst.Controllers
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "receipt"), "Id", "Name");
             ViewBag.Ingredient_Id = new SelectList(db.Ingredients, "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.Customer_Id = new SelectList(db.Customers.Where(i => i.IsSupplier == true), "Id", "Name");
+            ViewBag.Customer_Id = new SelectList(db.Customers.Where(i => i.IsSupplier == true).OrderBy(i => i.Name), "Id", "Name");
             return View(inventoryReceipt);
         }
 
@@ -142,9 +142,9 @@ namespace TestDbFirst.Controllers
         public ActionResult AddIssue()
         {
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
-            ViewBag.Recipe_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.Customer_Id = new SelectList(db.Customers.Where(i => i.IsSupplier == true).OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
             return View();
         }
 
@@ -261,7 +261,7 @@ namespace TestDbFirst.Controllers
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
             ViewBag.Recipe_Id = new SelectList(db.Recipes, "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.Customer_Id = new SelectList(db.Customers.Where(i => i.IsSupplier == true), "Id", "Name");
+            ViewBag.Customer_Id = new SelectList(db.Customers.OrderBy(i => i.Name), "Id", "Name");
             return View(inventoryIssue);
         }
 
