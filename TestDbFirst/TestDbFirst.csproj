@@ -716,6 +716,7 @@
     <Content Include="Views\InventoryOperations\_newRowPartialIssue.cshtml" />
     <Content Include="Views\InventoryOperations\_newRowPartialReceipt.cshtml" />
     <Content Include="Views\InventoryOperations\EditorTemplates\ReceiptDeliveryNoteItemViewModel.cshtml" />
+    <Content Include="Views\InventoryOperations\EditorTemplates\IssueDeliveryNoteItemViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -726,6 +727,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

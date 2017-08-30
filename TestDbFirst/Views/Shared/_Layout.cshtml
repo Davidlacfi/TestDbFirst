@@ -11,6 +11,7 @@
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <meta name="description" content="The description of my page" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -115,14 +116,15 @@
                 var counter = 0;
 
 
-                $("#addissuerow")
-                    .on("click",
-                        function() {
-                            $.get('@Url.Action("AddNewIssueRow", "InventoryOperations")',
-                                function(data) {
-                                    $("table.order-list").append(data);
-                                });
+                $("#addissuerow").on("click",
+                        function () {
+                            var url = '@Html.Raw(@Url.Action("AddNewIssueRow", "InventoryOperations"))' +'/' + counter;
+                            $.get( url,
+                                function (data) {
+                                $("table.order-list").append(data);
+                            });
                             counter++;
+
                         });
 
                 $("#addreceiptrow").on("click",

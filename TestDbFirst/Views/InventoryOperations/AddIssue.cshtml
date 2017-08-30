@@ -1,4 +1,5 @@
-﻿@model TestDbFirst.Models.InventoryOperationViewModel
+﻿@using Microsoft.Ajax.Utilities
+@model TestDbFirst.Models.InventoryOperationViewModel
 @{
     ViewBag.Title = "Kiadás - Késztermék";
 }
@@ -9,21 +10,29 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <hr/>
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MovementType_Id, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.MovementType_Id, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("MovementType_Id", null, new {@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.MovementType_Id, "", new {@class = "text-danger"})
+                @Html.DropDownList("MovementType_Id", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MovementType_Id, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Customer_Id, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.DeliveryNote_Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Customer_Id", null, new {@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.Customer_Id, "", new {@class = "text-danger"})
+
+                @Html.JQueryUI().DatepickerFor(model => model.DeliveryNote_Date, new { htmlAttributes = new { @class = "form-control datepicker valid" } })
+                @Html.ValidationMessageFor(model => model.DeliveryNote_Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Customer_Id, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Customer_Id", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Customer_Id, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
@@ -53,45 +62,32 @@
             <h4>Tételek listája</h4>
             <table id="myTable" class="table order-list">
                 <thead>
-                <tr>
-                    <td>@Html.LabelFor(model => model.Warehouse_Id, new {@class = "control-label col-md-2"})</td>
-                    <td>@Html.LabelFor(model => model.Recipe_Id, new {@class = "control-label col-md-2"})</td>
-                    <td>@Html.LabelFor(model => model.Quantity, "Mennyiség (t)", new {@class = "control-label col-md-2"})</td>
-                </tr>
+                    <tr>
+                        <td>Raktár</td>
+                        <td>Termék/Recept</td>
+                        <td>Mennyiség (t)</td>
+                        <td>Törlés</td>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="col-sm-4">
-                        @Html.DropDownList("Warehouse_Id", null, new {@class = "form-control"})
-                        @Html.ValidationMessageFor(model => model.Warehouse_Id, "", new {@class = "text-danger"})
-                    </td>
-                    <td class="col-sm-4">
-                        @Html.DropDownList("Recipe_Id", null, new {@class = "form-control"})
-                        @Html.ValidationMessageFor(model => model.Recipe_Id, "", new {@class = "text-danger"})
-                    </td>
-                    <td class="col-md-10">
-                        <div class="form-group">
-                            <div class="col-md-10">
-
-                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-
-
-                            </div>
-                        </div>
-                    </td>
-                    <td class="col-sm-2">
-                        <a class="deleteRow"></a>
-                    </td>
-                </tr>
+                    @{
+                        if (Model != null)
+                        {
+                            for (int i = 0; i < Model.deliveryNoteItem.Count; i++)
+                            {
+                                <tr>
+                                    @Html.EditorFor(model => model.deliveryNoteItem[i], "IssueDeliveryNoteItemViewModel")
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
                 <tfoot>
-                <tr>
-                    <td colspan="5" style="text-align: left;">
-                        <input type="button" class="btn btn-sm btn-block " id="addissuerow" value="Új tétel"/>
-                    </td>
-                </tr>
-                <tr></tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            <input type="button" class="btn btn-lg " id="addissuerow" value="Új tétel" />
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         </div>
@@ -101,9 +97,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Kiadás" class="btn btn-default"/>
+                <input type="submit" value="Kiadás" class="btn btn-default" />
             </div>
         </div>
     </div>
 
-}
+                        }
