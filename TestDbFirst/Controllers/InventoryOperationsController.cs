@@ -494,7 +494,16 @@ namespace TestDbFirst.Controllers
         [HttpGet]
         public ActionResult AddNewIssueRow(int id)
         {
-            ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
+
+            var existingRecipe = new List<Recipe>();
+            foreach (var ai in db.Recipes)
+            {
+                if (db.CurrentProductStocks.Any(x => x.Recipe_Id == ai.Id))
+                {
+                    existingRecipe.Add(ai);
+                };
+            }
+            ViewBag.Recipe_Id = new SelectList(existingRecipe.OrderBy(i => i.Name), "Id", "Name");
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
             ViewBag.rowIndex = id;
             return PartialView("_newRowPartialIssue");
