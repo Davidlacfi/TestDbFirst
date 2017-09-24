@@ -49,7 +49,7 @@ namespace TestDbFirst.Controllers
                     existingRecipe.Add(ai);
                 };
             }
-            ViewBag.Recipe_Id = new SelectList(existingRecipe, "Id", "Name");
+            ViewBag.Recipe_Id = new SelectList(existingRecipe.OrderBy(i=>i.Name), "Id", "Name");
             ViewBag.CreatedBy = new SelectList(db.SystemUsers, "Id", "Email");
             ViewBag.ChangedBy = new SelectList(db.SystemUsers, "Id", "Email");
             ViewBag.Destination_Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
