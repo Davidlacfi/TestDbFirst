@@ -59,8 +59,10 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Bevételezés - Alapanyag", "AddReceipt", "InventoryOperations")</li>
+                                <li>@Html.ActionLink("Bevételezések listája", "ListReceipts", "InventoryOperations")</li>
+                                <li>@Html.ActionLink("Kiadások listája", "ListIssues", "InventoryOperations")</li>
                                 <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Bevételezés - Alapanyag", "AddReceipt", "InventoryOperations")</li>
                                 <li>@Html.ActionLink("Kiadás - Késztermék", "AddIssue", "InventoryOperations")</li>
                             </ul>
                         <li class="dropdown">

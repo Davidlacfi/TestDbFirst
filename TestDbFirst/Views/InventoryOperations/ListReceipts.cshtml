@@ -1,0 +1,42 @@
+﻿@model List<TestDbFirst.Models.DTOReceipt>
+
+@{
+    ViewBag.Title = "Bevételezések listája";
+}
+
+<h2>Bevételezések listája</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Mozgás</th><th>Száll.levél.sz.</th><th>Létreh.dátuma</th><th>Létrehozta</th><th>Vevő</th><th>Alapanyag / Mennyiség</th><th>Utolsó mód.dátuma</th><th>Ut.Módosította</th><th>Művelet</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+     {
+    <tr>
+        <td>@item.MovementTypeName</td>
+        <td>@item.DeliveryNote.Number</td>
+        <td>@item.DeliveryNote.CreatedDate</td>
+        <td>@item.DeliveryNote.CreatedByName</td>
+        <td>@item.DeliveryNote.CustomerName</td>
+        <td>
+            @foreach (var si in item.DeliveryNote.DeliveryNoteItems)
+            {
+                @Html.DisplayFor(c=> si.IngredientName)
+                @Html.Raw(" - ")
+                @Html.DisplayFor(c=> si.Quantity)
+                @Html.Raw(" kg")
+                <br/>
+            }
+        </td>
+        <td>@item.DeliveryNote.ChangedDate</td>
+        <td>@item.DeliveryNote.ChangedByName</td>
+        <td>Szerkeszt</td>
+    </tr>
+     }
+                
+    </tbody>
+
+</table>
