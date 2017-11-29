@@ -138,7 +138,23 @@
                             });
                             counter++;
 
-                        });
+                    });
+
+                $("#addeditreceiptrow").on("click",
+                    function () {
+                        var inputs = document.getElementsByClassName("tablerow").length;
+                        
+                        if (counter == 0) {
+                            counter = inputs;
+                        }
+                        var url = '@Html.Raw(@Url.Action("AddNewEditReceiptRow", "InventoryOperations"))' +'/' + counter;
+                        $.get( url,
+                            function (data) {
+                                $("table.order-list").append(data);
+                            });
+                        counter++;
+
+                    });
 
                 $("table.order-list").on("click",
                         ".ibtnDel",

@@ -13,7 +13,8 @@ namespace TestDbFirst.Controllers
     public class InventoryOperationsController : Controller
     {
         private MecsekTransitEntities db = new MecsekTransitEntities();
-        // GET: AddReceipt
+
+        [HttpGet]
         public ActionResult AddReceipt()
         {
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "receipt"), "Id", "Name");
@@ -23,7 +24,6 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
-        // POST: AddReceipt
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddReceipt([Bind(Include = "Id,deliveryNoteItem,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,DeliveryNote_Date,MovementType_Id,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryReceipt)
@@ -138,7 +138,7 @@ namespace TestDbFirst.Controllers
             return View(inventoryReceipt);
         }
 
-        // GET: AddIssue
+        [HttpGet]
         public ActionResult AddIssue()
         {
             ViewBag.MovementType_Id = new SelectList(db.MovementTypes.Where(i => i.MovementKey == "issue"), "Id", "Name");
@@ -148,7 +148,7 @@ namespace TestDbFirst.Controllers
             return View();
         }
 
-        // POST: AddIssue
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddIssue([Bind(Include = "Id,deliveryNoteItem,Customer_Id,DeliveryNote_Number,DeliveryNote_Remark,DeliveryNote_Date,MovementType_Id,Remark,IsActive,CreatedBy,CreatedDate,ChangedBy,ChangedDate")] InventoryOperationViewModel inventoryIssue)
@@ -405,6 +405,225 @@ namespace TestDbFirst.Controllers
             ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
             ViewBag.rowIndex = id;
             return PartialView("_newRowPartialReceipt");
+        }
+        [HttpGet]
+        public ActionResult AddNewEditReceiptRow(int id)
+        {
+            ViewBag.Ingredient_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            ViewBag.rowIndex = id;
+            return PartialView("_newRowPartialEditReceipt");
+        }
+
+        [HttpGet]
+        public ActionResult EditReceipt(int id)
+        {
+            
+            var existingDnote = db.DeliveryNotes.Find(id);
+
+            var ret = new DTOEditReceipt()
+            {
+                Id = existingDnote.Id,
+                MovementType_Id = "receipt",
+                MovementTypeName = "Bevételezés", 
+                RowId = -1
+            };
+            foreach (var mt in db.MovementTypes)
+            {
+                ret.MovementType.Add(mt);
+            }
+
+            var dNote = new DTODeliveryNote()
+            {
+                Id = existingDnote.Id,
+                DeliveryNoteDate = existingDnote.DeliveryNoteDate,
+                Customer_Id = existingDnote.Customer_Id,
+                CustomerName = db.Customers?.First(c => c.Id == existingDnote.Customer_Id).Name,
+                Type = existingDnote.Type,
+                Number = existingDnote.Number,
+                Remark = existingDnote.Remark,
+                CreatedBy = existingDnote.CreatedBy,
+                CreatedDate = existingDnote.CreatedDate,
+                CreatedByName = db.SystemUsers?.Find(existingDnote.CreatedBy)?.Username,
+                ChangedBy = existingDnote.ChangedBy,
+                ChangedDate = existingDnote.ChangedDate,
+                ChangedByName = db.SystemUsers?.Find(existingDnote.ChangedBy)?.Username,
+            };
+            foreach (var cu in db.Customers)
+            {
+                dNote.Customer.Add(cu);
+            }
+
+            foreach (var item in existingDnote.DeliveryNoteItems)
+            {
+                var im = db.IngredientMovements.First(c => c.Id == item.IngredientMovement_Id);
+
+                var dni = new DTODeliveryNoteItem()
+                {
+                    Id = item.Id,
+                    DeliveryNote_Id = item.DeliveryNote_Id,
+                    IngredientMovement_Id = item.IngredientMovement_Id,
+                    IngredientMovementRemark = im.Remark,
+                    Ingredient_Id = im.Ingredient_Id,
+                    IngredientName = db.Ingredients.Find(im.Ingredient_Id).Name,
+                    Quantity = im.Quantity,
+                    Warehouse_Id = im.Warehouse_Id,
+                    WarehouseName = im.Warehouse.Name,
+                };
+                ret.RowId++;
+                foreach (var wh in db.Warehouses)
+                {
+                    dni.Warehouse.Add(wh);
+                }
+                foreach (var ing in db.Ingredients)
+                {
+                    dni.Ingredient.Add(ing);
+                }
+                
+                dNote.DeliveryNoteItems.Add(dni);
+            }
+            ret.DeliveryNote = dNote;
+            return View(ret);
+        }
+
+        [HttpPost]
+        public ActionResult EditReceipt(DTOEditReceipt r)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var identity = (ClaimsIdentity)User.Identity;
+                var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+                //var deliveryNoteCreted = false;
+
+                var existingDeliveryNote = db.DeliveryNotes.Find(r.Id);
+
+                //DELIVERYNOTE UPDATE
+                existingDeliveryNote.DeliveryNoteDate = (DateTime) r.DeliveryNote.DeliveryNoteDate;
+                existingDeliveryNote.Customer_Id = r.DeliveryNote.Customer_Id;
+                existingDeliveryNote.Number = r.DeliveryNote.Number;
+                existingDeliveryNote.Remark = r.DeliveryNote.Remark;
+                existingDeliveryNote.IsActive = r.DeliveryNote.IsActive;
+                existingDeliveryNote.ChangedBy = Convert.ToInt32(sid);
+                existingDeliveryNote.ChangedDate = DateTime.Now;
+
+                db.Entry(existingDeliveryNote).State=EntityState.Modified;
+
+
+                for (int x = 0; x < r.DeliveryNote.DeliveryNoteItems.Count; x++)
+                {
+                    //INGREDIENTMOVEMENT UPDATE
+                    var currentIndex = x;
+                    var currentIngredientId = r.DeliveryNote.DeliveryNoteItems[currentIndex].Ingredient_Id;
+                    var currentWarehouseId = r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id;
+                    var currentIngredientQuantity = r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity;
+
+                    //HA VAN MÁR INGREDIENT MOVEMENT -- UPDATE
+                    if (r.DeliveryNote.DeliveryNoteItems[currentIndex].IngredientMovement_Id != null)
+                    {
+                        
+                        var existingIngredientMovement =
+                            db.IngredientMovements.Find(r.DeliveryNote.DeliveryNoteItems[currentIndex].IngredientMovement_Id);
+                        var originalQuantity = existingIngredientMovement.Quantity;
+                        //HA NEM EGYEZNEK A MENNYISÉGEK VAGY A RAKTÁR, UPDATE
+                        if (
+                            existingIngredientMovement.Quantity != r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity 
+                            || existingIngredientMovement.Warehouse_Id != r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id
+                            )
+                        {
+                            existingIngredientMovement.Quantity =
+                                (decimal) r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity;
+                            existingIngredientMovement.Warehouse_Id = (int) r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id;
+                            existingIngredientMovement.ChangedBy = Convert.ToInt32(sid);
+                            existingIngredientMovement.ChangedDate = DateTime.Now;
+                            db.Entry(existingIngredientMovement).State=EntityState.Modified;
+
+                            var quantityDifference = originalQuantity -
+                                (decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity;
+
+                            //HA VAN MENNYISÉG VÁLTOZÁS, INGREDIENTSTOCK MÓDOSÍTÁSA
+                            if (quantityDifference !=0)
+                            {
+                                var currentIngredientStock = db.CurrentIngredientStocks.SingleOrDefault(c => c.Ingredient_Id == currentIngredientId && c.Warehouse_Id==currentWarehouseId);
+                                currentIngredientStock.Quantity = currentIngredientStock.Quantity - quantityDifference;
+                                currentIngredientStock.ChangedBy = Convert.ToInt32(sid);
+                                currentIngredientStock.ChangedDate = DateTime.Now;
+                                db.Entry(currentIngredientStock).State=EntityState.Modified;
+                            }
+                        }
+                    }
+                    //HA MÉG NINCS INGREDIENT MOVEMENT -- CREATE
+                    else
+                    {
+                        var ingredientMovement = new IngredientMovement
+                        {
+                            Ingredient_Id = (int) r.DeliveryNote.DeliveryNoteItems[currentIndex].Ingredient_Id,
+                            MovementType_Id = db.MovementTypes.SingleOrDefault(c=>c.MovementKey=="receipt").Id ,
+                            Warehouse_Id = (int) r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id,
+                            Quantity = (decimal) r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity,
+                            Remark = r.DeliveryNote.Remark,
+                            IsActive = true,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = Convert.ToInt32(sid)
+                        };
+                        db.IngredientMovements.Add(ingredientMovement);
+
+                        //CURRENTINGREDIENTSTOCK MÓDOSÍTÁSA
+                        var ingredientexists = db.CurrentIngredientStocks.Where(i => i.Ingredient_Id == currentIngredientId);
+                        //HA NINCS AZ ALAPANYAGBÓL, HOZZÁADJUK
+                        if (!ingredientexists.Any())
+                        {
+                            db.CurrentIngredientStocks.Add(new CurrentIngredientStock
+                            {
+                                CreatedDate = DateTime.Now,
+                                CreatedBy = Convert.ToInt32(sid),
+                                IsActive = true,
+                                Ingredient_Id = (int)r.DeliveryNote.DeliveryNoteItems[currentIndex].Ingredient_Id,
+                                Warehouse_Id = (int)r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id,
+                                Quantity = (decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity,
+                            });
+                        }
+                        //HA VAN AZ ALAPANYAGBÓL, UPDATE
+                        else
+                        {
+                            var ingredienttoupdate = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == currentIngredientId);
+                            var originalingredientquantity = db.CurrentIngredientStocks.First(i => i.Ingredient_Id == currentIngredientId).Quantity;
+                            ingredienttoupdate.Quantity = (decimal) (originalingredientquantity + currentIngredientQuantity);
+                            ingredienttoupdate.ChangedDate = DateTime.Now;
+                            ingredienttoupdate.ChangedBy = Convert.ToInt32(sid);
+                            db.Entry(ingredienttoupdate).State = EntityState.Modified;
+                        }
+
+                        //SZÁLLÍTÓLEVÉL TÉTELEK HOZZÁADÁSA
+                        var existingDeliveryNoteId = r.DeliveryNote.Id;
+                        var deliveryNoteItem = new DeliveryNoteItem
+                        {
+                            DeliveryNote_Id = existingDeliveryNoteId,
+                            IngredientMovement = ingredientMovement
+                        };
+                        db.DeliveryNoteItems.Add(deliveryNoteItem);
+
+
+                        //HA TÖRÖLTEK SORT A SZÁLLÍTÓLEVÉLRŐL
+
+
+
+                    }
+                }
+
+                if (db.SaveChanges() > 0)
+                {
+                    TempData["Operation"] = "success";
+                }
+                else
+                {
+                    TempData["Operation"] = "danger";
+                }
+                return RedirectToAction("Index", "CurrentIngredientStocks");
+
+            }
+
+            return View(r);
         }
     }
 }

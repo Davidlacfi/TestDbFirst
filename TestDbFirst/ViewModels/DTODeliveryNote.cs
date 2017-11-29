@@ -9,6 +9,7 @@ namespace TestDbFirst.Models
         public DTODeliveryNote()
         {
             DeliveryNoteItems = new List<DTODeliveryNoteItem>();
+            Customer = new List<Customer>();
         }
         public int Id { get; set; }
         public List<DTODeliveryNoteItem> DeliveryNoteItems { get; set; }
@@ -25,6 +26,7 @@ namespace TestDbFirst.Models
         public int? ChangedBy { get; set; }
         public string ChangedByName { get; set; }
         public DateTime? ChangedDate { get; set; }
+        public List<Customer> Customer { get; set; }
 
     }
 }

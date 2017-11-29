@@ -275,6 +275,7 @@
     <Compile Include="ViewModels\DTOIssue.cs" />
     <Compile Include="ViewModels\DTODeliveryNoteItem.cs" />
     <Compile Include="ViewModels\DTODeliveryNote.cs" />
+    <Compile Include="ViewModels\DTOEditReceipt.cs" />
     <Compile Include="ViewModels\DTOReceipt.cs" />
     <Compile Include="ViewModels\DeliveryNoteItemViewModel.cs" />
     <Compile Include="ViewModels\InventoryOperationViewModel.cs" />
@@ -723,6 +724,10 @@
     <Content Include="Views\InventoryOperations\EditorTemplates\IssueDeliveryNoteItemViewModel.cshtml" />
     <Content Include="Views\InventoryOperations\ListReceipts.cshtml" />
     <Content Include="Views\InventoryOperations\ListIssues.cshtml" />
+    <Content Include="Views\InventoryOperations\EditReceipt.cshtml" />
+    <Content Include="Views\InventoryOperations\EditorTemplates\EditReceiptRow.cshtml" />
+    <Content Include="Views\InventoryOperations\_newRowPartialEditReceipt.cshtml" />
+    <Content Include="Views\InventoryOperations\EditorTemplates\AddEditReceiptRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

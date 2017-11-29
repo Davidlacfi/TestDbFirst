@@ -1,0 +1,7 @@
+﻿@model TestDbFirst.Models.DTOEditReceipt
+@{
+    int a = @ViewBag.rowIndex;
+<tr>
+    @Html.EditorFor(model => model.DeliveryNote.DeliveryNoteItems[a], "AddEditReceiptRow")
+</tr>
+}
