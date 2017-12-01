@@ -272,6 +272,7 @@
     <Compile Include="SystemUser.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DTOEditIssue.cs" />
     <Compile Include="ViewModels\DTOIssue.cs" />
     <Compile Include="ViewModels\DTODeliveryNoteItem.cs" />
     <Compile Include="ViewModels\DTODeliveryNote.cs" />
@@ -728,6 +729,10 @@
     <Content Include="Views\InventoryOperations\EditorTemplates\EditReceiptRow.cshtml" />
     <Content Include="Views\InventoryOperations\_newRowPartialEditReceipt.cshtml" />
     <Content Include="Views\InventoryOperations\EditorTemplates\AddEditReceiptRow.cshtml" />
+    <Content Include="Views\InventoryOperations\EditIssue.cshtml" />
+    <Content Include="Views\InventoryOperations\_newRowPartialEditIssue.cshtml" />
+    <Content Include="Views\InventoryOperations\EditorTemplates\AddEditIssueRow.cshtml" />
+    <Content Include="Views\InventoryOperations\EditorTemplates\EditIssueRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

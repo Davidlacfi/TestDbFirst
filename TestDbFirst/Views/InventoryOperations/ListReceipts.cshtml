@@ -33,7 +33,7 @@
         </td>
         <td>@item.DeliveryNote.ChangedDate</td>
         <td>@item.DeliveryNote.ChangedByName</td>
-        <td>Szerkeszt</td>
+        <td>@Html.ActionLink("Szerkeszt", "EditReceipt", new { id = item.DeliveryNote.Id })</td>
     </tr>
      }
                 

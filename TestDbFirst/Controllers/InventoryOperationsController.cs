@@ -48,7 +48,7 @@ namespace TestDbFirst.Controllers
                         Warehouse_Id = inventoryReceipt.deliveryNoteItem[currentIndex].Warehouse_Id,
                         Quantity = inventoryReceipt.deliveryNoteItem[currentIndex].Quantity,
                         Remark = inventoryReceipt.Remark,
-                        IsActive = inventoryReceipt.IsActive,
+                        IsActive = true,
                         CreatedDate = DateTime.Now,
                         CreatedBy = Convert.ToInt32(sid)
                     };
@@ -173,7 +173,7 @@ namespace TestDbFirst.Controllers
                         Warehouse_Id = inventoryIssue.deliveryNoteItem[currentIndex].Warehouse_Id,
                         Quantity = inventoryIssue.deliveryNoteItem[currentIndex].Quantity,
                         Remark = inventoryIssue.Remark,
-                        IsActive = inventoryIssue.IsActive,
+                        IsActive = true,
                         CreatedDate = DateTime.Now,
                         CreatedBy = Convert.ToInt32(sid)
                     };
@@ -359,7 +359,7 @@ namespace TestDbFirst.Controllers
                             DeliveryNote_Id = item.DeliveryNote_Id,
                             ProductMovement_Id = item.ProductMovement_Id,
                             ProductMovementRemark = pm.Remark,
-                            ProductName = db.Recipes.Find(pm.Recipe_Id).Name,
+                            RecipeName = db.Recipes.Find(pm.Recipe_Id).Name,
                             Quantity = pm.Quantity,
                             Warehouse_Id = pm.Warehouse_Id,
                             WarehouseName = pm.Warehouse.Name,
@@ -379,42 +379,6 @@ namespace TestDbFirst.Controllers
                 }
                 return View(ret);
             }
-        }
-
-        [HttpGet]
-        public ActionResult AddNewIssueRow(int id)
-        {
-
-            var existingRecipe = new List<Recipe>();
-            foreach (var ai in db.Recipes)
-            {
-                if (db.CurrentProductStocks.Any(x => x.Recipe_Id == ai.Id))
-                {
-                    existingRecipe.Add(ai);
-                };
-            }
-            ViewBag.Recipe_Id = new SelectList(existingRecipe.OrderBy(i => i.Name), "Id", "Name");
-            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.rowIndex = id;
-            return PartialView("_newRowPartialIssue");
-        }
-
-        [HttpGet]
-        public ActionResult AddNewReceiptRow(int id)
-        {
-            ViewBag.Ingredient_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
-            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.rowIndex = id;
-            return PartialView("_newRowPartialReceipt");
-        }
-
-        [HttpGet]
-        public ActionResult AddNewEditReceiptRow(int id)
-        {
-            ViewBag.Ingredient_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
-            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
-            ViewBag.rowIndex = id;
-            return PartialView("_newRowPartialEditReceipt");
         }
 
         [HttpGet]
@@ -490,6 +454,7 @@ namespace TestDbFirst.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditReceipt(DTOEditReceipt r)
         {
             if (ModelState.IsValid)
@@ -633,8 +598,7 @@ namespace TestDbFirst.Controllers
                         //CURRENTINGREDIENTSTOCK MÓDOSÍTÁSA
                         var affectedCurrentIngredientStock = db.CurrentIngredientStocks.First(c=>c.Ingredient_Id == affectedIngredientId);
                         affectedCurrentIngredientStock.Quantity =
-                            (decimal)(affectedCurrentIngredientStock.Quantity - r.DeliveryNote.DeliveryNoteItems
-                                            .First(c => c.Ingredient_Id == affectedIngredientId).Quantity);
+                            (decimal)(affectedCurrentIngredientStock.Quantity - r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity);
                         affectedCurrentIngredientStock.ChangedBy = Convert.ToInt32(sid);
                         affectedCurrentIngredientStock.ChangedDate = DateTime.Now;
 
@@ -654,6 +618,297 @@ namespace TestDbFirst.Controllers
                 return RedirectToAction("Index", "CurrentIngredientStocks");
             }
             return View(r);
+        }
+
+        [HttpGet]
+        public ActionResult EditIssue(int id)
+        {
+
+            var existingDnote = db.DeliveryNotes.Find(id);
+
+            var ret = new DTOEditIssue()
+            {
+                Id = existingDnote.Id,
+                MovementType_Id = "issue",
+                MovementTypeName = "Kiadás",
+                RowId = -1
+            };
+            foreach (var mt in db.MovementTypes)
+            {
+                ret.MovementType.Add(mt);
+            }
+
+            var dNote = new DTODeliveryNote()
+            {
+                Id = existingDnote.Id,
+                DeliveryNoteDate = existingDnote.DeliveryNoteDate,
+                Customer_Id = existingDnote.Customer_Id,
+                CustomerName = db.Customers?.First(c => c.Id == existingDnote.Customer_Id).Name,
+                Type = existingDnote.Type,
+                Number = existingDnote.Number,
+                Remark = existingDnote.Remark,
+                CreatedBy = existingDnote.CreatedBy,
+                CreatedDate = existingDnote.CreatedDate,
+                CreatedByName = db.SystemUsers?.Find(existingDnote.CreatedBy)?.Username,
+                ChangedBy = existingDnote.ChangedBy,
+                ChangedDate = existingDnote.ChangedDate,
+                ChangedByName = db.SystemUsers?.Find(existingDnote.ChangedBy)?.Username,
+            };
+            foreach (var cu in db.Customers)
+            {
+                dNote.Customer.Add(cu);
+            }
+
+            foreach (var item in existingDnote.DeliveryNoteItems.Where(c => c.ProductMovement.IsActive))
+            {
+                var pm = db.ProductMovements.First(c => c.Id == item.ProductMovement_Id);
+
+                var dni = new DTODeliveryNoteItem()
+                {
+                    Id = item.Id,
+                    DeliveryNote_Id = item.DeliveryNote_Id,
+                    ProductMovement_Id = item.ProductMovement_Id,
+                    ProductMovementRemark = pm.Remark,
+                    Recipe_Id = pm.Recipe_Id,
+                    RecipeName = db.Recipes.Find(pm.Recipe_Id).Name,
+                    Quantity = pm.Quantity,
+                    Warehouse_Id = pm.Warehouse_Id,
+                    WarehouseName = pm.Warehouse.Name,
+                    ProductMovementIsActive = pm.IsActive
+                };
+                ret.RowId++;
+                foreach (var wh in db.Warehouses)
+                {
+                    dni.Warehouse.Add(wh);
+                }
+                foreach (var rec in db.Recipes)
+                {
+                    dni.Recipe.Add(rec);
+                }
+
+                dNote.DeliveryNoteItems.Add(dni);
+            }
+            ret.DeliveryNote = dNote;
+            return View(ret);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditIssue(DTOEditIssue r)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var identity = (ClaimsIdentity)User.Identity;
+                var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid).Select(c => c.Value).SingleOrDefault();
+                //var deliveryNoteCreted = false;
+
+                var existingDeliveryNote = db.DeliveryNotes.Find(r.Id);
+
+                //DELIVERYNOTE UPDATE
+                existingDeliveryNote.DeliveryNoteDate = (DateTime)r.DeliveryNote.DeliveryNoteDate;
+                existingDeliveryNote.Customer_Id = r.DeliveryNote.Customer_Id;
+                existingDeliveryNote.Number = r.DeliveryNote.Number;
+                existingDeliveryNote.Remark = r.DeliveryNote.Remark;
+                existingDeliveryNote.IsActive = r.DeliveryNote.IsActive;
+                existingDeliveryNote.ChangedBy = Convert.ToInt32(sid);
+                existingDeliveryNote.ChangedDate = DateTime.Now;
+
+                db.Entry(existingDeliveryNote).State = EntityState.Modified;
+
+
+                for (int x = 0; x < r.DeliveryNote.DeliveryNoteItems.Count; x++)
+                {
+                    //PRODUCTMOVEMENT UPDATE
+                    var currentIndex = x;
+                    var currentRecipeId = r.DeliveryNote.DeliveryNoteItems[currentIndex].Recipe_Id;
+                    var currentWarehouseId = r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id;
+                    var currentProductQuantity = r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity;
+
+                    if (r.DeliveryNote.DeliveryNoteItems[currentIndex].ProductMovementIsActive || r.DeliveryNote.DeliveryNoteItems[currentIndex].Id == 0)
+                    {
+                        //HA VAN MÁR PRODUCTMOVEMENT -- UPDATE
+                        if (r.DeliveryNote.DeliveryNoteItems[currentIndex].ProductMovement_Id != null)
+                        {
+
+                            var existingProductMovement =
+                                db.ProductMovements.Find(r.DeliveryNote.DeliveryNoteItems[currentIndex].ProductMovement_Id);
+                            var originalQuantity = existingProductMovement.Quantity;
+                            //HA NEM EGYEZNEK A MENNYISÉGEK VAGY A RAKTÁR, UPDATE
+                            if (
+                                existingProductMovement.Quantity != r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity
+                                || existingProductMovement.Warehouse_Id != r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id
+                            )
+                            {
+                                existingProductMovement.Quantity =
+                                    (decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity;
+                                existingProductMovement.Warehouse_Id = (int)r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id;
+                                existingProductMovement.IsActive = r.DeliveryNote.DeliveryNoteItems[currentIndex]
+                                    .ProductMovementIsActive;
+                                existingProductMovement.ChangedBy = Convert.ToInt32(sid);
+                                existingProductMovement.ChangedDate = DateTime.Now;
+                                db.Entry(existingProductMovement).State = EntityState.Modified;
+
+                                var quantityDifference = originalQuantity -
+                                                         (decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity;
+
+                                //HA VAN MENNYISÉG VÁLTOZÁS, PRODUCTSTOCK MÓDOSÍTÁSA
+                                if (quantityDifference != 0)
+                                {
+                                    var currentProductStock = db.CurrentProductStocks.SingleOrDefault(c => c.Recipe_Id == currentRecipeId && c.Warehouse_Id == currentWarehouseId);
+                                    currentProductStock.Quantity = currentProductStock.Quantity + quantityDifference;
+                                    currentProductStock.ChangedBy = Convert.ToInt32(sid);
+                                    currentProductStock.ChangedDate = DateTime.Now;
+                                    db.Entry(currentProductStock).State = EntityState.Modified;
+                                }
+                            }
+                        }
+                        //HA MÉG NINCS PRODUCTMOVEMENT -- CREATE
+                        else
+                        {
+                            var productMovement = new ProductMovement
+                            {
+                                Recipe_Id = (int)r.DeliveryNote.DeliveryNoteItems[currentIndex].Recipe_Id,
+                                MovementType_Id = db.MovementTypes.SingleOrDefault(c => c.MovementKey == "issue").Id,
+                                Warehouse_Id = (int)r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id,
+                                Quantity = (decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity,
+                                Remark = r.DeliveryNote.Remark,
+                                IsActive = true,
+                                CreatedDate = DateTime.Now,
+                                CreatedBy = Convert.ToInt32(sid)
+                            };
+                            db.ProductMovements.Add(productMovement);
+
+                            //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
+                            var productexists = db.CurrentProductStocks.Where(i => i.Recipe_Id== currentRecipeId);
+                            //HA NINCS A TERMÉKBŐL, HOZZÁADJUK
+                            if (!productexists.Any())
+                            {
+                                db.CurrentProductStocks.Add(new CurrentProductStock
+                                {
+                                    CreatedDate = DateTime.Now,
+                                    CreatedBy = Convert.ToInt32(sid),
+                                    IsActive = true,
+                                    Recipe_Id = (int)r.DeliveryNote.DeliveryNoteItems[currentIndex].Recipe_Id,
+                                    Warehouse_Id = (int)r.DeliveryNote.DeliveryNoteItems[currentIndex].Warehouse_Id,
+                                    Quantity = -(decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity,
+                                });
+                            }
+                            //HA VAN A TERMÉKBŐL, UPDATE
+                            else
+                            {
+                                var producttoupdate = db.CurrentProductStocks.First(i => i.Recipe_Id == currentRecipeId && i.Warehouse_Id == currentWarehouseId);
+                                var originalproductquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == currentRecipeId && i.Warehouse_Id == currentWarehouseId).Quantity;
+                                var quantityDifference = originalproductquantity -
+                                                         (decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity;
+                                producttoupdate.Quantity = (decimal)(originalproductquantity + quantityDifference);
+                                producttoupdate.ChangedDate = DateTime.Now;
+                                producttoupdate.ChangedBy = Convert.ToInt32(sid);
+                                db.Entry(producttoupdate).State = EntityState.Modified;
+                            }
+
+                            //SZÁLLÍTÓLEVÉL TÉTELEK HOZZÁADÁSA
+                            var existingDeliveryNoteId = r.DeliveryNote.Id;
+                            var deliveryNoteItem = new DeliveryNoteItem
+                            {
+                                DeliveryNote_Id = existingDeliveryNoteId,
+                                ProductMovement = productMovement
+                            };
+                            db.DeliveryNoteItems.Add(deliveryNoteItem);
+                        }
+                    }
+                    else
+                    {
+                        //HA TÖRÖLTEK SORT A SZÁLLÍTÓLEVÉLRŐL
+
+                        //DELIVERYNOTEITEM TÖRLÉSE
+                        var deliveryNoteItemToDelete = db.DeliveryNoteItems.Find(r.DeliveryNote.DeliveryNoteItems[currentIndex].Id);
+                        var affectedProductMovementId = deliveryNoteItemToDelete.ProductMovement_Id;
+
+                        db.Entry(deliveryNoteItemToDelete).State = EntityState.Deleted;
+
+                        //PRODUCTMOVEMENT ISACTIVE=0
+                        var productMovementToDelete = db.ProductMovements.Find(affectedProductMovementId);
+                        var affectedRecipeId = productMovementToDelete.Recipe_Id;
+                        productMovementToDelete.IsActive = false;
+                        productMovementToDelete.ChangedBy = Convert.ToInt32(sid);
+                        productMovementToDelete.ChangedDate = DateTime.Now;
+
+                        db.Entry(productMovementToDelete).State = EntityState.Modified;
+
+                        //CURRENTPRODUCTSTOCK MÓDOSÍTÁSA
+                        var affectedCurrentProductStock = db.CurrentProductStocks.First(i => i.Recipe_Id == affectedRecipeId && i.Warehouse_Id == currentWarehouseId);
+                        var originalproductquantity = db.CurrentProductStocks.First(i => i.Recipe_Id == affectedRecipeId && i.Warehouse_Id == currentWarehouseId).Quantity;
+                        affectedCurrentProductStock.Quantity = (decimal)(originalproductquantity + (decimal)r.DeliveryNote.DeliveryNoteItems[currentIndex].Quantity);
+                        affectedCurrentProductStock.ChangedBy = Convert.ToInt32(sid);
+                        affectedCurrentProductStock.ChangedDate = DateTime.Now;
+
+                        db.Entry(affectedCurrentProductStock).State = EntityState.Modified;
+
+                    }
+                }
+
+                if (db.SaveChanges() > 0)
+                {
+                    TempData["Operation"] = "success";
+                }
+                else
+                {
+                    TempData["Operation"] = "danger";
+                }
+                return RedirectToAction("Index", "CurrentProductStocks");
+            }
+            return View(r);
+        }
+
+
+
+
+        /// SOR_HOZZÁADÁS_SEGÉDEK
+
+        [HttpGet]
+        public ActionResult AddNewIssueRow(int id)
+        {
+
+            var existingRecipe = new List<Recipe>();
+            foreach (var ai in db.Recipes)
+            {
+                if (db.CurrentProductStocks.Any(x => x.Recipe_Id == ai.Id))
+                {
+                    existingRecipe.Add(ai);
+                };
+            }
+            ViewBag.Recipe_Id = new SelectList(existingRecipe.OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            ViewBag.rowIndex = id;
+            return PartialView("_newRowPartialIssue");
+        }
+
+        [HttpGet]
+        public ActionResult AddNewReceiptRow(int id)
+        {
+            ViewBag.Ingredient_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            ViewBag.rowIndex = id;
+            return PartialView("_newRowPartialReceipt");
+        }
+
+        [HttpGet]
+        public ActionResult AddNewEditReceiptRow(int id)
+        {
+            ViewBag.Ingredient_Id = new SelectList(db.Ingredients.OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            ViewBag.rowIndex = id;
+            return PartialView("_newRowPartialEditReceipt");
+        }
+
+        [HttpGet]
+        public ActionResult AddNewEditIssueRow(int id)
+        {
+            ViewBag.Recipe_Id = new SelectList(db.Recipes.OrderBy(i => i.Name), "Id", "Name");
+            ViewBag.Warehouse_Id = new SelectList(db.Warehouses, "Id", "Name");
+            ViewBag.rowIndex = id;
+            return PartialView("_newRowPartialEditIssue");
         }
     }
 }

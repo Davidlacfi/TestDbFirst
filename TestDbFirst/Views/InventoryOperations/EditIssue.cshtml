@@ -1,8 +1,8 @@
-﻿@model TestDbFirst.Models.DTOEditReceipt
+﻿@model TestDbFirst.Models.DTOEditIssue
 @{
-    ViewBag.Title = "Szerkesztés - Alapanyag Bevételezés";
+    ViewBag.Title = "Szerkesztés - Késztermék Kiadás";
 }
-<h2>Szerkesztés - Alapanyag Bevételezés</h2>
+<h2>Szerkesztés - Késztermék Kiadás</h2>
 
 @using (Html.BeginForm())
 {
@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.Label("Mozgás típusa", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(m=>m.MovementType_Id, new { htmlAttributes = new {disabled="disabled", @class = "form-control" } })
+                @Html.EditorFor(m => m.MovementType_Id, new { htmlAttributes = new { disabled = "disabled", @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MovementType_Id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -30,9 +30,9 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("Szállító", new { @class = "control-label col-md-2" })
+            @Html.Label("Vevő", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(m=>m.DeliveryNote.Customer_Id, new SelectList(Model.DeliveryNote.Customer, "Id", "Name", Model.DeliveryNote.Customer_Id), new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.DeliveryNote.Customer_Id, new SelectList(Model.DeliveryNote.Customer, "Id", "Name", Model.DeliveryNote.Customer_Id), new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.DeliveryNote.Customer_Id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -55,32 +55,32 @@
             <h4>Tételek listája</h4>
             <table id="myTable" class="table order-list">
                 <thead>
-                <tr>
-                    <td>Raktár</td>
-                    <td>Alapanyag</td>
-                    <td>Mennyiség (kg)</td>
-                    <td>Aktív</td>
-                </tr>
+                    <tr>
+                        <td>Raktár</td>
+                        <td>Termék</td>
+                        <td>Mennyiség (t)</td>
+                        <td>Aktív</td>
+                    </tr>
                 </thead>
                 <tbody>
-                @{
-                    if (Model.DeliveryNote.DeliveryNoteItems != null)
-                    {
-                        for (int i = 0; i < Model.DeliveryNote.DeliveryNoteItems.Count; i++)
+                    @{
+                        if (Model.DeliveryNote.DeliveryNoteItems != null)
                         {
-                            <tr class="tablerow">
-                                @Html.EditorFor(model => model.DeliveryNote.DeliveryNoteItems[i], "EditReceiptRow")
-                            </tr>
+                            for (int i = 0; i < Model.DeliveryNote.DeliveryNoteItems.Count; i++)
+                            {
+                                <tr class="tablerow">
+                                    @Html.EditorFor(model => model.DeliveryNote.DeliveryNoteItems[i], "EditIssueRow")
+                                </tr>
+                            }
                         }
                     }
-                }
                 </tbody>
                 <tfoot>
-                <tr>
-                    <td colspan="4" style="text-align: center;">
-                        <input type="button" class="btn btn-lg " id="addeditreceiptrow" value="Új tétel" />
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center;">
+                            <input type="button" class="btn btn-lg " id="addeditissuerow" value="Új tétel" />
+                        </td>
+                    </tr>
                 </tfoot>
             </table>
         </div>
@@ -95,4 +95,4 @@
         </div>
     </div>
 
-}
+                        }

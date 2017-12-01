@@ -1,0 +1,7 @@
+﻿@model TestDbFirst.Models.DTOEditIssue
+@{
+    int a = @ViewBag.rowIndex;
+<tr>
+    @Html.EditorFor(model => model.DeliveryNote.DeliveryNoteItems[a], "AddEditIssueRow")
+</tr>
+}

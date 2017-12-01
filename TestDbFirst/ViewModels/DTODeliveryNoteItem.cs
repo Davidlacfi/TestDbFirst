@@ -10,6 +10,7 @@ namespace TestDbFirst.Models
         {
             Warehouse = new List<Warehouse>();
             Ingredient = new List<Ingredient>();
+            Recipe = new List<Recipe>();
         }
 
         public int Id { get; set; }
@@ -22,8 +23,8 @@ namespace TestDbFirst.Models
         public string IngredientName { get; set; }
         public string ProductMovementRemark { get; set; }
         public bool ProductMovementIsActive { get; set; }
-        public int? Product_Id { get; set; }
-        public string ProductName { get; set; }
+        public int? Recipe_Id { get; set; }
+        public string RecipeName { get; set; }
         public int? Warehouse_Id { get; set; }
         public string WarehouseName { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:N2}")]
@@ -31,6 +32,7 @@ namespace TestDbFirst.Models
 
         public List<Warehouse> Warehouse { get; set; }
         public List<Ingredient> Ingredient { get; set; }
-        
+        public List<Recipe> Recipe { get; set; }
+
     }
 }

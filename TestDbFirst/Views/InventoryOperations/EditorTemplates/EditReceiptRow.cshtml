@@ -4,12 +4,14 @@
     @Html.HiddenFor(m => m.DeliveryNote_Id)
     @Html.HiddenFor(m => m.IngredientMovement_Id)
     @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Warehouse_Id)
+    @Html.HiddenFor(m => m.Ingredient_Id)
 <td class="col-sm-4">
-    @Html.DropDownListFor(m=>m.Warehouse_Id, new SelectList(Model.Warehouse, "Id", "Name", Model.Warehouse_Id),  new { @class = "form-control" })
+    @Html.DropDownListFor(m=>m.Warehouse_Id, new SelectList(Model.Warehouse, "Id", "Name", Model.Warehouse_Id),  new { disabled = "disabled", @class = "form-control" })
     @Html.ValidationMessageFor(model => model.Warehouse_Id, "", new { @class = "text-danger" })
 </td>
 <td class="col-sm-4">
-    @Html.DropDownListFor(m=>m.Ingredient_Id, new SelectList(Model.Ingredient, "Id", "Name", Model.Ingredient_Id), new { @class = "form-control" })
+    @Html.DropDownListFor(m=>m.Ingredient_Id, new SelectList(Model.Ingredient, "Id", "Name", Model.Ingredient_Id), new { disabled = "disabled", @class = "form-control" })
     @Html.ValidationMessageFor(model => model.Ingredient_Id, "", new { @class = "text-danger" })
 </td>
 <td class="col-md-10">

@@ -24,7 +24,7 @@
             <td>
                 @foreach (var si in item.DeliveryNote.DeliveryNoteItems)
                 {
-                    @Html.DisplayFor(c=> si.ProductName)
+                    @Html.DisplayFor(c=> si.RecipeName)
                     @Html.Raw(" - ")
                     @Html.DisplayFor(c=> si.Quantity)
                     @Html.Raw(" t")
@@ -33,7 +33,7 @@
             </td>
             <td>@item.DeliveryNote.ChangedDate</td>
             <td>@item.DeliveryNote.ChangedByName</td>
-            <td>Szerkeszt</td>
+            <td>@Html.ActionLink("Szerkeszt", "EditIssue", new { id = item.DeliveryNote.Id })</td>
         </tr>
     }
                 
