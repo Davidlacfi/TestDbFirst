@@ -17,9 +17,11 @@ namespace TestDbFirst.Models
         public int? IngredientMovement_Id { get; set; }
         public int? ProductMovement_Id { get; set; }
         public string IngredientMovementRemark { get; set; }
+        public bool IngredientMovementIsActive { get; set; }
         public int? Ingredient_Id { get; set; }
         public string IngredientName { get; set; }
         public string ProductMovementRemark { get; set; }
+        public bool ProductMovementIsActive { get; set; }
         public int? Product_Id { get; set; }
         public string ProductName { get; set; }
         public int? Warehouse_Id { get; set; }

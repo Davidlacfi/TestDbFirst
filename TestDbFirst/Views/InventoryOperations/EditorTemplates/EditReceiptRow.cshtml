@@ -3,6 +3,7 @@
 @model TestDbFirst.Models.DTODeliveryNoteItem
     @Html.HiddenFor(m => m.DeliveryNote_Id)
     @Html.HiddenFor(m => m.IngredientMovement_Id)
+    @Html.HiddenFor(m => m.Id)
 <td class="col-sm-4">
     @Html.DropDownListFor(m=>m.Warehouse_Id, new SelectList(Model.Warehouse, "Id", "Name", Model.Warehouse_Id),  new { @class = "form-control" })
     @Html.ValidationMessageFor(model => model.Warehouse_Id, "", new { @class = "text-danger" })
@@ -16,6 +17,7 @@
     @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
 </td>
 <td class="col-sm-2">
+    @Html.CheckBoxFor(model => model.IngredientMovementIsActive, new { htmlAttributes = new { @class = "form-control" } })
     @*<input type="button" class="ibtnDel btn btn-md btn-danger " value="Delete">*@
 </td>
 
